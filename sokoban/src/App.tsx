@@ -15,6 +15,8 @@ function App() {
 
   const [newGameBoard, setNewGameBoard] = useState(GameBoard);
 
+  console.log("Detta är ett test");
+
   return (
     <>
       <main style={{ width: 500, height: 500, backgroundColor: "yellow" }}>
