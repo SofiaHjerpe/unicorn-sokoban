@@ -10,7 +10,7 @@ const colors: any = {
   p: "green",
 };
 
-console.log("Hello");
+console.log("Hello world");
 
 function App() {
   // //   const {gamePlan} = useContext(GameContext);
