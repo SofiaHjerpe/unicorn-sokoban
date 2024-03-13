@@ -9,19 +9,30 @@ const colors: any = {
   b: "brown",
   p: "green",
 };
-
+console.log("ok");
 function App() {
   // //   const {gamePlan} = useContext(GameContext);
 
   const [newGameBoard, setNewGameBoard] = useState(GameBoard);
 
-
   return (
     <>
-      <main style={{ width: 500, height: 500 / newGameBoard[0].length*newGameBoard.length }}>
+      <main
+        style={{
+          width: 500,
+          height: (500 / newGameBoard[0].length) * newGameBoard.length,
+        }}
+      >
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => (
-            <div className='cell' key={cellid} style={{ width: 500 / newGameBoard[0].length, backgroundColor: `${colors[cell]}` }}>
+            <div
+              className="cell"
+              key={cellid}
+              style={{
+                width: 500 / newGameBoard[0].length,
+                backgroundColor: `${colors[cell]}`,
+              }}
+            >
               {cell}
             </div>
           ))
