@@ -3,15 +3,24 @@
   padding: 0;
   box-sizing: border-box;
 }
-body {
+/* colors (temporary)*/
+#root {
+   --white: #eee;
+   --black: #000;
+  --grey: rgb(127, 127, 127);
+  --shadow: rgba(149, 157, 165, 0.2);
+    --walls: blue;
+  --boxes: brown;
+ --player: green;
+  --way: burlywood;
 }
-
-main {
+.gameBoard {
   display: flex;
   flex-wrap: wrap;
-  background-color: burlywood;
+  background-color: var(--way);
+  width: 500px;
+  margin-inline: 1em;
 }
-
 .cell {
-  border: 1px solid black;
+  border: 1px solid var(--black);
 }

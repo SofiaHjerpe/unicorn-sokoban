@@ -1,29 +1,48 @@
-// import { useContext } from "react"
-// // import { GameContext } from "./context/GameContextProvider"
 import { useState } from "react";
-import { GameBoard } from "./Globals";
+import { GameArray } from "./Globals";
+import { Form } from "./components/Form";
 import "./game.css";
 
 const colors: any = {
-  w: "blue",
+  w: "red",
   b: "brown",
   p: "green",
+  "": "burlywood",
 };
 
 console.log("Hello world");
 
 function App() {
-  // //   const {gamePlan} = useContext(GameContext);
+  const [newGameBoard, setNewGameBoard] = useState(GameArray[0]);
+  const [value, setLevelValue] = useState("");
 
-  const [newGameBoard, setNewGameBoard] = useState(GameBoard);
-
+  const changeLevel = (level: string) => {
+    switch (level) {
+      case "1":
+        setNewGameBoard(GameArray[0]);
+        break;
+      case "2":
+        setNewGameBoard(GameArray[1]);
+        break;
+      case "3":
+        setNewGameBoard(GameArray[2]);
+        break;
+    }
+  };
+  const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
 
   return (
     <>
-      <main style={{ width: 500, height: 500 / newGameBoard[0].length*newGameBoard.length }}>
+      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
+
+      <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => (
-            <div className='cell' key={cellid} style={{ width: 500 / newGameBoard[0].length, backgroundColor: `${colors[cell]}` }}>
+            <div
+              className="cell"
+              key={cellid}
+              style={{ width: 500 / newGameBoard[0].length, backgroundColor: `${colors[cell]}` }}
+            >
               {cell}
             </div>
           ))
