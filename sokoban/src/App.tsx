@@ -2,6 +2,7 @@ import { useState } from "react";
 import { GameArray } from "./Globals";
 import { Form } from "./components/Form";
 import "./game.css";
+import InstructionButton from "./components/Instruction";
 
 const colors: any = {
   w: "red",
@@ -9,8 +10,6 @@ const colors: any = {
   p: "green",
   "": "burlywood",
 };
-
-console.log("Hello world");
 
 function App() {
   const [newGameBoard, setNewGameBoard] = useState(GameArray[0]);
@@ -33,6 +32,7 @@ function App() {
 
   return (
     <>
+    <InstructionButton/>
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
 
       <main className="gameBoard" style={style}>
