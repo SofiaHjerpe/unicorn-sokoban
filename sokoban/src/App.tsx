@@ -4,7 +4,7 @@ import { Form } from "./components/Form";
 import "./game.css";
 
 const colors: any = {
-  w: "blue",
+  w: "red",
   b: "brown",
   p: "green",
   "": "burlywood",
