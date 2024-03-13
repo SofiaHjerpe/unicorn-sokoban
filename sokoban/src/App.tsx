@@ -10,6 +10,8 @@ const colors: any = {
   "": "burlywood",
 };
 
+console.log("Hello world");
+
 function App() {
   const [newGameBoard, setNewGameBoard] = useState(GameArray[0]);
   const [value, setLevelValue] = useState("");
