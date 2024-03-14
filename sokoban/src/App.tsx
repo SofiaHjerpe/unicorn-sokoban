@@ -13,8 +13,6 @@ const colors: any = {
   t: "yellow",
 };
 
-console.log("Hello world");
-
 function App() {
   const [newGameBoard, setNewGameBoard] = useState(GameArray[0]);
   const [value, setLevelValue] = useState("");
@@ -32,6 +30,7 @@ function App() {
         break;
     }
   };
+
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
 
   let player = "p";
