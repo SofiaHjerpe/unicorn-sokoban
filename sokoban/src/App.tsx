@@ -16,15 +16,15 @@ function App() {
   const [newGameBoard, setNewGameBoard] = useState(GameArray[0]);
   const [value, setLevelValue] = useState("");
 
-  const changeLevel = (level: string) => {
+  const changeLevel = (level: number) => {
     switch (level) {
-      case "1":
+      case 1:
         setNewGameBoard(GameArray[0]);
         break;
-      case "2":
+      case 2:
         setNewGameBoard(GameArray[1]);
         break;
-      case "3":
+      case 3:
         setNewGameBoard(GameArray[2]);
         break;
     }
