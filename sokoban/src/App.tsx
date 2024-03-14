@@ -17,18 +17,13 @@ function App() {
   const [value, setLevelValue] = useState("");
 
   const changeLevel = (level: number) => {
-    switch (level) {
-      case 1:
-        setNewGameBoard(GameArray[0]);
-        break;
-      case 2:
-        setNewGameBoard(GameArray[1]);
-        break;
-      case 3:
-        setNewGameBoard(GameArray[2]);
-        break;
-    }
+
+    GameArray.map((levelArray, index) =>
+      level === index ? setNewGameBoard(levelArray) : setNewGameBoard(GameArray[0])
+    );
+    
   };
+
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
 
   return (
