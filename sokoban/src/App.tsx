@@ -15,7 +15,6 @@ function App() {
   const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
   const [value, setLevelValue] = useState("");
 
-
   const changeLevel = (level: number) => {
 
     GamePlans.map((plan, index) =>
@@ -24,7 +23,7 @@ function App() {
 
   };
 
-  const style = { height: (500 / newGameBoard.length) * newGameBoard.length };
+  const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
 
   return (
     <>
