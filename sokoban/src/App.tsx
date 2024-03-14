@@ -3,14 +3,19 @@ import { GameArray } from "./Globals";
 import { Form } from "./components/Form";
 import "./game.css";
 import { handleBoard } from "./player";
+import BackgroundBox from "./assets/images/box.jpg";
+import BackgroundFloor from "./assets/images/floor.jpg";
+import BackgroundPlayer from "./assets/images/player.jpg";
+import BackgroundTarget from "./assets/images/Target.jpg";
+import BackgroundWall from "./assets/images/wall.jpg";
 
-const colors: any = {
-  w: "red",
-  b: "brown",
-  p: "green",
-  tp: "green",
-  "": "burlywood",
-  t: "yellow",
+const backgoundImage: any = {
+  w: BackgroundWall,
+  b: BackgroundBox,
+  p: BackgroundPlayer,
+  tp: BackgroundPlayer,
+  "": BackgroundFloor,
+  t: BackgroundTarget,
 };
 
 function App() {
@@ -67,7 +72,17 @@ function App() {
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => (
-            <div className="cell" key={cellid} style={{ width: 500 / newGameBoard[0].length, backgroundColor: `${colors[cell]}` }}>
+            <div
+              className="cell"
+              key={cellid}
+              style={{
+                width: 500 / newGameBoard[0].length,
+                backgroundImage: `url(${backgoundImage[cell]})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
               {cell}
             </div>
           ))
