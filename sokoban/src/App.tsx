@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GameArray } from "./Globals";
+import { GamePlans } from "./Globals";
 import { Form } from "./components/Form";
 import "./game.css";
 
@@ -10,21 +10,21 @@ const colors: any = {
   "": "burlywood",
 };
 
-console.log("Hello world");
 
 function App() {
-  const [newGameBoard, setNewGameBoard] = useState(GameArray[0]);
+  const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
   const [value, setLevelValue] = useState("");
+
 
   const changeLevel = (level: number) => {
 
-    GameArray.map((levelArray, index) =>
-      level === index ? setNewGameBoard(levelArray) : setNewGameBoard(GameArray[0])
+    GamePlans.map((plan, index) =>
+      level === index +1 ? setNewGameBoard(plan) : null
     );
-    
+
   };
 
-  const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
+  const style = { height: (500 / newGameBoard.length) * newGameBoard.length };
 
   return (
     <>
