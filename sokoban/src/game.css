@@ -5,13 +5,13 @@
 }
 /* colors (temporary)*/
 #root {
-   --white: #eee;
-   --black: #000;
+  --white: #eee;
+  --black: #000;
   --grey: rgb(127, 127, 127);
   --shadow: rgba(149, 157, 165, 0.2);
-    --walls: blue;
+  --walls: blue;
   --boxes: brown;
- --player: green;
+  --player: green;
   --way: burlywood;
 }
 .gameBoard {
@@ -23,4 +23,11 @@
 }
 .cell {
   border: 1px solid var(--black);
+}
+
+.cellDiv {
+  background-position: "center";
+  aspect-ratio: 1;
+  background-repeat: "no-repeat";
+  background-size: cover;
 }
