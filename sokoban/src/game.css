@@ -31,3 +31,9 @@
   background-repeat: "no-repeat";
   background-size: cover;
 }
+
+#impossibleDiv {
+  margin-inline: 1em;
+  color: red;
+  font-weight: bold;
+}
