@@ -18,7 +18,7 @@ function App() {
   const [value, setLevelValue] = useState("");
 
   const changeLevel = (level: number) => {
-    GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
+    GamePlans.map((plan, index) => (level == index + 1 ? setNewGameBoard(plan) : console.log("error")));
   };
 
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
@@ -30,25 +30,31 @@ function App() {
   let y = -1;
 
   const handleKeyDown = (e: any) => {
-    //find player coordinates on the gameBoard:
-    for (let i = 0; i < newGameBoard.length; i++) {
-      const innerArrayLength = newGameBoard[i].length;
-      for (let j = 0; j < innerArrayLength; j++) {
-        if (newGameBoard[i][j] == player || newGameBoard[i][j] == playerOnTarget) {
-          x = j;
-          y = i;
+    setNewGameBoard((prevGameBoard) => {
+      console.log("searching for player in newGameBoard", prevGameBoard);
+      let newX = -1;
+      let newY = -1;
+      for (let i = 0; i < prevGameBoard.length; i++) {
+        const innerArrayLength = prevGameBoard[i].length;
+        for (let j = 0; j < innerArrayLength; j++) {
+          if (prevGameBoard[i][j] === player || prevGameBoard[i][j] === playerOnTarget) {
+            newX = j;
+            newY = i;
+            break; // Dödar loopen när loopen hittar spelaren
+          }
         }
       }
-    }
-    //set new game board:
-    const newBoard = handleBoard(e, newGameBoard, player, x, y, target);
-    setNewGameBoard(newBoard);
+      //set new game board:
+      return handleBoard(e, prevGameBoard, player, newX, newY, target);
+    });
   };
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [newGameBoard]);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <>

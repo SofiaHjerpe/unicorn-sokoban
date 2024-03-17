@@ -20,6 +20,7 @@ export function handleBoard(e: any, newGameBoard: any, player: any, x: any, y: a
   }
 
   let copy = [...newGameBoard];
+
   if (copy[newY][newX] !== "w") {
     //player old place
     copy[y][x] = copy[y][x] === target + player ? target : "";
