@@ -3,14 +3,15 @@ import { GamePlans } from "./Globals";
 import { Form } from "./components/Form";
 import "./game.css";
 
+const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
-  w: "src/assets/images/wall.jpg",
-  b: "src/assets/images/box.jpg",
-  tb: "src/assets/images/box.jpg",
-  p: "src/assets/images/player.jpg",
-  tp: "src/assets/images/player.jpg",
-  "": "src/assets/images/floor.jpg",
-  t: "src/assets/images/Target.jpg",
+  w: path("wall"),
+  b: path("box"),
+  tb: path("box"),
+  p: path("player"),
+  tp: path("player"),
+  "": path("floor"),
+  t: path("target"),
 };
 
 function App() {
@@ -21,15 +22,15 @@ function App() {
     GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
   };
 
-  let x: number = -2;
-  let playerRow = newGameBoard.filter((row: any) => row.includes("p"));
-  if (playerRow.length == 0) {
-    playerRow = newGameBoard.filter((row: any) => row.includes("tp"));
-    x = playerRow[0].indexOf("tp");
-  } else {
-    x = playerRow[0].indexOf("p");
-  }
-  let y: number = newGameBoard.indexOf(playerRow[0]);
+  let x: number, y: number;
+  newGameBoard.map((row: [], _y) => {
+    row.map((cell: string, _x) => {
+      if (cell.includes("p")) {
+        x = _x;
+        y = _y;
+      }
+    });
+  });
 
   const keypress: any = {
     37: { x: -1, y: 0 },
@@ -39,14 +40,14 @@ function App() {
   };
 
   function handleKeyDown(e: any, direction = keypress[e.keyCode], X = direction.x, Y = direction.y, staticObject = ["w", "b", "tb"]) {
-    let cMap = [...newGameBoard.map((row) => [...row])];
-    const I = cMap[y + Y][x + X], II = cMap[y + Y * 2][x + X * 2];
+    let cMap = [...newGameBoard.map((row) => [...row])]; // Clone the array and its nestled arrays - important so we don't mutate the state directly in global scope
+    const I = cMap[y + Y][x + X],
+      II = cMap[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement I => first cell, II => second cell
 
-    if (I === "w" || (staticObject.includes(I) && staticObject.includes(II))) return;
+    if (I === "w" || (staticObject.includes(I) && staticObject.includes(II))) return; // Check if the movement is valid based on static objects array
 
-    I.includes("b") ? (cMap[y + Y][x + X] = I.replace("b", "p")) && 
-    (cMap[y + Y * 2][x + X * 2] += "b") : (cMap[y + Y][x + X] += "p");
-    cMap[y][x] = cMap[y][x].replace("p", "");
+    I.includes("b") ? (cMap[y + Y][x + X] = I.replace("b", "p")) && (cMap[y + Y * 2][x + X * 2] += "b") : (cMap[y + Y][x + X] += "p");
+    cMap[y][x] = cMap[y][x].replace("p", ""); // Update the game board based on the type of movement
 
     setNewGameBoard(cMap);
   }
