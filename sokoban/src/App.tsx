@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { GameArray } from "./Globals";
 import { Form } from "./components/Form";
-import "./game.css";
 import InstructionButton from "./components/Instruction";
+import "./game.css";
 
 const colors: any = {
   w: "red",
@@ -28,12 +28,18 @@ function App() {
         break;
     }
   };
-  const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
+  const style = {
+    height: (500 / newGameBoard[0].length) * newGameBoard.length,
+  };
 
   return (
     <>
-    <InstructionButton/>
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
+      <InstructionButton />
+      <Form
+        changeLevel={changeLevel}
+        setLevel={setLevelValue}
+        levelValue={value}
+      />
 
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
@@ -41,7 +47,10 @@ function App() {
             <div
               className="cell"
               key={cellid}
-              style={{ width: 500 / newGameBoard[0].length, backgroundColor: `${colors[cell]}` }}
+              style={{
+                width: 500 / newGameBoard[0].length,
+                backgroundColor: `${colors[cell]}`,
+              }}
             >
               {cell}
             </div>
