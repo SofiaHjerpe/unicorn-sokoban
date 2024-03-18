@@ -30,10 +30,19 @@
   aspect-ratio: 1;
   background-repeat: "no-repeat";
   background-size: cover;
+  background-position: center;
 }
 
 #impossibleDiv {
   margin-inline: 1em;
   color: red;
   font-weight: bold;
+}
+
+.box {
+  filter: brightness(130%);
+}
+
+.boxOnTarget {
+  filter: brightness(60%);
 }

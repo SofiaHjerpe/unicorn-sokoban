@@ -62,7 +62,7 @@ function App() {
     function handleKeyDown(e: any, xy = keypress[e.keyCode], X = xy.x, Y = xy.y) {
       //X: step in horizontal: +1 = one step to right, -1 = one step to left
       //Y: step in vertical: +1 = one step down, -1 = 1 step up
-      //xy: this is the steps above as an object, for example {x:1, y; 0} -> one step to the right but you are in the same row
+      //xy: this is the steps above as an object, for example {x:1, y:0} -> one step to the right but you are in the same row
 
       //if we do not more: do nothing
       if (!xy) return;
@@ -92,6 +92,7 @@ function App() {
         //if the new place is target -> tb
         if (copiedMap[y + Y * 2][x + X * 2] == "t") {
           copiedMap[y + Y * 2][x + X * 2] = "tb";
+          //copiedMap[y + Y * 2][x + X * 2].style.backgroundColor = "red";
         }
         //if the new place is empty -> b
         else if (copiedMap[y + Y * 2][x + X * 2] == "") {
@@ -140,7 +141,7 @@ function App() {
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => (
             <div
-              className="cellDiv"
+              className={`${[cell]}` == "tb" ? "boxOnTarget cellDiv" : `${[cell]}` == "b" ? "box cellDiv" : "cellDiv"}
               key={cellid}
               style={{
                 width: 500 / newGameBoard[0].length,
