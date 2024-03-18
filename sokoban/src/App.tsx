@@ -62,14 +62,14 @@ function App() {
       let copiedMap = [...newGameBoard];
 
       /*--- MOVE THE BOX ---*/
-      //do not do anything if...
-      //the new place would be a wall.
-      //the new place is a box, and next to the box there is a wall.
-      //the new place is a box, but next to this box there is another box.
-      //the new place is a box with target, but next to this box there is another box.
-      //the new place is a box, but next to this box there is another box that is on target.
-      //the new place is a box on target, but next to this box there is another box.
-      //the new place is a box on target, but next to this box there is another box that is on target.
+      //do not do anything if the new place ...
+      //would be a wall.
+      //is a box, and next to the box there is a wall.
+      //is a box, but next to this box there is another box.
+      //is a box with target, but next to this box there is another box.
+      //is a box, but next to this box there is another box that is on target.
+      //is a box on target, but next to this box there is another box.
+      //is a box on target, but next to this box there is another box that is on target.
       if (
         copiedMap[y + Y][x + X] === "w" ||
         (copiedMap[y + Y][x + X] === "b" && copiedMap[y + Y * 2][x + X * 2] === "w") ||
@@ -81,42 +81,46 @@ function App() {
       ) {
         return;
       }
-      //move the box, make player old place to floor if...
-      //the new place is a box, but the box can move.
+      //move the box, make player old place to floor if the new place ...
+      //is a box, but the box can move.
+      //is target -> tb
+      //is empty -> b
+    
       else if (copiedMap[y + Y][x + X] === "b" || copiedMap[y + Y][x + X] === "tb") {
-        //the new place is target -> tb
         if (copiedMap[y + Y * 2][x + X * 2] == "t") {
           copiedMap[y + Y * 2][x + X * 2] = "tb";
-        }
-        //the new place is empty -> b
-        else if (copiedMap[y + Y * 2][x + X * 2] == "") {
+        } else if (copiedMap[y + Y * 2][x + X * 2] == "") {
           copiedMap[y + Y * 2][x + X * 2] = "b";
         }
-        //the old place is just b -> then change back to empty
+
+        //if the old place is...
+        //just b -> then change back to empty
+        //tb -> then change back to target
+
         if (copiedMap[y + Y][x + X] == "b") {
           copiedMap[y + Y][x + X] = "";
-        }
-        //the old place is tb -> then change back to target
-        else if (copiedMap[y + Y][x + X] == "tb") {
+        } else if (copiedMap[y + Y][x + X] == "tb") {
           copiedMap[y + Y][x + X] = "t";
         }
       }
+
       /*--- MOVE THE PLAYER ---*/
-      //if the new place is t -> change is to tp
+      // if the new place is
+      //t -> change is to tp
+      // empty -> change it to p
+      //if the old place is
+      // tp -> then change back to t
       if (copiedMap[y + Y][x + X] == "t") {
         copiedMap[y + Y][x + X] = "tp";
-      }
-      //if the new place is empty -> change it to p
-      else if (copiedMap[y + Y][x + X] == "") {
+      } else if (copiedMap[y + Y][x + X] == "") {
         copiedMap[y + Y][x + X] = "p";
       }
-      //if the old place is tp -> then change back to t
       if (copiedMap[y][x] == "tp") {
         copiedMap[y][x] = "t";
       } else {
         copiedMap[y][x] = "";
       }
-
+      
       setNewGameBoard(copiedMap);
     }
 
