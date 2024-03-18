@@ -21,35 +21,28 @@ function App() {
     GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
   };
 
-  let [newMap, setNewMap] = useState(GamePlans[0]);
   let targets: number = 7;
-  /*   let targetArray: any = [];
-  newMap.map((row: any, i: any) => row.map((tile: any, j: any) => tile === "t" && targetArray.push({ x: j, y: i })));
-  let targets = targetArray.length; */
-
+  
   //Get players coordinates
   //the map may or may not have p. If there is no p then there is tp:
   let x: number = -2;
-  let playerRow = newMap.filter((row: any) => row.includes("p"));
+  let playerRow = newGameBoard.filter((row: any) => row.includes("p"));
   if (playerRow.length == 0) {
-    playerRow = newMap.filter((row: any) => row.includes("tp"));
+    playerRow = newGameBoard.filter((row: any) => row.includes("tp"));
     x = playerRow[0].indexOf("tp");
   } else {
     x = playerRow[0].indexOf("p");
   }
-  let y: number = newMap.indexOf(playerRow[0]);
+  let y: number = newGameBoard.indexOf(playerRow[0]);
 
   //get all boxes into an array
   let boxArray: any = [];
-  newMap.map((row: any, i: any) => row.map((tile: any, j: any) => tile === "b" && boxArray.push({ x: j, y: i })));
+  newGameBoard.map((row: any, i: any) => row.map((tile: any, j: any) => tile === "b" && boxArray.push({ x: j, y: i })));
 
   //get boxes next to walls to check if next step is possible:
   let boxLocked = boxArray.filter(
-    (box: any) => (newMap[box.y + 1][box.x] == "w" || newMap[box.y - 1][box.x] == "w") && (newMap[box.y][box.x + 1] == "w" || newMap[box.y][box.x - 1] == "w")
+    (box: any) => (newGameBoard[box.y + 1][box.x] == "w" || newGameBoard[box.y - 1][box.x] == "w") && (newGameBoard[box.y][box.x + 1] == "w" || newGameBoard[box.y][box.x - 1] == "w")
   );
-  if (boxArray.length - boxLocked.length < targets) {
-    console.log("Impossible to win");
-  }
 
   const keypress: any = {
     37: { x: -1, y: 0 },
@@ -66,16 +59,17 @@ function App() {
 
       //if we do not more: do nothing
       if (!xy) return;
-      let copiedMap = [...newMap];
+      let copiedMap = [...newGameBoard];
 
       /*--- MOVE THE BOX ---*/
-      //if new place would be a wall-> do not do anything
-      //if the new place is a box, and next to the box there is a wall -> do not to anything
-      //if the new place is a box, but next to this box there is another box -> do not to anything
-      //if the new place is a box with target, but next to this box there is another box -> do not to anything
-      //if the new place is a box, but next to this box there is another box that is on target -> do not to anything
-      //if the new place is a box on target, but next to this box there is another box -> do not to anything
-      //if the new place is a box on target, but next to this box there is another box that is on target -> do not to anything
+      //do not do anything if...
+      //the new place would be a wall.
+      //the new place is a box, and next to the box there is a wall.
+      //the new place is a box, but next to this box there is another box.
+      //the new place is a box with target, but next to this box there is another box.
+      //the new place is a box, but next to this box there is another box that is on target.
+      //the new place is a box on target, but next to this box there is another box.
+      //the new place is a box on target, but next to this box there is another box that is on target.
       if (
         copiedMap[y + Y][x + X] === "w" ||
         (copiedMap[y + Y][x + X] === "b" && copiedMap[y + Y * 2][x + X * 2] === "w") ||
@@ -87,21 +81,22 @@ function App() {
       ) {
         return;
       }
-      //if the new place is a box, but the box can move -> move the box, make player old place to floor
+      //move the box, make player old place to floor if...
+      //the new place is a box, but the box can move.
       else if (copiedMap[y + Y][x + X] === "b" || copiedMap[y + Y][x + X] === "tb") {
-        //if the new place is target -> tb
+        //the new place is target -> tb
         if (copiedMap[y + Y * 2][x + X * 2] == "t") {
           copiedMap[y + Y * 2][x + X * 2] = "tb";
         }
-        //if the new place is empty -> b
+        //the new place is empty -> b
         else if (copiedMap[y + Y * 2][x + X * 2] == "") {
           copiedMap[y + Y * 2][x + X * 2] = "b";
         }
-        //if the old place is just b -> then change back to empty
+        //the old place is just b -> then change back to empty
         if (copiedMap[y + Y][x + X] == "b") {
           copiedMap[y + Y][x + X] = "";
         }
-        //if the old place is tb -> then change back to target
+        //the old place is tb -> then change back to target
         else if (copiedMap[y + Y][x + X] == "tb") {
           copiedMap[y + Y][x + X] = "t";
         }
@@ -122,14 +117,14 @@ function App() {
         copiedMap[y][x] = "";
       }
 
-      setNewMap(copiedMap);
+      setNewGameBoard(copiedMap);
     }
 
     document.addEventListener("keydown", handleKeyDown);
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [newMap]);
+  }, [newGameBoard]);
 
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
   return (
