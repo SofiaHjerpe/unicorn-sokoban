@@ -75,7 +75,7 @@ function App() {
       ) {
         return;
       }
-      //Move the box, make player old place to floor if the new place is a ...
+      //Move the box, if the new place is a ...
       //box, but the box can move.
       //target
       //empty
