@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { GamePlans } from "./Globals";
+import { useContext, useEffect} from "react";
 import { Form } from "./components/Form";
 import "./game.css";
 import { handleBoard } from "./player";
+import { GameContext } from "./context/GameContextProvider";
 
 const backgoundImage: Record<string, string> = {
   w: "src/assets/images/wall.jpg",
@@ -14,12 +14,7 @@ const backgoundImage: Record<string, string> = {
 };
 
 function App() {
-  const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
-  const [value, setLevelValue] = useState("");
-
-  const changeLevel = (level: number) => {
-    GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
-  };
+  const { newGameBoard,setNewGameBoard } = useContext(GameContext);
 
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
 
@@ -52,7 +47,7 @@ function App() {
 
   return (
     <>
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
+      <Form />
 
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>

@@ -1,30 +1,34 @@
-import React, { ReactElement, createContext, useState } from 'react'
+import React, { Dispatch, ReactElement, createContext, useState } from "react";
+import { GamePlans } from "../Globals";
 
 interface IContext {
-  gamePlan: IGamePlan[]
-
+  newGameBoard: any[];
+  setNewGameBoard: Dispatch<React.SetStateAction<any[]>>;
+  value: string;
+  setLevelValue: Dispatch<React.SetStateAction<string>>;
+  changeLevel: (level: number) => void;
 }
 
-interface IGamePlan {
-
-}
 interface IGameContextProvider {
-    children: ReactElement
+  children: ReactElement;
 }
 
 export const GameContext = createContext({} as IContext);
-export const GameContextProvider = ({children} : IGameContextProvider) => {
- 
-    const [gamePlan, setGamePlan] = useState<IGamePlan[]>([
-      ["w", "w", "w", "w", "w"],
-      ["w", "", "", "w", "w"],
-    ]);
+export const GameContextProvider = ({ children }: IGameContextProvider) => {
+  const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
+  const [value, setLevelValue] = useState("");
 
-    const values: IContext = {
-      gamePlan
-    }
+  const changeLevel = (level: number) => {
+    GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
+  };
 
-     return <GameContext.Provider value={values}>{children}</GameContext.Provider>;
+  const values: IContext = {
+    newGameBoard: newGameBoard,
+    setNewGameBoard: setNewGameBoard,
+    value: value,
+    setLevelValue: setLevelValue,
+    changeLevel: changeLevel
+  };
 
-}
-
+  return <GameContext.Provider value={values}>{children}</GameContext.Provider>;
+};
