@@ -56,12 +56,10 @@ function App() {
       //Y: step in vertical: +1 = one step down, -1 = 1 step up
       //xy: this is the steps above as an object, for example {x:1, y; 0} -> one step to the right but you are in the same row
 
-      //if we do not more: do nothing
-      if (!xy) return;
       let copiedMap = [...newGameBoard];
 
       /*--- MOVE THE BOX ---*/
-      //do not do anything if the new place etc ...
+      //Do not do anything if the new place etc ...
       //would be a wall.
       //is a box, and next to the box there is a wall.
       //is a box on target, but next to this box there is another box.
