@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GamePlans } from "./Globals";
 import { Form } from "./components/Form";
+import InstructionButton from "./components/Instruction";
 import "./game.css";
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
@@ -22,6 +23,7 @@ function App() {
     GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
   };
 
+
   let x: number, y: number;
   newGameBoard.map((row: [], _y) => {
     row.map((cell: string, _x) => {
@@ -31,6 +33,7 @@ function App() {
       }
     });
   });
+
 
   const keypress: any = {
     37: { x: -1, y: 0 },
@@ -52,6 +55,7 @@ function App() {
     setNewGameBoard(cMap);
   }
 
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return function cleanup() {
@@ -62,13 +66,18 @@ function App() {
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
   return (
     <>
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
+      <InstructionButton />
+      <Form
+        changeLevel={changeLevel}
+        setLevel={setLevelValue}
+        levelValue={value}
+      />
 
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => (
             <div
-              className="cellDiv"
+              className={`${[cell]}` == "tb" ? "boxOnTarget cellDiv" : `${[cell]}` == "b" ? "box cellDiv" : "cellDiv"}
               key={cellid}
               style={{
                 width: 500 / newGameBoard[0].length,
@@ -80,6 +89,7 @@ function App() {
           ))
         )}
       </main>
+
     </>
   );
 }
