@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GamePlans } from "./Globals";
 import { Form } from "./components/Form";
+import InstructionButton from "./components/Instruction";
 import "./game.css";
 
 const backgoundImage: Record<string, string> = {
@@ -119,7 +120,12 @@ function App() {
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
   return (
     <>
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
+      <InstructionButton />
+      <Form
+        changeLevel={changeLevel}
+        setLevel={setLevelValue}
+        levelValue={value}
+      />
 
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
