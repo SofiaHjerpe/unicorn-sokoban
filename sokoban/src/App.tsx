@@ -33,22 +33,36 @@ function App() {
   });
 
   const keypress: any = {
-    37: { x: -1, y: 0 },
-    38: { x: 0, y: -1 },
-    39: { x: 1, y: 0 },
-    40: { x: 0, y: 1 },
+    38: { x: 0, y: -1 }, // Arrow keys UP
+    40: { x: 0, y: 1 }, // Arrow keys DOWN
+    37: { x: -1, y: 0 }, // Arrow keys LEFT
+    39: { x: 1, y: 0 }, // Arrow keys RIGHT
+
+    87: { x: 0, y: -1 }, // W-key
+    83: { x: 0, y: 1 }, // S-key
+    65: { x: -1, y: 0 }, // A-key
+    68: { x: 1, y: 0 }, // D-key
+    
   };
 
-  function handleKeyDown(e: any, direction = keypress[e.keyCode], X = direction.x, Y = direction.y, staticObject = ["w", "b", "tb"]) {
-    let cMap = [...newGameBoard.map((row) => [...row])]; // Clone the array and its nestled arrays - important so we don't mutate the state directly in global scope
-    const I = cMap[y + Y][x + X],
-      II = cMap[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement I => first cell, II => second cell
+  
 
-    if (I === "w" || (staticObject.includes(I) && staticObject.includes(II))) return; // Check if the movement is valid based on static objects array
+  function handleKeyDown(e: any, d = keypress[e.keyCode], X = d.x, Y = d.y, staticObject = ["w", "b", "tb"], immutableObject = ["w"]) {
+    let cMap = [...newGameBoard.map((row) => [...row])]; //  important so we don't mutate the state directly in global scope
+    const cellOne = cMap[y + Y][x + X],
+      cellTwo = cMap[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement cellOne => first cell, cellTwo => second cell
 
-    I.includes("b") ? (cMap[y + Y][x + X] = I.replace("b", "p")) && (cMap[y + Y * 2][x + X * 2] += "b") : (cMap[y + Y][x + X] += "p");
+    if (immutableObject.includes(cellOne) || (staticObject.includes(cellOne) && staticObject.includes(cellTwo))) return; // Check if the movement is valid based on static objects array
+
+    if (cellOne.includes("b")){
+      cMap[y + Y][x + X] = cellOne.replace("b", "p");
+      cMap[y + Y * 2][x + X * 2] += "b";
+    }
+    else{
+      cMap[y + Y][x + X] += "p";
+    }
     cMap[y][x] = cMap[y][x].replace("p", ""); // Update the game board based on the type of movement
-
+    
     setNewGameBoard(cMap);
   }
 
