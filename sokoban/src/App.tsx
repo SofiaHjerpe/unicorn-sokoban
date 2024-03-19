@@ -4,14 +4,15 @@ import { Form } from "./components/Form";
 import InstructionButton from "./components/Instruction";
 import "./game.css";
 
+const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
-  w: "src/assets/images/wall.jpg",
-  b: "src/assets/images/box.jpg",
-  tb: "src/assets/images/box.jpg",
-  p: "src/assets/images/player.jpg",
-  tp: "src/assets/images/player.jpg",
-  "": "src/assets/images/floor.jpg",
-  t: "src/assets/images/Target.jpg",
+  w: path("wall"),
+  b: path("box"),
+  tb: path("box"),
+  p: path("player"),
+  tp: path("player"),
+  "": path("floor"),
+  t: path("target"),
 };
 
 function App() {
@@ -22,27 +23,17 @@ function App() {
     GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
   };
 
-  let targets: number = 7;
-  
-  //Get players coordinates
-  let x: number = -2;
-  let playerRow = newGameBoard.filter((row: any) => row.includes("p"));
-  if (playerRow.length == 0) {
-    playerRow = newGameBoard.filter((row: any) => row.includes("tp"));
-    x = playerRow[0].indexOf("tp");
-  } else {
-    x = playerRow[0].indexOf("p");
-  }
-  let y: number = newGameBoard.indexOf(playerRow[0]);
 
+  let x: number, y: number;
+  newGameBoard.map((row: [], _y) => {
+    row.map((cell: string, _x) => {
+      if (cell.includes("p")) {
+        x = _x;
+        y = _y;
+      }
+    });
+  });
 
-  let boxArray: any = [];
-  newGameBoard.map((row: any, i: any) => row.map((tile: any, j: any) => tile === "b" && boxArray.push({ x: j, y: i })));
-
-  //get boxes next to walls to check if next step is possible:
-  // let boxLocked = boxArray.filter(
-  //   (box: any) => (newGameBoard[box.y + 1][box.x] == "w" || newGameBoard[box.y - 1][box.x] == "w") && (newGameBoard[box.y][box.x + 1] == "w" || newGameBoard[box.y][box.x - 1] == "w")
-  // );
 
   const keypress: any = {
     37: { x: -1, y: 0 },
@@ -51,66 +42,21 @@ function App() {
     40: { x: 0, y: 1 },
   };
 
+  function handleKeyDown(e: any, direction = keypress[e.keyCode], X = direction.x, Y = direction.y, staticObject = ["w", "b", "tb"]) {
+    let cMap = [...newGameBoard.map((row) => [...row])]; // Clone the array and its nestled arrays - important so we don't mutate the state directly in global scope
+    const I = cMap[y + Y][x + X],
+      II = cMap[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement I => first cell, II => second cell
+
+    if (I === "w" || (staticObject.includes(I) && staticObject.includes(II))) return; // Check if the movement is valid based on static objects array
+
+    I.includes("b") ? (cMap[y + Y][x + X] = I.replace("b", "p")) && (cMap[y + Y * 2][x + X * 2] += "b") : (cMap[y + Y][x + X] += "p");
+    cMap[y][x] = cMap[y][x].replace("p", ""); // Update the game board based on the type of movement
+
+    setNewGameBoard(cMap);
+  }
+
+
   useEffect(() => {
-    function handleKeyDown(e: any, xy = keypress[e.keyCode], X = xy.x, Y = xy.y) {
-      //X: step in horizontal: +1 = one step to right, -1 = one step to left
-      //Y: step in vertical: +1 = one step down, -1 = 1 step up
-      //xy: this is the steps above as an object, for example {x:1, y:0} -> one step to the right but you are in the same row
-
-      let copiedMap = [...newGameBoard];
-
-      /*--- MOVE THE BOX ---*/
-      //Do not do anything if the new place etc ...
-      //would be a wall.
-      //is a box, and next to the box there is a wall.
-      //is a box on target, but next to this box there is another box.
-      //is a box on target, but next to this box there is another box that is on target.
-      if (
-        copiedMap[y + Y][x + X] === "w" ||
-        (copiedMap[y + Y][x + X] === "b" && copiedMap[y + Y * 2][x + X * 2] === "w") ||
-        (copiedMap[y + Y][x + X] === "b" && copiedMap[y + Y * 2][x + X * 2] === "b") ||
-        (copiedMap[y + Y][x + X] === "tb" && copiedMap[y + Y * 2][x + X * 2] === "w") ||
-        (copiedMap[y + Y][x + X] === "b" && copiedMap[y + Y * 2][x + X * 2] === "tb") ||
-        (copiedMap[y + Y][x + X] === "tb" && copiedMap[y + Y * 2][x + X * 2] === "b") ||
-        (copiedMap[y + Y][x + X] === "tb" && copiedMap[y + Y * 2][x + X * 2] === "tb")
-      ) {
-        return;
-      }
-      //Move the box, if the new place is a ...
-      //box, but the box can move.
-      //target
-      //empty
-      else if (copiedMap[y + Y][x + X] === "b" || copiedMap[y + Y][x + X] === "tb") {
-        if (copiedMap[y + Y * 2][x + X * 2] == "t") {
-          copiedMap[y + Y * 2][x + X * 2] = "tb";
-        } else if (copiedMap[y + Y * 2][x + X * 2] == "") {
-          copiedMap[y + Y * 2][x + X * 2] = "b";
-        }
-
-        //Handle old place of box...
-        if (copiedMap[y + Y][x + X] == "b") {
-          copiedMap[y + Y][x + X] = "";
-        } else if (copiedMap[y + Y][x + X] == "tb") {
-          copiedMap[y + Y][x + X] = "t";
-        }
-      }
-
-      /*--- MOVE THE PLAYER ---*/
-      if (copiedMap[y + Y][x + X] == "t") {
-        copiedMap[y + Y][x + X] = "tp";
-      } else if (copiedMap[y + Y][x + X] == "") {
-        copiedMap[y + Y][x + X] = "p";
-      }
-      //Handle old place of player...
-      if (copiedMap[y][x] == "tp") {
-        copiedMap[y][x] = "t";
-      } else {
-        copiedMap[y][x] = "";
-      }
-
-      setNewGameBoard(copiedMap);
-    }
-
     document.addEventListener("keydown", handleKeyDown);
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
@@ -143,7 +89,7 @@ function App() {
           ))
         )}
       </main>
-      {/**  {boxArray.length - boxLocked.length < targets && <div id="impossibleDiv">Impossible to win</div>}*/}
+
     </>
   );
 }
