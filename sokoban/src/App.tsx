@@ -39,9 +39,9 @@ function App() {
   newGameBoard.map((row: any, i: any) => row.map((tile: any, j: any) => tile === "b" && boxArray.push({ x: j, y: i })));
 
   //get boxes next to walls to check if next step is possible:
-  let boxLocked = boxArray.filter(
-    (box: any) => (newGameBoard[box.y + 1][box.x] == "w" || newGameBoard[box.y - 1][box.x] == "w") && (newGameBoard[box.y][box.x + 1] == "w" || newGameBoard[box.y][box.x - 1] == "w")
-  );
+  // let boxLocked = boxArray.filter(
+  //   (box: any) => (newGameBoard[box.y + 1][box.x] == "w" || newGameBoard[box.y - 1][box.x] == "w") && (newGameBoard[box.y][box.x + 1] == "w" || newGameBoard[box.y][box.x - 1] == "w")
+  // );
 
   const keypress: any = {
     37: { x: -1, y: 0 },
@@ -137,7 +137,7 @@ function App() {
           ))
         )}
       </main>
-      {boxArray.length - boxLocked.length < targets && <div id="impossibleDiv">Impossible to win</div>}
+      {/**  {boxArray.length - boxLocked.length < targets && <div id="impossibleDiv">Impossible to win</div>}*/}
     </>
   );
 }
