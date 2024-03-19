@@ -1,7 +1,7 @@
 .instruction-button {
   position: absolute;
-  top: 1em; /* Используем em вместо пикселей */
-  left: 32em; 
+  top: 1em;
+  left: 32em;
   padding: 8px 16px;
   background-color: #007bff;
   color: #fff;
@@ -24,6 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .modal-content {
@@ -35,12 +36,26 @@
   overflow: auto;
 }
 
-.modal-content h2 {
+.modal-content h2,
+h3 {
   margin-top: 0;
   padding-bottom: 10px;
 }
 
+.modal-content ul {
+  padding-left: 20px;
+}
+
+.modal-content ul li {
+  margin-bottom: 10px;
+}
+
 .modal-content p {
+  margin-top: 10px;
+}
+
+.modal-content p,
+.modal-content ul {
   margin-bottom: 20px;
 }
 
@@ -55,4 +70,15 @@
 
 .modal-content button:hover {
   background-color: #0056b3;
+}
+
+.modal-content img {
+  margin-right: 10px;
+}
+.modal-content h3 {
+  margin-top: 20px;
+}
+
+.modal-content img.no-margin-right {
+  margin-right: 0;
 }
