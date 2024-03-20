@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GamePlans } from "./Globals";
 import { Form } from "./components/Form";
 import InstructionButton from "./components/Instruction";
 import "./game.css";
+import Timer from "./components/Timer";
 
 const backgoundImage: Record<string, string> = {
   w: "src/assets/images/wall.jpg",
@@ -23,7 +24,7 @@ function App() {
   };
 
   let targets: number = 7;
-  
+
   //Get players coordinates
   let x: number = -2;
   let playerRow = newGameBoard.filter((row: any) => row.includes("p"));
@@ -34,7 +35,6 @@ function App() {
     x = playerRow[0].indexOf("p");
   }
   let y: number = newGameBoard.indexOf(playerRow[0]);
-
 
   let boxArray: any = [];
   newGameBoard.map((row: any, i: any) => row.map((tile: any, j: any) => tile === "b" && boxArray.push({ x: j, y: i })));
@@ -118,14 +118,31 @@ function App() {
   }, [newGameBoard]);
 
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
+
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(0);
+  const [second, setSecond] = useState(0);
+
+  var ranOnce = false;
+  let correctTime = "";
+
+  useEffect(() => {
+    if (!ranOnce) {
+      setInterval(() => {
+        setSecond((second) => second + 1);
+      }, 1000);
+      ranOnce = true;
+    }
+  }, []);
+
+  () => {
+    correctTime = (second / 60).toString();
+  };
+
   return (
     <>
       <InstructionButton />
-      <Form
-        changeLevel={changeLevel}
-        setLevel={setLevelValue}
-        levelValue={value}
-      />
+      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
 
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
@@ -143,9 +160,15 @@ function App() {
           ))
         )}
       </main>
-      {/**  {boxArray.length - boxLocked.length < targets && <div id="impossibleDiv">Impossible to win</div>}*/}
+
+      <h2>
+        {second}
+      </h2>
     </>
   );
 }
 
 export default App;
+function useFocusEffect(arg0: () => () => void, arg1: never[]) {
+  throw new Error("Function not implemented.");
+}
