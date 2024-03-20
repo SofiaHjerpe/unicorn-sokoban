@@ -28,11 +28,14 @@ function App() {
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
-   let numberOfTargets = countTargets();
+    let numberOfTargets = countTargets();
     if (numberOfCorrectBoxes >= numberOfTargets) {
       setTimeout(() => {
         changeLevel(2);
       }, 3000);
+      setTimeout(() => {
+        setWinningMessage("");
+      }, 6000);
       setWinningMessage("Congratulations! You won!");
     } else {
       setWinningMessage("");
@@ -70,7 +73,7 @@ function App() {
       cell.filter((cell: string) => cell.includes("t"))
     ).length;
     console.log(targets);
-    //  Remove console.log later. 
+    //  Remove console.log later.
     return targets;
   };
 
