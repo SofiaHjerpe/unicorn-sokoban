@@ -42,6 +42,19 @@ function App() {
       setWinningMessage("");
     }
   }, [numberOfCorrectBoxes]);
+  //Move up useEffects to here
+  useEffect(() => {
+    //Count the number of correct boxes and update the winning check. See row 29.
+    let correctBoxes = 0;
+    newGameBoard.forEach((row) => {
+      row.forEach((cell: any) => {
+        if (checkIfBoxAreCorrect(cell) === "boxOnTarget cellDiv") {
+          correctBoxes += 1;
+        }
+      });
+    });
+    setNumberOfCorrectBoxes(correctBoxes);
+  }, [newGameBoard]);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -107,19 +120,6 @@ function App() {
       return "cellDiv";
     }
   };
-
-  useEffect(() => {
-    //Count the number of correct boxes and update the winning check. See row 29.
-    let correctBoxes = 0;
-    newGameBoard.forEach((row) => {
-      row.forEach((cell: any) => {
-        if (checkIfBoxAreCorrect(cell) === "boxOnTarget cellDiv") {
-          correctBoxes += 1;
-        }
-      });
-    });
-    setNumberOfCorrectBoxes(correctBoxes);
-  }, [newGameBoard]);
 
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
   return (
