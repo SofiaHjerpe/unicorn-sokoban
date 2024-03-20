@@ -14,6 +14,9 @@
   --player: green;
   --way: burlywood;
 }
+.message {
+  color: var(--player);
+}
 .gameBoard {
   display: flex;
   flex-wrap: wrap;
