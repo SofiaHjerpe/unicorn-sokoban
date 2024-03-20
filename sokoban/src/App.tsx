@@ -33,6 +33,7 @@ function App() {
       setTimeout(() => {
         changeLevel(2);
       }, 3000);
+      //Reset after 6 seconds
       setTimeout(() => {
         setWinningMessage("");
       }, 6000);
