@@ -21,8 +21,8 @@ function App() {
 
   const changeLevel = (level: number) => {
     GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
+    document.getElementById("gameStatus")!.innerText = '';
   };
-
 
   let x: number, y: number;
   newGameBoard.map((row: [], _y) => {
@@ -33,7 +33,6 @@ function App() {
       }
     });
   });
-
 
   const keypress: any = {
     38: { x: 0, y: -1 }, // Arrow keys UP
@@ -56,37 +55,41 @@ function App() {
     immutableObject = ["w"],
     moveAbleObject = ["b"]
   ) {
-    let cMap = [...newGameBoard.map((row) => [...row])]; //  important so we don't mutate the state directly in global scope
-    const cellOne = cMap[y + Y][x + X],
-      cellTwo = cMap[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement cellOne => first cell, cellTwo => second cell
+    let copyGameBoard = [...newGameBoard.map((row) => [...row])]; //  important so we don't mutate the state directly in global scope
+    const cellOne = copyGameBoard[y + Y][x + X],
+      cellTwo = copyGameBoard[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement cellOne => first cell, cellTwo => second cell
 
     if (immutableObject.includes(cellOne) || (staticObject.includes(cellOne) && staticObject.includes(cellTwo))) return; // Check if the movement is valid based on static objects array
 
     if (cellOne.includes("b")) {
-      cMap[y + Y][x + X] = cellOne.replace("b", "p");
-      cMap[y + Y * 2][x + X * 2] += "b";
+      copyGameBoard[y + Y][x + X] = cellOne.replace("b", "p");
+      copyGameBoard[y + Y * 2][x + X * 2] += "b";
     } else {
-      cMap[y + Y][x + X] += "p";
+      copyGameBoard[y + Y][x + X] += "p";
     }
-    cMap[y][x] = cMap[y][x].replace("p", ""); // Update the game board based on the type of movement
+    copyGameBoard[y][x] = copyGameBoard[y][x].replace("p", ""); // Update the game board based on the type of movement
 
-    let unmoveableCells: { y: number; x: number; t: string }[] = [];
-    cMap.map((row, y: number) =>
+    let staticBoard = [...copyGameBoard.map((row) => [...row])]; 
+    staticBoard.map((row, y: number) => 
       row.map(
         (cell, x: number) =>
-          (cell.includes(moveAbleObject) && 
-          (immutableObject.includes(row[x + 1]) || (immutableObject.includes(row[x - 1]))) && 
-          (immutableObject.includes(cMap[y + 1][x]) || immutableObject.includes(cMap[y - 1][x])) &&
-          unmoveableCells.push({ y: y, x: x, t: "BOX" }))
+          cell.includes(moveAbleObject) && 
+          (((immutableObject.includes(row[x + 1]) || immutableObject.includes(row[x - 1])) && // Check if the box is blocked by a wall and another moveable object
+            (staticObject.includes(staticBoard[y + 1][x]) || staticObject.includes(staticBoard[y - 1][x]))) ||
+            ((staticObject.includes(row[x + 1]) || staticObject.includes(row[x - 1])) &&
+              (immutableObject.includes(staticBoard[y + 1][x]) || immutableObject.includes(staticBoard[y - 1][x])))) &&
+          (staticBoard[y][x] = "w")
       )
     );
-    //see if any box is stuck
+   
+    const moveableObjectsInPlay: number = // Number of not locked boxes and targets still in play
+      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("b"))).length - 
+      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
+      document.getElementById("gameStatus")!.innerText = `${(moveableObjectsInPlay < 0)?'You might be stuck...':''}`
 
-    console.log(unmoveableCells);
 
-    setNewGameBoard(cMap);
+    setNewGameBoard(copyGameBoard);
   }
-
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -99,29 +102,24 @@ function App() {
   return (
     <>
       <InstructionButton />
-      <Form
-        changeLevel={changeLevel}
-        setLevel={setLevelValue}
-        levelValue={value}
-      />
+      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
 
       <main className="gameBoard" style={style}>
-        {newGameBoard.map((row) =>
-          row.map((cell: string, cellid: number) => (
+        {newGameBoard.map((row, y: number) =>
+          row.map((cell: string, x: number) => (
             <div
               className={`${[cell]}` == "tb" ? "boxOnTarget cellDiv" : `${[cell]}` == "b" ? "box cellDiv" : "cellDiv"}
-              key={cellid}
+              key={x}
               style={{
                 width: 500 / newGameBoard[0].length,
                 backgroundImage: `url(${backgoundImage[cell]})`,
               }}
             >
-              {cell}
             </div>
           ))
         )}
       </main>
-
+      <p id="gameStatus"></p>
     </>
   );
 }
