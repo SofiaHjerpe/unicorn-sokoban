@@ -26,7 +26,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (numberOfCorrectBoxes >= 4) {
+    //Winning check
+    //If all targets are done, send winning information.
+   let numberOfTargets = countTargets();
+    if (numberOfCorrectBoxes >= numberOfTargets) {
       setTimeout(() => {
         changeLevel(2);
       }, 3000);
@@ -60,6 +63,17 @@ function App() {
     40: { x: 0, y: 1 },
   };
 
+  const countTargets = () => {
+    let copyOfBoard = [...newGameBoard.map((row) => [...row])];
+    //How many targets is it in current board?
+    let targets = copyOfBoard.flatMap((cell) =>
+      cell.filter((cell: string) => cell.includes("t"))
+    ).length;
+    console.log(targets);
+    //  Remove console.log later. 
+    return targets;
+  };
+
   function handleKeyDown(
     e: any,
     direction = keypress[e.keyCode],
@@ -71,8 +85,7 @@ function App() {
     const I = cMap[y + Y][x + X],
       II = cMap[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement I => first cell, II => second cell
 
-    if (I === "w" || (staticObject.includes(I) && staticObject.includes(II))) return; // Check if the movement is valid based on static objects array
-
+    if (I === "w" || (staticObject.includes(I) && staticObject.includes(II))) return; // Check if the movement is valid based on static objects array.
     I.includes("b")
       ? (cMap[y + Y][x + X] = I.replace("b", "p")) && (cMap[y + Y * 2][x + X * 2] += "b")
       : (cMap[y + Y][x + X] += "p");
@@ -81,10 +94,10 @@ function App() {
     setNewGameBoard(cMap);
   }
 
-  const checkIfBoxAreCorrect = (item: any) => {
-    if (`${[item]}` == "tb") {
+  const checkIfBoxAreCorrect = (cellItem: any) => {
+    if (`${[cellItem]}` == "tb") {
       return "boxOnTarget cellDiv";
-    } else if (`${[item]}` == "b") {
+    } else if (`${[cellItem]}` == "b") {
       return "box cellDiv";
     } else {
       return "cellDiv";
@@ -92,6 +105,7 @@ function App() {
   };
 
   useEffect(() => {
+    //Count the number of correct boxes and update the winning check. See row 29.
     let correctBoxes = 0;
     newGameBoard.forEach((row) => {
       row.forEach((cell: any) => {
@@ -111,7 +125,7 @@ function App() {
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => {
-            const nameOfClass = checkIfBoxAreCorrect(cell);
+            const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
             return (
               <div key={cellid} style={{ display: "inline-block" }}>
                 <div

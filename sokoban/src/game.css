@@ -16,6 +16,7 @@
 }
 .message {
   color: var(--player);
+  font-size: 30px;
 }
 .gameBoard {
   display: flex;
