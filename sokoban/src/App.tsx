@@ -136,13 +136,6 @@ function App() {
     setNewGameBoard(copyGameBoard);
   }
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return function cleanup() {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [newGameBoard]);
-
   const checkIfBoxAreCorrect = (cellItem: any) => {
     if (`${[cellItem]}` == "tb") {
       return "boxOnTarget cellDiv";
