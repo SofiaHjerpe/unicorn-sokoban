@@ -14,10 +14,7 @@
   --player: green;
   --way: burlywood;
 }
-.message {
-  color: var(--player);
-  font-size: 30px;
-}
+
 .gameBoard {
   display: flex;
   flex-wrap: wrap;
@@ -52,8 +49,22 @@
 
 .boxOnTarget {
   border-radius: 5px;
-  filter:hue-rotate(45deg);
+  filter: hue-rotate(45deg);
   border: 2px solid black;
+}
+
+.winning-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--player);
+  background: none;
 }
 
 #timerDiv {
