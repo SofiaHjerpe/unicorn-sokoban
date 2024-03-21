@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* colors (temporary)*/
+
 #root {
   --white: #eee;
   --black: #000;
@@ -35,7 +35,7 @@
   background-repeat: "no-repeat";
   background-size: cover;
   background-position: center;
-  color: transparent;
+  color: white;
 }
 
 #impossibleDiv {
@@ -45,9 +45,13 @@
 }
 
 .box {
-  filter: brightness(130%);
+  filter: brightness(150%);
+  border-radius: 5px;
+  border: 2px solid black;
 }
 
 .boxOnTarget {
-  filter: brightness(60%);
+  border-radius: 5px;
+  filter:hue-rotate(45deg);
+  border: 2px solid black;
 }
