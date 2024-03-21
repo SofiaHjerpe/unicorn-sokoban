@@ -3,6 +3,7 @@ import { GamePlans } from "./Globals";
 import { Form } from "./components/Form";
 import InstructionButton from "./components/Instruction";
 import "./game.css";
+import Timer from "./components/Timer";
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -19,6 +20,7 @@ function App() {
   const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
   const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
   const [value, setLevelValue] = useState("");
+  const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState("");
 
   const changeLevel = (level: number) => {
@@ -159,10 +161,12 @@ function App() {
   };
 
   const style = { height: (500 / newGameBoard[0].length) * newGameBoard.length };
+
   return (
     <>
       <InstructionButton />
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
+   
 
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
@@ -185,6 +189,7 @@ function App() {
         )}
       </main>
       <p className="message">{winningMessage}</p>      <p id="gameStatus"></p>
+      <Timer countBoardChange={countBoardChange} />
     </>
   );
 }

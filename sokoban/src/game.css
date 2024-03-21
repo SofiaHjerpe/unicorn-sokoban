@@ -55,3 +55,10 @@
   filter:hue-rotate(45deg);
   border: 2px solid black;
 }
+
+#timerDiv {
+  width: fit-content;
+  padding: 0.7rem 1rem 0.7rem 1rem;
+  border: 1px solid var(--black);
+  margin: 1rem 0 0 190px;
+}
