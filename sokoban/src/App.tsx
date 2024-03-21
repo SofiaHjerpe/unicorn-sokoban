@@ -68,8 +68,9 @@ function App() {
       copyGameBoard[y + Y][x + X] += "p";
     }
     copyGameBoard[y][x] = copyGameBoard[y][x].replace("p", ""); // Update the game board based on the type of movement
-
-    let staticBoard = [...copyGameBoard.map((row) => [...row])]; 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //check if there is less free boxes than targets, if the box is stuck it turns into wall mechanic
+  let staticBoard = [...copyGameBoard.map((row) => [...row])];
     staticBoard.map((row, y: number) => 
       row.map(
         (cell, x: number) =>
@@ -85,8 +86,10 @@ function App() {
     const moveableObjectsInPlay: number = // Number of not locked boxes and targets still in play
       staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("b"))).length - 
       staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
+      
       document.getElementById("gameStatus")!.innerText = `${(moveableObjectsInPlay < 0)?'You might be stuck...':''}`
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      console.log(staticBoard);
 
     setNewGameBoard(copyGameBoard);
   }
