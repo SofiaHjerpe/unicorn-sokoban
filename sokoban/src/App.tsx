@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { GamePlans } from "./Globals";
+import { useContext, useEffect, useState } from "react";
 import { Form } from "./components/Form";
 import InstructionButton from "./components/Instruction";
 import "./game.css";
 import Timer from "./components/Timer";
+import { GameContext } from "./context/GameContextProvider";
+import { GamePlans } from "./Globals";
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -17,24 +18,18 @@ const backgoundImage: Record<string, string> = {
 };
 
 function App() {
-  const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
-  const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
-  const [levelValue, setLevelValue] = useState(1);
-  const [countBoardChange, setCountBoardChange] = useState(0);
-  const [winningMessage, setWinningMessage] = useState("");
+  const {
+    winningMessage,
+    setWinningMessage,
+    countBoardChange,
+    setNumberOfCorrectBoxes,
+    numberOfCorrectBoxes,
+    levelValue,
+    changeLevel,
+    newGameBoard,
+    setNewGameBoard,
+  } = useContext(GameContext);
 
-  const changeLevel = (newLevel: number) => {
-    GamePlans.map((plan, index) => {
-      if (index + 1 === newLevel) {
-        setNewGameBoard(plan);
-        setCountBoardChange((countBoardChange) => countBoardChange + 1);
-      } else {
-        null;
-      }
-      document.getElementById("gameStatus")!.innerText = "";
-      setLevelValue(newLevel);
-    });
-  };
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
@@ -135,12 +130,10 @@ function App() {
       row.map(
         (cell, x: number) =>
           cell.includes(moveAbleObject) &&
-          (((immutableObject.includes(row[x + 1]) ||
-            immutableObject.includes(row[x - 1])) && // Check if the box is blocked by a wall and another moveable object
+          (((immutableObject.includes(row[x + 1]) || immutableObject.includes(row[x - 1])) && // Check if the box is blocked by a wall and another moveable object
             (staticObject.includes(staticBoard[y + 1][x]) ||
               staticObject.includes(staticBoard[y - 1][x]))) ||
-            ((staticObject.includes(row[x + 1]) ||
-              staticObject.includes(row[x - 1])) &&
+            ((staticObject.includes(row[x + 1]) || staticObject.includes(row[x - 1])) &&
               (immutableObject.includes(staticBoard[y + 1][x]) ||
                 immutableObject.includes(staticBoard[y - 1][x])))) &&
           (staticBoard[y][x] = "w")
@@ -148,12 +141,8 @@ function App() {
     );
 
     const moveableObjectsInPlay: number = // Number of not locked boxes and targets still in play
-      staticBoard.flatMap((cell) =>
-        cell.filter((cell: string) => cell.includes("b"))
-      ).length -
-      staticBoard.flatMap((cell) =>
-        cell.filter((cell: string) => cell.includes("t"))
-      ).length;
+      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("b"))).length -
+      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
 
     document.getElementById("gameStatus")!.innerText = `${
       moveableObjectsInPlay < 0 ? "You might be stuck..." : ""
@@ -161,13 +150,6 @@ function App() {
 
     setNewGameBoard(copyGameBoard);
   }
-
-  // useEffect(() => {
-  //   document.addEventListener("keydown", handleKeyDown);
-  //   return function cleanup() {
-  //     document.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, [newGameBoard]);
 
   const checkIfBoxAreCorrect = (cellItem: any) => {
     if (`${[cellItem]}` == "tb") {
@@ -185,11 +167,8 @@ function App() {
   return (
     <>
       <InstructionButton />
-      <Form
-        changeLevel={changeLevel}
-        setLevel={setLevelValue}
-        levelValue={levelValue}
-      />
+      <Form />
+
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => {

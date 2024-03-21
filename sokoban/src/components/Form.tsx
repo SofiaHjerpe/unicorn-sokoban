@@ -1,20 +1,16 @@
-import React, { Dispatch, FormEventHandler } from "react";
+import React, { FormEventHandler, useContext } from "react";
 import "./Form.css";
 import { GamePlans } from "../Globals";
-interface IChangeLevelProps {
-  changeLevel: (level: number) => void;
-  levelValue: number;
-  setLevel: Dispatch<React.SetStateAction<number>>;
-}
-export const Form = ({
-  changeLevel,
-  levelValue,
-  setLevel,
-}: IChangeLevelProps) => {
+import { GameContext } from "../context/GameContextProvider";
+
+export const Form = () => {
+  const {levelValue, setLevelValue, changeLevel} = useContext(GameContext);
   const handleOnSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     changeLevel(levelValue);
   };
+ 
+  let setLevel = setLevelValue;
 
   return (
     <>
