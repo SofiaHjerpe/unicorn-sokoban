@@ -4,20 +4,25 @@ import { GamePlans } from "../Globals";
 import { GameContext } from "../context/GameContextProvider";
 
 export const Form = () => {
-  const {value, setLevelValue, changeLevel} = useContext(GameContext);
+  const {levelValue, setLevelValue, changeLevel} = useContext(GameContext);
   const handleOnSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    changeLevel(parseInt(levelValue));
+    changeLevel(levelValue);
   };
-  let levelValue = value;
+ 
   let setLevel = setLevelValue;
 
   return (
     <>
       <form className="form" onSubmit={handleOnSubmit}>
-        <select className="select" title="select level" onChange={(e) => setLevel(e.target.value)}>
-          {GamePlans.map((level, index) => (
-            <option key={index} value={index +1}>
+        <select
+          className="select"
+          title="select level"
+          value={levelValue}
+          onChange={(e) => setLevel(+e.target.value)}
+        >
+          {GamePlans.map((_level, index) => (
+            <option key={index} value={index + 1}>
               Level {index + 1}
             </option>
           ))}

@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* colors (temporary)*/
+
 #root {
   --white: #eee;
   --black: #000;
@@ -14,6 +14,7 @@
   --player: green;
   --way: burlywood;
 }
+
 .gameBoard {
   display: flex;
   flex-wrap: wrap;
@@ -30,4 +31,45 @@
   aspect-ratio: 1;
   background-repeat: "no-repeat";
   background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+#impossibleDiv {
+  margin-inline: 1em;
+  color: red;
+  font-weight: bold;
+}
+
+.box {
+  filter: brightness(150%);
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.boxOnTarget {
+  border-radius: 5px;
+  filter: hue-rotate(45deg);
+  border: 2px solid black;
+}
+
+.winning-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--player);
+  background: none;
+}
+
+#timerDiv {
+  width: fit-content;
+  padding: 0.7rem 1rem 0.7rem 1rem;
+  border: 1px solid var(--black);
+  margin: 1rem 0 0 190px;
 }
