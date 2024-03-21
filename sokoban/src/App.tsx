@@ -3,6 +3,7 @@ import { GamePlans } from "./Globals";
 import { Form } from "./components/Form";
 import InstructionButton from "./components/Instruction";
 import "./game.css";
+import Timer from "./components/Timer";
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -19,20 +20,21 @@ function App() {
   const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
   const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
   const [levelValue, setLevelValue] = useState(1);
+  const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState("");
 
   const changeLevel = (newLevel: number) => {
-    if (newLevel < 1 || newLevel > 3) {
-      return;
-    }
-
-    GamePlans.map((plan, index) =>
-      newLevel === index + 1 ? setNewGameBoard(plan) : null
-    );
-    document.getElementById("gameStatus")!.innerText = "";
-    setLevelValue(newLevel);
+    GamePlans.map((plan, index) => {
+      if (index + 1 === newLevel) {
+        setNewGameBoard(plan);
+        setCountBoardChange((countBoardChange) => countBoardChange + 1);
+      } else {
+        null;
+      }
+      document.getElementById("gameStatus")!.innerText = "";
+      setLevelValue(newLevel);
+    });
   };
-
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
@@ -128,7 +130,7 @@ function App() {
     copyGameBoard[y][x] = copyGameBoard[y][x].replace("p", ""); // Update the game board based on the type of movement
 
     //check if there is less free boxes than targets, if the box is stuck it turns into wall mechanic
-    const staticBoard = [...copyGameBoard.map((row) => [...row])];
+    let staticBoard = [...copyGameBoard.map((row) => [...row])];
     staticBoard.map((row, y: number) =>
       row.map(
         (cell, x: number) =>
@@ -160,12 +162,12 @@ function App() {
     setNewGameBoard(copyGameBoard);
   }
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return function cleanup() {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [newGameBoard]);
+  // useEffect(() => {
+  //   document.addEventListener("keydown", handleKeyDown);
+  //   return function cleanup() {
+  //     document.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, [newGameBoard]);
 
   const checkIfBoxAreCorrect = (cellItem: any) => {
     if (`${[cellItem]}` == "tb") {
@@ -206,8 +208,10 @@ function App() {
           })
         )}
       </main>
-      <p className="winning-message">{winningMessage}</p>{" "}
+
+      <p className="winning-message">{winningMessage}</p>
       <p id="gameStatus"></p>
+      <Timer countBoardChange={countBoardChange} />
     </>
   );
 }
