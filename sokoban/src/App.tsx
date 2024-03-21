@@ -25,7 +25,8 @@ function App() {
 
   const changeLevel = (level: number) => {
     GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
-    document.getElementById("gameStatus")!.innerText = '';
+    setCountBoardChange((countBoardChange) => countBoardChange + 1);
+    document.getElementById("gameStatus")!.innerText = "";
   };
 
   useEffect(() => {
@@ -87,23 +88,15 @@ function App() {
     65: { x: -1, y: 0 }, // A-key
     68: { x: 1, y: 0 }, // D-key
   };
- const countTargets = () => {
-   let copyOfBoard = [...newGameBoard.map((row) => [...row])];
-   //How many targets is it in current board?
-   let targets = copyOfBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
-   console.log(targets);
-   //  Remove console.log later.
-   return targets;
- };
-  function handleKeyDown(
-    e: any,
-    d = keypress[e.keyCode],
-    X = d.x,
-    Y = d.y,
-    staticObject = ["w", "b", "tb"],
-    immutableObject = ["w"],
-    moveAbleObject = ["b"]
-  ) {
+  const countTargets = () => {
+    let copyOfBoard = [...newGameBoard.map((row) => [...row])];
+    //How many targets is it in current board?
+    let targets = copyOfBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
+    console.log(targets);
+    //  Remove console.log later.
+    return targets;
+  };
+  function handleKeyDown(e: any, d = keypress[e.keyCode], X = d.x, Y = d.y, staticObject = ["w", "b", "tb"], immutableObject = ["w"], moveAbleObject = ["b"]) {
     let copyGameBoard = [...newGameBoard.map((row) => [...row])]; //  important so we don't mutate the state directly in global scope
     const cellOne = copyGameBoard[y + Y][x + X],
       cellTwo = copyGameBoard[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement cellOne => first cell, cellTwo => second cell
@@ -119,11 +112,11 @@ function App() {
     copyGameBoard[y][x] = copyGameBoard[y][x].replace("p", ""); // Update the game board based on the type of movement
 
     //check if there is less free boxes than targets, if the box is stuck it turns into wall mechanic
-  let staticBoard = [...copyGameBoard.map((row) => [...row])];
-    staticBoard.map((row, y: number) => 
+    let staticBoard = [...copyGameBoard.map((row) => [...row])];
+    staticBoard.map((row, y: number) =>
       row.map(
         (cell, x: number) =>
-          cell.includes(moveAbleObject) && 
+          cell.includes(moveAbleObject) &&
           (((immutableObject.includes(row[x + 1]) || immutableObject.includes(row[x - 1])) && // Check if the box is blocked by a wall and another moveable object
             (staticObject.includes(staticBoard[y + 1][x]) || staticObject.includes(staticBoard[y - 1][x]))) ||
             ((staticObject.includes(row[x + 1]) || staticObject.includes(row[x - 1])) &&
@@ -131,24 +124,24 @@ function App() {
           (staticBoard[y][x] = "w")
       )
     );
-   
-    const moveableObjectsInPlay: number = // Number of not locked boxes and targets still in play
-      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("b"))).length - 
-      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
-      
-      document.getElementById("gameStatus")!.innerText = `${(moveableObjectsInPlay < 0)?'You might be stuck...':''}`
 
-      console.log(staticBoard);
+    const moveableObjectsInPlay: number = // Number of not locked boxes and targets still in play
+      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("b"))).length -
+      staticBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
+
+    document.getElementById("gameStatus")!.innerText = `${moveableObjectsInPlay < 0 ? "You might be stuck..." : ""}`;
+
+    console.log(staticBoard);
 
     setNewGameBoard(copyGameBoard);
   }
 
- useEffect(() => {
-   document.addEventListener("keydown", handleKeyDown);
-   return function cleanup() {
-     document.removeEventListener("keydown", handleKeyDown);
-   };
- }, [newGameBoard]);
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [newGameBoard]);
 
   const checkIfBoxAreCorrect = (cellItem: any) => {
     if (`${[cellItem]}` == "tb") {
@@ -166,8 +159,6 @@ function App() {
     <>
       <InstructionButton />
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={value} />
-   
-
       <main className="gameBoard" style={style}>
         {newGameBoard.map((row) =>
           row.map((cell: string, cellid: number) => {
@@ -180,19 +171,16 @@ function App() {
                     width: 500 / newGameBoard[0].length,
                     backgroundImage: `url(${backgoundImage[cell]})`,
                   }}
-                >
-                  
-                </div>
+                ></div>
               </div>
             );
           })
         )}
       </main>
-      <p className="message">{winningMessage}</p>      <p id="gameStatus"></p>
+      <p className="message">{winningMessage}</p> <p id="gameStatus"></p>
       <Timer countBoardChange={countBoardChange} />
     </>
   );
 }
 
 export default App;
-
