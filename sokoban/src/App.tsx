@@ -18,10 +18,18 @@ const backgoundImage: Record<string, string> = {
 };
 
 function App() {
-  const { levelValue, setLevelValue, newGameBoard, setNewGameBoard } = useContext(GameContext);
-  const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
-  const [countBoardChange, setCountBoardChange] = useState(0);
-  const [winningMessage, setWinningMessage] = useState("");
+  const {
+    winningMessage,
+    setWinningMessage,
+    countBoardChange,
+    setCountBoardChange,
+    setNumberOfCorrectBoxes,
+    numberOfCorrectBoxes,
+    levelValue,
+    setLevelValue,
+    newGameBoard,
+    setNewGameBoard,
+  } = useContext(GameContext);
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {

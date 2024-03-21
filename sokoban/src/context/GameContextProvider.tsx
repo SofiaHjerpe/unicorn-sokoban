@@ -7,6 +7,12 @@ interface IContext {
   levelValue: number;
   setLevelValue: Dispatch<React.SetStateAction<number>>;
   changeLevel: (level: number) => void;
+  numberOfCorrectBoxes: number;
+  setNumberOfCorrectBoxes: Dispatch<React.SetStateAction<number>>;
+  countBoardChange: number;
+  setCountBoardChange: Dispatch<React.SetStateAction<number>>;
+  winningMessage: string;
+  setWinningMessage: Dispatch<React.SetStateAction<string>>;
 }
 
 interface IGameContextProvider {
@@ -17,6 +23,9 @@ export const GameContext = createContext({} as IContext);
 export const GameContextProvider = ({ children }: IGameContextProvider) => {
   const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
   const [levelValue, setLevelValue] = useState(1);
+  const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
+  const [countBoardChange, setCountBoardChange] = useState(0);
+  const [winningMessage, setWinningMessage] = useState("");
 
   const changeLevel = (level: number) => {
     GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
@@ -27,7 +36,13 @@ export const GameContextProvider = ({ children }: IGameContextProvider) => {
     setNewGameBoard: setNewGameBoard,
     levelValue: levelValue,
     setLevelValue: setLevelValue,
-    changeLevel: changeLevel
+    changeLevel: changeLevel,
+    numberOfCorrectBoxes: numberOfCorrectBoxes,
+    setNumberOfCorrectBoxes: setNumberOfCorrectBoxes,
+    countBoardChange: countBoardChange,
+    setCountBoardChange: setCountBoardChange,
+    winningMessage: winningMessage,
+    setWinningMessage: setWinningMessage
   };
 
   return <GameContext.Provider value={values}>{children}</GameContext.Provider>;
