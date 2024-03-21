@@ -22,27 +22,14 @@ function App() {
     winningMessage,
     setWinningMessage,
     countBoardChange,
-    setCountBoardChange,
     setNumberOfCorrectBoxes,
     numberOfCorrectBoxes,
     levelValue,
-    setLevelValue,
+    changeLevel,
     newGameBoard,
     setNewGameBoard,
   } = useContext(GameContext);
 
-  const changeLevel = (newLevel: number) => {
-    GamePlans.map((plan, index) => {
-      if (index + 1 === newLevel) {
-        setNewGameBoard(plan);
-        setCountBoardChange((countBoardChange) => countBoardChange + 1);
-      } else {
-        null;
-      }
-      document.getElementById("gameStatus")!.innerText = "";
-      setLevelValue(newLevel);
-    });
-  };
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.

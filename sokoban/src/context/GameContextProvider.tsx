@@ -27,8 +27,17 @@ export const GameContextProvider = ({ children }: IGameContextProvider) => {
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState("");
 
-  const changeLevel = (level: number) => {
-    GamePlans.map((plan, index) => (level === index + 1 ? setNewGameBoard(plan) : null));
+  const changeLevel = (newLevel: number) => {
+    GamePlans.map((plan, index) => {
+      if (index + 1 === newLevel) {
+        setNewGameBoard(plan);
+        setCountBoardChange((countBoardChange) => countBoardChange + 1);
+      } else {
+        null;
+      }
+      document.getElementById("gameStatus")!.innerText = "";
+      setLevelValue(newLevel);
+    });
   };
 
   const values: IContext = {
