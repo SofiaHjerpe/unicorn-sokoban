@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import { GamePlans } from "./Globals";
-import { Form } from "./components/Form";
-import InstructionButton from "./components/Instruction";
-import "./game.css";
-import Timer from "./components/Timer";
+import { useEffect, useState } from 'react';
+import { GamePlans } from './Globals';
+import { Form } from './components/Form';
+import InstructionButton from './components/Instruction';
+import './game.css';
+import Timer from './components/Timer';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
-  w: path("wall"),
-  b: path("box"),
-  tb: path("box"),
-  p: path("player"),
-  tp: path("player"),
-  "": path("floor"),
-  t: path("target"),
+  w: path('wall'),
+  b: path('box'),
+  tb: path('box'),
+  p: path('player'),
+  tp: path('player'),
+  '': path('floor'),
+  t: path('target'),
 };
 
 function App() {
@@ -21,17 +21,17 @@ function App() {
   const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
-  const [winningMessage, setWinningMessage] = useState("");
+  const [winningMessage, setWinningMessage] = useState('');
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
       if (index + 1 === newLevel) {
         setNewGameBoard(plan);
-        setCountBoardChange((countBoardChange) => countBoardChange + 1);
+        setCountBoardChange(countBoardChange => countBoardChange + 1);
       } else {
         null;
       }
-      document.getElementById("gameStatus")!.innerText = "";
+      document.getElementById('gameStatus')!.innerText = '';
       setLevelValue(newLevel);
     });
   };
@@ -45,20 +45,20 @@ function App() {
       }, 3000);
       //Reset after 6 seconds
       setTimeout(() => {
-        setWinningMessage("");
+        setWinningMessage('');
       }, 6000);
-      setWinningMessage("Congratulations! You won!");
+      setWinningMessage('Congratulations! You won!');
     } else {
-      setWinningMessage("");
+      setWinningMessage('');
     }
   }, [numberOfCorrectBoxes]);
   //Move up useEffects to here
   useEffect(() => {
     //Count the number of correct boxes and update the winning check. See row 29.
     let correctBoxes = 0;
-    newGameBoard.forEach((row) => {
+    newGameBoard.forEach(row => {
       row.forEach((cell: any) => {
-        if (checkIfBoxAreCorrect(cell) === "boxOnTarget cellDiv") {
+        if (checkIfBoxAreCorrect(cell) === 'boxOnTarget cellDiv') {
           correctBoxes += 1;
         }
       });
@@ -67,16 +67,16 @@ function App() {
   }, [newGameBoard]);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
     return function cleanup() {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [newGameBoard]);
 
   let x: number, y: number;
   newGameBoard.map((row: [], _y) => {
     row.map((cell: string, _x) => {
-      if (cell.includes("p")) {
+      if (cell.includes('p')) {
         x = _x;
         y = _y;
       }
@@ -95,10 +95,10 @@ function App() {
     68: { x: 1, y: 0 }, // D-key
   };
   const countTargets = () => {
-    const copyOfBoard = [...newGameBoard.map((row) => [...row])];
+    const copyOfBoard = [...newGameBoard.map(row => [...row])];
     //How many targets is it in current board?
-    const targets = copyOfBoard.flatMap((cell) =>
-      cell.filter((cell: string) => cell.includes("t"))
+    const targets = copyOfBoard.flatMap(cell =>
+      cell.filter((cell: string) => cell.includes('t')),
     ).length;
     return targets;
   };
@@ -107,11 +107,11 @@ function App() {
     d = keypress[e.keyCode],
     X = d.x,
     Y = d.y,
-    staticObject = ["w", "b", "tb"],
-    immutableObject = ["w"],
-    moveAbleObject = ["b"]
+    staticObject = ['w', 'b', 'tb'],
+    immutableObject = ['w'],
+    moveAbleObject = ['b'],
   ) {
-    const copyGameBoard = [...newGameBoard.map((row) => [...row])]; //  important so we don't mutate the state directly in global scope
+    const copyGameBoard = [...newGameBoard.map(row => [...row])]; //  important so we don't mutate the state directly in global scope
     const cellOne = copyGameBoard[y + Y][x + X],
       cellTwo = copyGameBoard[y + Y * 2][x + X * 2]; // Calculate the indices of the cells affected by the movement cellOne => first cell, cellTwo => second cell
 
@@ -121,16 +121,16 @@ function App() {
     )
       return; // Check if the movement is valid based on static objects array
 
-    if (cellOne.includes("b")) {
-      copyGameBoard[y + Y][x + X] = cellOne.replace("b", "p");
-      copyGameBoard[y + Y * 2][x + X * 2] += "b";
+    if (cellOne.includes('b')) {
+      copyGameBoard[y + Y][x + X] = cellOne.replace('b', 'p');
+      copyGameBoard[y + Y * 2][x + X * 2] += 'b';
     } else {
-      copyGameBoard[y + Y][x + X] += "p";
+      copyGameBoard[y + Y][x + X] += 'p';
     }
-    copyGameBoard[y][x] = copyGameBoard[y][x].replace("p", ""); // Update the game board based on the type of movement
+    copyGameBoard[y][x] = copyGameBoard[y][x].replace('p', ''); // Update the game board based on the type of movement
 
     //check if there is less free boxes than targets, if the box is stuck it turns into wall mechanic
-    let staticBoard = [...copyGameBoard.map((row) => [...row])];
+    let staticBoard = [...copyGameBoard.map(row => [...row])];
     staticBoard.map((row, y: number) =>
       row.map(
         (cell, x: number) =>
@@ -143,39 +143,32 @@ function App() {
               staticObject.includes(row[x - 1])) &&
               (immutableObject.includes(staticBoard[y + 1][x]) ||
                 immutableObject.includes(staticBoard[y - 1][x])))) &&
-          (staticBoard[y][x] = "w")
-      )
+          (staticBoard[y][x] = 'w'),
+      ),
     );
 
     const moveableObjectsInPlay: number = // Number of not locked boxes and targets still in play
-      staticBoard.flatMap((cell) =>
-        cell.filter((cell: string) => cell.includes("b"))
+      staticBoard.flatMap(cell =>
+        cell.filter((cell: string) => cell.includes('b')),
       ).length -
-      staticBoard.flatMap((cell) =>
-        cell.filter((cell: string) => cell.includes("t"))
+      staticBoard.flatMap(cell =>
+        cell.filter((cell: string) => cell.includes('t')),
       ).length;
 
-    document.getElementById("gameStatus")!.innerText = `${
-      moveableObjectsInPlay < 0 ? "You might be stuck..." : ""
+    document.getElementById('gameStatus')!.innerText = `${
+      moveableObjectsInPlay < 0 ? 'You might be stuck...' : ''
     }`;
 
     setNewGameBoard(copyGameBoard);
   }
 
-  // useEffect(() => {
-  //   document.addEventListener("keydown", handleKeyDown);
-  //   return function cleanup() {
-  //     document.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, [newGameBoard]);
-
   const checkIfBoxAreCorrect = (cellItem: any) => {
-    if (`${[cellItem]}` == "tb") {
-      return "boxOnTarget cellDiv";
-    } else if (`${[cellItem]}` == "b") {
-      return "box cellDiv";
+    if (`${[cellItem]}` == 'tb') {
+      return 'boxOnTarget cellDiv';
+    } else if (`${[cellItem]}` == 'b') {
+      return 'box cellDiv';
     } else {
-      return "cellDiv";
+      return 'cellDiv';
     }
   };
 
@@ -191,21 +184,24 @@ function App() {
         levelValue={levelValue}
       />
       <main className="gameBoard" style={style}>
-        {newGameBoard.map((row) =>
+        {newGameBoard.map(row =>
           row.map((cell: string, cellid: number) => {
             const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
             return (
-              <div key={cellid} style={{ display: "inline-block" }}>
+              <div
+                key={cellid}
+                style={{
+                  display: 'inline-block',
+                }}>
                 <div
                   className={nameOfClass}
                   style={{
                     width: 500 / newGameBoard[0].length,
                     backgroundImage: `url(${backgoundImage[cell]})`,
-                  }}
-                ></div>
+                  }}></div>
               </div>
             );
-          })
+          }),
         )}
       </main>
 
