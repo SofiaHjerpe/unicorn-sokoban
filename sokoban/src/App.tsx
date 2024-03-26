@@ -7,8 +7,10 @@ import Timer from './components/Timer';
 
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
-import { MoveTrackersLocalStorage } from './GameLogic/MoveTrackersLocalStorage';
-import { PushTrackersLocalStorage } from './GameLogic/PushTrackersLocalStorage';
+import {
+  GetMoveTrackersLocalStorage,
+  GetPushTrackersLocalStorage,
+} from './GameLogic/TrackersLocalStorage';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -30,8 +32,8 @@ function App() {
 
   //changing level: getting local storage for moveTracker
   if (levelValue == 1) {
-    MoveTrackersLocalStorage(1);
-    PushTrackersLocalStorage(1);
+    GetMoveTrackersLocalStorage(1);
+    GetPushTrackersLocalStorage(1);
   }
 
   const changeLevel = (newLevel: number) => {
@@ -41,8 +43,8 @@ function App() {
         setCountBoardChange(countBoardChange => countBoardChange + 1);
 
         //changing level: getting local storage for moveTracker
-        MoveTrackersLocalStorage(newLevel);
-        PushTrackersLocalStorage(newLevel);
+        GetMoveTrackersLocalStorage(newLevel);
+        GetPushTrackersLocalStorage(newLevel);
       } else {
         null;
       }

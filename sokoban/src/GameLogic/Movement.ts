@@ -1,4 +1,8 @@
 import { ObjectType, validKeyboardKeys } from './Logics';
+import {
+  SetMoveTrackersLocalStorage,
+  SetPushTrackersLocalStorage,
+} from './TrackersLocalStorage';
 
 export const MoveLogic = (
   levelValue: any,
@@ -43,11 +47,11 @@ export const MoveLogic = (
 
   //save player move and push into localStorage
   if (direction(1).isFree || (portableObject && direction(2).isFree)) {
-    saveMoveCountInLocalStorage(levelValue);
+    SetMoveTrackersLocalStorage(levelValue);
   }
 
   if (portableObject && direction(2).isFree) {
-    savePushCountInLocalStorage(levelValue);
+    SetPushTrackersLocalStorage(levelValue);
   }
 
   //count and save player movement: all movement on all level - do we want it?
@@ -74,41 +78,3 @@ export const MoveLogic = (
 
   return world;
 };
-
-function saveMoveCountInLocalStorage(levelValue: number) {
-  const moveStorageName = 'Movestorage' + levelValue;
-  let moveStorage = localStorage.getItem(moveStorageName);
-  if (!moveStorage || moveStorage == null) {
-    const tracker = {
-      level: levelValue,
-      move: 1,
-    };
-    localStorage.setItem(moveStorageName, JSON.stringify(tracker));
-  } else {
-    var oldTracker = JSON.parse(moveStorage);
-    let newTracker = {
-      level: levelValue,
-      move: oldTracker.move + 1,
-    };
-    localStorage.setItem(moveStorageName, JSON.stringify(newTracker));
-  }
-}
-
-function savePushCountInLocalStorage(levelValue: number) {
-  const pushStorageName = 'Pushstorage' + levelValue;
-  let pushStorage = localStorage.getItem(pushStorageName);
-  if (!pushStorage || pushStorage == null) {
-    const tracker = {
-      level: levelValue,
-      push: 1,
-    };
-    localStorage.setItem(pushStorageName, JSON.stringify(tracker));
-  } else {
-    var oldTracker = JSON.parse(pushStorage);
-    let newTracker = {
-      level: levelValue,
-      push: oldTracker.push + 1,
-    };
-    localStorage.setItem(pushStorageName, JSON.stringify(newTracker));
-  }
-}
