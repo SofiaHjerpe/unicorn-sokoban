@@ -5,8 +5,8 @@ import InstructionButton from './components/Instruction';
 import './game.css';
 import Timer from './components/Timer';
 
-import { GameLogic } from "./GameLogic/GameBoard";
-import { MoveLogic } from "./GameLogic/Movement";
+import { GameLogic } from './GameLogic/GameBoard';
+import { MoveLogic } from './GameLogic/Movement';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -18,8 +18,6 @@ const backgoundImage: Record<string, string> = {
   '': path('floor'),
   t: path('target'),
 };
-
-
 
 function App() {
   const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
@@ -71,28 +69,29 @@ function App() {
     setNumberOfCorrectBoxes(correctBoxes);
   }, [newGameBoard]);
 
-  const worldData = GameLogic([...newGameBoard.map((newRow) => [...newRow])]);
-  const worldGameBoard = [...newGameBoard.map((row) => [...row])];
+  const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
+  const worldGameBoard = [...newGameBoard.map(row => [...row])];
 
   const handleMovement = (e: any) => {
-    console.table(worldData.cells);
+    /*   console.table(worldData.cells); */
     MoveLogic(e, worldData, worldGameBoard);
     setNewGameBoard(worldGameBoard);
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", handleMovement);
+    document.addEventListener('keydown', handleMovement);
     return function cleanup() {
-      document.removeEventListener("keydown", handleMovement);
+      document.removeEventListener('keydown', handleMovement);
     };
   }, [newGameBoard]);
-
 
   const countTargets = () => {
     const copyOfBoard = [...newGameBoard.map(row => [...row])];
     //How many targets is it in current board?
 
-    const targets = copyOfBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
+    const targets = copyOfBoard.flatMap(cell =>
+      cell.filter((cell: string) => cell.includes('t')),
+    ).length;
     return targets;
   };
 
@@ -112,7 +111,11 @@ function App() {
   return (
     <>
       <InstructionButton />
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
+      <Form
+        changeLevel={changeLevel}
+        setLevel={setLevelValue}
+        levelValue={levelValue}
+      />
       <main className="gameBoard" style={style}>
         {newGameBoard.map(row =>
           row.map((cell: string, cellid: number) => {
