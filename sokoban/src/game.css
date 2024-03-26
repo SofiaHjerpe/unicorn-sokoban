@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body{
+  background-color: rgb(18, 41, 65);
+}
+
 #root {
   --white: #eee;
   --black: #000;
