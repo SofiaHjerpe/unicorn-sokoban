@@ -7,6 +7,8 @@ import Timer from './components/Timer';
 
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
+import { MoveTrackersLocalStorage } from './GameLogic/MoveTrackersLocalStorage';
+import { PushTrackersLocalStorage } from './GameLogic/PushTrackersLocalStorage';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -26,11 +28,21 @@ function App() {
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
 
+  //changing level: getting local storage for moveTracker
+  if (levelValue == 1) {
+    MoveTrackersLocalStorage(1);
+    PushTrackersLocalStorage(1);
+  }
+
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
       if (index + 1 === newLevel) {
         setNewGameBoard(plan);
         setCountBoardChange(countBoardChange => countBoardChange + 1);
+
+        //changing level: getting local storage for moveTracker
+        MoveTrackersLocalStorage(newLevel);
+        PushTrackersLocalStorage(newLevel);
       } else {
         null;
       }
@@ -74,7 +86,7 @@ function App() {
 
   const handleMovement = (e: any) => {
     /*   console.table(worldData.cells); */
-    MoveLogic(e, worldData, worldGameBoard);
+    MoveLogic(levelValue, e, worldData, worldGameBoard);
     setNewGameBoard(worldGameBoard);
   };
 
