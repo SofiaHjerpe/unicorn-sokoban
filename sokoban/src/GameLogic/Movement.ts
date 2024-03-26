@@ -41,7 +41,16 @@ export const MoveLogic = (
     });
   });
 
-  //count and save player movement: all movement on all level
+  //save player move and push into localStorage
+  if (direction(1).isFree || (portableObject && direction(2).isFree)) {
+    saveMoveCountInLocalStorage(levelValue);
+  }
+
+  if (portableObject && direction(2).isFree) {
+    savePushCountInLocalStorage(levelValue);
+  }
+
+  //count and save player movement: all movement on all level - do we want it?
   /*   let playerMovementCountFromStorage: any = Number(
     localStorage.getItem('playerMovementStorage'),
   );
@@ -52,45 +61,7 @@ export const MoveLogic = (
     );
   } */
 
-  if (direction(1).isFree || (portableObject && direction(2).isFree)) {
-    const moveStorageName = 'Movestorage' + levelValue;
-    let moveStorage = localStorage.getItem(moveStorageName);
-    if (!moveStorage || moveStorage == null) {
-      const tracker = {
-        level: levelValue,
-        move: 1,
-      };
-      localStorage.setItem(moveStorageName, JSON.stringify(tracker));
-    } else {
-      var oldTracker = JSON.parse(moveStorage);
-      let newTracker = {
-        level: levelValue,
-        move: oldTracker.move + 1,
-      };
-      localStorage.setItem(moveStorageName, JSON.stringify(newTracker));
-    }
-  }
-
-  if (portableObject && direction(2).isFree) {
-    const pushStorageName = 'Pushstorage' + levelValue;
-    let pushStorage = localStorage.getItem(pushStorageName);
-    if (!pushStorage || pushStorage == null) {
-      const tracker = {
-        level: levelValue,
-        push: 1,
-      };
-      localStorage.setItem(pushStorageName, JSON.stringify(tracker));
-    } else {
-      var oldTracker = JSON.parse(pushStorage);
-      let newTracker = {
-        level: levelValue,
-        push: oldTracker.push + 1,
-      };
-      localStorage.setItem(pushStorageName, JSON.stringify(newTracker));
-    }
-  }
-
-  //count and save push movement on all level
+  //count and save push movement on all level - do we want it?
   /*   let playerPushMovementCountFromStorage: any = Number(
     localStorage.getItem('playerPushMovementStorage'),
   );
@@ -103,3 +74,41 @@ export const MoveLogic = (
 
   return world;
 };
+
+function saveMoveCountInLocalStorage(levelValue: number) {
+  const moveStorageName = 'Movestorage' + levelValue;
+  let moveStorage = localStorage.getItem(moveStorageName);
+  if (!moveStorage || moveStorage == null) {
+    const tracker = {
+      level: levelValue,
+      move: 1,
+    };
+    localStorage.setItem(moveStorageName, JSON.stringify(tracker));
+  } else {
+    var oldTracker = JSON.parse(moveStorage);
+    let newTracker = {
+      level: levelValue,
+      move: oldTracker.move + 1,
+    };
+    localStorage.setItem(moveStorageName, JSON.stringify(newTracker));
+  }
+}
+
+function savePushCountInLocalStorage(levelValue: number) {
+  const pushStorageName = 'Pushstorage' + levelValue;
+  let pushStorage = localStorage.getItem(pushStorageName);
+  if (!pushStorage || pushStorage == null) {
+    const tracker = {
+      level: levelValue,
+      push: 1,
+    };
+    localStorage.setItem(pushStorageName, JSON.stringify(tracker));
+  } else {
+    var oldTracker = JSON.parse(pushStorage);
+    let newTracker = {
+      level: levelValue,
+      push: oldTracker.push + 1,
+    };
+    localStorage.setItem(pushStorageName, JSON.stringify(newTracker));
+  }
+}
