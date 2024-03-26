@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-body{
+body {
   background-color: rgb(18, 41, 65);
 }
 
@@ -31,9 +31,9 @@ body{
 }
 
 .cellDiv {
-  background-position: "center";
+  background-position: 'center';
   aspect-ratio: 1;
-  background-repeat: "no-repeat";
+  background-repeat: 'no-repeat';
   background-size: cover;
   background-position: center;
   color: white;
@@ -74,6 +74,10 @@ body{
 #timerDiv {
   width: fit-content;
   padding: 0.7rem 1rem 0.7rem 1rem;
-  border: 1px solid var(--black);
+  border: 1px solid var(--white);
   margin: 1rem 0 0 190px;
+}
+
+#timerText {
+  color: var(--white);
 }
