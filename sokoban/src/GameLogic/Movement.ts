@@ -2,6 +2,7 @@
 import { ObjectType, validKeyboardKeys } from "./Logics";
 
 export const MoveLogic = (e: any, go: any, world: any, d = validKeyboardKeys[e.keyCode]) => {
+  if (d === undefined) return; 
   const self = go.cells.find((cell: any) => cell.object.includes(ObjectType.isCharacter));
   const player = [...self.object].find((item) => ObjectType.isCharacter.includes(item));
 

@@ -56,12 +56,13 @@ body{
   filter: hue-rotate(45deg);
   border: 2px solid black;
 }
-
+main{
+  position: relative;
+}
 .winning-message {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 5px;
@@ -76,4 +77,22 @@ body{
   padding: 0.7rem 1rem 0.7rem 1rem;
   border: 1px solid var(--black);
   margin: 1rem 0 0 190px;
+}
+
+#gameStatus{
+  /* put the text in center of the main */
+  position: absolute;
+  bottom: 40%;
+  text-align: center;
+  width:90%;
+
+  z-index: 1;
+
+
+  margin: 1em;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--white);
+  background-color: var(--black);
+  padding:0.5em;
 }
