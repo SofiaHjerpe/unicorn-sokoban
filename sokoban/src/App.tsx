@@ -30,14 +30,13 @@ function App() {
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
 
-  //changing level: getting local storage for moveTracker
-  if (levelValue == 1) {
-    GetMoveTrackersLocalStorage(1);
-    GetPushTrackersLocalStorage(1);
-  }
-
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
+      if (newLevel == 1) {
+        //changing level: getting local storage for moveTracker
+        GetMoveTrackersLocalStorage(1);
+        GetPushTrackersLocalStorage(1);
+      }
       if (index + 1 === newLevel) {
         setNewGameBoard(plan);
         setCountBoardChange(countBoardChange => countBoardChange + 1);

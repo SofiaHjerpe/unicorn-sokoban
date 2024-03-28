@@ -1,31 +1,26 @@
 export const GetMoveTrackersLocalStorage = (level: number) => {
   const moveStorageName = 'Movestorage' + level;
-  let moveStorage = localStorage.getItem(moveStorageName);
-  if (!moveStorage || moveStorage == null) {
-    const tracker = {
-      level: level,
-      move: 0,
-    };
-    localStorage.setItem(moveStorageName, JSON.stringify(tracker));
-  }
+  const tracker = {
+    level: level,
+    move: 0,
+  };
+  localStorage.setItem(moveStorageName, JSON.stringify(tracker));
 };
 
 export const GetPushTrackersLocalStorage = (level: number) => {
   const pushStorageName = 'Pushstorage' + level;
-  let pushStorage = localStorage.getItem(pushStorageName);
-  if (!pushStorage || pushStorage == null) {
-    const tracker = {
-      level: level,
-      push: 0,
-    };
-    localStorage.setItem(pushStorageName, JSON.stringify(tracker));
-  }
+  const tracker = {
+    level: level,
+    push: 0,
+  };
+  localStorage.setItem(pushStorageName, JSON.stringify(tracker));
 };
 
 export const SetMoveTrackersLocalStorage = (levelValue: number) => {
   const moveStorageName = 'Movestorage' + levelValue;
   let moveStorage = localStorage.getItem(moveStorageName);
   if (!moveStorage || moveStorage == null) {
+    GetMoveTrackersLocalStorage(levelValue);
     const tracker = {
       level: levelValue,
       move: 1,

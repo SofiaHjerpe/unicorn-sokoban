@@ -46,7 +46,7 @@ export const MoveLogic = (
   });
 
   //save player move and push into localStorage
-  if (direction(1).isFree || (portableObject && direction(2).isFree)) {
+  if (direction(1).isFree || (portableObject && direction(2).isFree)) {  
     SetMoveTrackersLocalStorage(levelValue);
   }
 
