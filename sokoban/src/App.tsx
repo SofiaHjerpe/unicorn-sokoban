@@ -5,8 +5,9 @@ import InstructionButton from './components/Instruction';
 import './game.css';
 import Timer from './components/Timer';
 
-import { GameLogic } from "./GameLogic/GameBoard";
-import { MoveLogic } from "./GameLogic/Movement";
+import { GameLogic } from './GameLogic/GameBoard';
+import { MoveLogic } from './GameLogic/Movement';
+import { GameStatus } from './GameLogic/GameStatus';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -18,8 +19,6 @@ const backgoundImage: Record<string, string> = {
   '': path('floor'),
   t: path('target'),
 };
-
-
 
 function App() {
   const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
@@ -71,28 +70,29 @@ function App() {
     setNumberOfCorrectBoxes(correctBoxes);
   }, [newGameBoard]);
 
-  const worldData = GameLogic([...newGameBoard.map((newRow) => [...newRow])]);
-  const worldGameBoard = [...newGameBoard.map((row) => [...row])];
+  const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
+  const worldGameBoard = [...newGameBoard.map(row => [...row])];
 
+  const GS = GameStatus(worldData.cells);
+
+  console.table(GS);
   const handleMovement = (e: any) => {
-    console.table(worldData.cells);
     MoveLogic(e, worldData, worldGameBoard);
     setNewGameBoard(worldGameBoard);
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", handleMovement);
+    document.addEventListener('keydown', handleMovement);
     return function cleanup() {
-      document.removeEventListener("keydown", handleMovement);
+      document.removeEventListener('keydown', handleMovement);
     };
   }, [newGameBoard]);
-
 
   const countTargets = () => {
     const copyOfBoard = [...newGameBoard.map(row => [...row])];
     //How many targets is it in current board?
 
-    const targets = copyOfBoard.flatMap((cell) => cell.filter((cell: string) => cell.includes("t"))).length;
+    const targets = copyOfBoard.flatMap(cell => cell.filter((cell: string) => cell.includes('t'))).length;
     return targets;
   };
 
@@ -133,10 +133,11 @@ function App() {
             );
           }),
         )}
+        {GS.returnLoserMessage()} // check if player is stuck
       </main>
 
       <p className="winning-message">{winningMessage}</p>
-      <p id="gameStatus"></p>
+
       <Timer countBoardChange={countBoardChange} />
     </>
   );
