@@ -1,0 +1,54 @@
+@import '../../game.css';
+
+.container {
+  position: relative;
+  padding-bottom: 40%;
+  width: 40%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+.center-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.above-center-image {
+  position: absolute;
+  top: 5px;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.left-images {
+  position: absolute;
+  left: -65px;
+  top: 50%;
+  transform: translateY(-30%);
+  display: flex;
+  flex-direction: column;
+}
+
+.right-images {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.start-button {
+  width: 25%;
+}
+
+.select-button {
+  width: 25%;
+}

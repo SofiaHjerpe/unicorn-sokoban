@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { GamePlans } from './Globals';
 import { Form } from './components/Form';
 import InstructionButton from './components/Instruction';
-import './game.css';
 import Timer from './components/Timer';
-
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
 import { GameStatus } from './GameLogic/GameStatus';
+import IntroPage from './components/IntroPage/IntroPage';
+import './game.css';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -113,6 +113,7 @@ function App() {
     <>
       <InstructionButton />
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
+      <IntroPage />
       <main className="gameBoard" style={style}>
         {newGameBoard.map(row =>
           row.map((cell: string, cellid: number) => {
