@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 
 const Timer = ({ countBoardChange }: any) => {
   const [milliseconds, setMilliSeconds] = useState(0);
-  const [current, setCurrent] = useState(0);
   let ranOnce = true;
-  let currentdate = new Date().getMilliseconds;
 
   useEffect(() => {
     //reset to zero after level change:
@@ -51,10 +49,8 @@ const Timer = ({ countBoardChange }: any) => {
   let hourToFormat = getTime(countedHour);
 
   //formatting:
-  let formattedSeconds =
-    secondToFormat < 10 ? '0' + secondToFormat : secondToFormat;
-  let formattedMinutes =
-    minuteToFormat < 10 ? '0' + minuteToFormat : minuteToFormat;
+  let formattedSeconds = secondToFormat < 10 ? '0' + secondToFormat : secondToFormat;
+  let formattedMinutes = minuteToFormat < 10 ? '0' + minuteToFormat : minuteToFormat;
   let formattedHours = hourToFormat < 10 ? '0' + hourToFormat : hourToFormat;
 
   return (
