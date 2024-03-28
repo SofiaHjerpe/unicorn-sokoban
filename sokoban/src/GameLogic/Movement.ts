@@ -46,35 +46,12 @@ export const MoveLogic = (
   });
 
   //save player move and push into localStorage
-  if (direction(1).isFree || (portableObject && direction(2).isFree)) {  
+  if (direction(1).isFree || (portableObject && direction(2).isFree)) {
     SetMoveTrackersLocalStorage(levelValue);
   }
-
   if (portableObject && direction(2).isFree) {
     SetPushTrackersLocalStorage(levelValue);
   }
-
-  //count and save player movement: all movement on all level - do we want it?
-  /*   let playerMovementCountFromStorage: any = Number(
-    localStorage.getItem('playerMovementStorage'),
-  );
-  if (direction(1).isFree || (portableObject && direction(2).isFree)) {
-    localStorage.setItem(
-      'playerMovementStorage',
-      playerMovementCountFromStorage + 1,
-    );
-  } */
-
-  //count and save push movement on all level - do we want it?
-  /*   let playerPushMovementCountFromStorage: any = Number(
-    localStorage.getItem('playerPushMovementStorage'),
-  );
-  if (portableObject && direction(2).isFree) {
-    localStorage.setItem(
-      'playerPushMovementStorage',
-      playerPushMovementCountFromStorage + 1,
-    );
-  } */
 
   return world;
 };
