@@ -1,14 +1,15 @@
 export const ObjectType: Record<string, string[]> = {
-  isStatic: ["w"],
-  isPortable: ["b"],
-  isFree: ["", "t"],
-  isCharacter: ["p"],
+  isStatic: ['w'], // Objects that are solid and can't be moved
+  isPortable: ['b'], // Objects that can be moved
+  isFree: ['', 't'], // Objects that are free to move to
+  isCharacter: ['p'], // The player
+  isTarget: ['g', 't'],
 };
 
-export const up = "up";
-export const down = "down";
-export const left = "left";
-export const right = "right";
+export const up = 'up';
+export const down = 'down';
+export const left = 'left';
+export const right = 'right';
 
 export const validKeyboardKeys: any = {
   38: { x: 0, y: -1 }, // Arrow keys UP
