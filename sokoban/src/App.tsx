@@ -7,6 +7,7 @@ import Timer from './components/Timer';
 
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
+import { GetMoveTrackersLocalStorage, GetPushTrackersLocalStorage } from './GameLogic/TrackersLocalStorage';
 import { GameStatus } from './GameLogic/GameStatus';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
@@ -29,13 +30,23 @@ function App() {
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
+      if (newLevel == 1) {
+        //changing level: getting local storage for moveTracker
+        GetMoveTrackersLocalStorage(1);
+        GetPushTrackersLocalStorage(1);
+      }
       if (index + 1 === newLevel) {
         setNewGameBoard(plan);
         setCountBoardChange(countBoardChange => countBoardChange + 1);
+
+        //changing level: getting local storage for moveTracker
+        GetMoveTrackersLocalStorage(newLevel);
+        GetPushTrackersLocalStorage(newLevel);
       } else {
         null;
       }
-      document.getElementById('gameStatus')!.innerText = '';
+      const status = document.getElementById('gameStatus');
+      if (status !== null) status.innerText = '';
       setLevelValue(newLevel);
     });
   };
@@ -77,7 +88,7 @@ function App() {
 
   console.table(GS);
   const handleMovement = (e: any) => {
-    MoveLogic(e, worldData, worldGameBoard);
+    MoveLogic(levelValue, e, worldData, worldGameBoard);
     setNewGameBoard(worldGameBoard);
   };
 
@@ -105,7 +116,7 @@ function App() {
       return 'cellDiv';
     }
   };
-
+  console.log(levelValue);
   const style = {
     height: (500 / newGameBoard[0].length) * newGameBoard.length,
   };
