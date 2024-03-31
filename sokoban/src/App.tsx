@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { GamePlans } from './Globals';
 import { Form } from './components/Form';
 import InstructionButton from './components/Instruction';
@@ -8,16 +8,15 @@ import Timer from './components/Timer';
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
 import { GameStatus } from './GameLogic/GameStatus';
+import { getClientSize, getWallBorders } from './GameLogic/Render';
+import { ObjectType } from './GameLogic/Logics';
 
-const path = (img: string) => `src/assets/images/${img}.jpg`;
+const path = (img: string) => `src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
-  w: path('wall'),
-  b: path('box'),
-  tb: path('box'),
-  p: path('player'),
-  tp: path('player'),
-  '': path('floor'),
-  t: path('target'),
+  w: path('wall.webp'),
+  b: path('box.jpg'),
+  tb: path('box.jpg'),
+  t: path('target.png'),
 };
 
 function App() {
@@ -26,6 +25,7 @@ function App() {
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
+  
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
@@ -35,7 +35,7 @@ function App() {
       } else {
         null;
       }
-      document.getElementById('gameStatus')!.innerText = '';
+      GS.isGameUnsolveable;
       setLevelValue(newLevel);
     });
   };
@@ -72,21 +72,24 @@ function App() {
 
   const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
   const worldGameBoard = [...newGameBoard.map(row => [...row])];
-
   const GS = GameStatus(worldData.cells);
+  const [direction, setDirection] = useState(-1);
 
-  console.table(GS);
-  const handleMovement = (e: any) => {
-    MoveLogic(e, worldData, worldGameBoard);
-    setNewGameBoard(worldGameBoard);
-  };
+const handleMovement = (e: any) => {
+  const m = MoveLogic(e, worldData, worldGameBoard);
+  const newDirection = m?.d.x != 0 ? m?.d.x : direction;
+  console.log(newDirection);
+  setDirection(newDirection);
+  setNewGameBoard(m?.world);
+  
+};
 
   useEffect(() => {
     document.addEventListener('keydown', handleMovement);
     return function cleanup() {
       document.removeEventListener('keydown', handleMovement);
     };
-  }, [newGameBoard]);
+  }, [worldData, worldGameBoard]);
 
   const countTargets = () => {
     const copyOfBoard = [...newGameBoard.map(row => [...row])];
@@ -106,34 +109,37 @@ function App() {
     }
   };
 
-  const style = {
-    height: (500 / newGameBoard[0].length) * newGameBoard.length,
-  };
+  const style = getClientSize(window.innerWidth * 0.8, window.innerHeight * 0.8, newGameBoard);
+
   return (
     <>
       <InstructionButton />
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
       <main className="gameBoard" style={style}>
-        {newGameBoard.map(row =>
-          row.map((cell: string, cellid: number) => {
+        {newGameBoard.map((row, _y) =>
+          row.map((cell: string, _x: number) => {
             const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
             return (
               <div
-                key={cellid}
+                key={_x}
                 style={{
                   display: 'inline-block',
                 }}>
                 <div
                   className={nameOfClass}
                   style={{
-                    width: 500 / newGameBoard[0].length,
                     backgroundImage: `url(${backgoundImage[cell]})`,
-                  }}></div>
+                    ...getWallBorders(_y, _x, worldData, newGameBoard),
+                  }}>
+                  {ObjectType.isCharacter.some(value => cell.includes(value)) && (
+                    <img src={path(worldData.yx((_y),_x+direction).isPortable ? 'miner2.gif' : 'miner.gif')} id="player" style={{ transform: `scaleX(${direction})` }} />
+                  )}
+                </div>
               </div>
             );
           }),
         )}
-        {GS.returnLoserMessage()} // check if player is stuck
+        {GS.returnLoserMessage()}
       </main>
 
       <p className="winning-message">{winningMessage}</p>
