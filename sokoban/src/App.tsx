@@ -9,6 +9,7 @@ import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
 import { GetMoveTrackersLocalStorage, GetPushTrackersLocalStorage } from './GameLogic/TrackersLocalStorage';
 import { GameStatus } from './GameLogic/GameStatus';
+import Statistics from './components/Statistics';
 
 const path = (img: string) => `src/assets/images/${img}.jpg`;
 const backgoundImage: Record<string, string> = {
@@ -120,36 +121,38 @@ function App() {
   const style = {
     height: (500 / newGameBoard[0].length) * newGameBoard.length,
   };
+
   return (
     <>
       <InstructionButton />
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
-      <main className="gameBoard" style={style}>
-        {newGameBoard.map(row =>
-          row.map((cell: string, cellid: number) => {
-            const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
-            return (
-              <div
-                key={cellid}
-                style={{
-                  display: 'inline-block',
-                }}>
+      <section id="gameBoradWithStatistics">
+        <main className="gameBoard" style={style}>
+          {newGameBoard.map(row =>
+            row.map((cell: string, cellid: number) => {
+              const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
+              return (
                 <div
-                  className={nameOfClass}
+                  key={cellid}
                   style={{
-                    width: 500 / newGameBoard[0].length,
-                    backgroundImage: `url(${backgoundImage[cell]})`,
-                  }}></div>
-              </div>
-            );
-          }),
-        )}
-        {GS.returnLoserMessage()} // check if player is stuck
-      </main>
-
+                    display: 'inline-block',
+                  }}>
+                  <div
+                    className={nameOfClass}
+                    style={{
+                      width: 500 / newGameBoard[0].length,
+                      backgroundImage: `url(${backgoundImage[cell]})`,
+                    }}></div>
+                </div>
+              );
+            }),
+          )}
+        </main>
+        <Statistics countBoardChange={countBoardChange} levelValue={levelValue} />
+      </section>
+      {GS.returnLoserMessage()}
       <p className="winning-message">{winningMessage}</p>
-
-      <Timer countBoardChange={countBoardChange} />
+      {/* <p id="gameStatus"></p> */}
     </>
   );
 }
