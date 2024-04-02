@@ -25,7 +25,6 @@ function App() {
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
-  
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
@@ -75,14 +74,15 @@ function App() {
   const GS = GameStatus(worldData.cells);
   const [direction, setDirection] = useState(-1);
 
-const handleMovement = (e: any) => {
-  const m = MoveLogic(e, worldData, worldGameBoard);
-  const newDirection = m?.d.x != 0 ? m?.d.x : direction;
-  console.log(newDirection);
-  setDirection(newDirection);
-  setNewGameBoard(m?.world);
-  
-};
+  console.table(GS);
+
+  const handleMovement = (e: any) => {
+    const m = MoveLogic(e, worldData, worldGameBoard);
+    const newDirection = m?.d.x != 0 ? m?.d.x : direction;
+
+    setDirection(newDirection);
+    setNewGameBoard(m?.world);
+  };
 
   useEffect(() => {
     document.addEventListener('keydown', handleMovement);
@@ -132,7 +132,11 @@ const handleMovement = (e: any) => {
                     ...getWallBorders(_y, _x, worldData, newGameBoard),
                   }}>
                   {ObjectType.isCharacter.some(value => cell.includes(value)) && (
-                    <img src={path(worldData.yx((_y),_x+direction).isPortable ? 'miner2.gif' : 'miner.gif')} id="player" style={{ transform: `scaleX(${direction})` }} />
+                    <img
+                      src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
+                      id="player"
+                      style={{ transform: `scaleX(${direction})` }}
+                    />
                   )}
                 </div>
               </div>
