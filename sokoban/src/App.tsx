@@ -7,9 +7,11 @@ import Timer from './components/Timer';
 
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
+import { GetMoveTrackersLocalStorage, GetPushTrackersLocalStorage } from './GameLogic/TrackersLocalStorage';
 import { GameStatus } from './GameLogic/GameStatus';
 import { getClientSize, getWallBorders } from './GameLogic/Render';
 import { ObjectType } from './GameLogic/Logics';
+import Statistics from './components/Statistics';
 
 const path = (img: string) => `src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
@@ -28,9 +30,18 @@ function App() {
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
+      if (newLevel == 1) {
+        //changing level: getting local storage for moveTracker
+        GetMoveTrackersLocalStorage(1);
+        GetPushTrackersLocalStorage(1);
+      }
       if (index + 1 === newLevel) {
         setNewGameBoard(plan);
         setCountBoardChange(countBoardChange => countBoardChange + 1);
+
+        //changing level: getting local storage for moveTracker
+        GetMoveTrackersLocalStorage(newLevel);
+        GetPushTrackersLocalStorage(newLevel);
       } else {
         null;
       }
@@ -77,7 +88,7 @@ function App() {
   console.table(GS);
 
   const handleMovement = (e: any) => {
-    const m = MoveLogic(e, worldData, worldGameBoard);
+    const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
     const newDirection = m?.d.x != 0 ? m?.d.x : direction;
 
     setDirection(newDirection);
@@ -115,40 +126,42 @@ function App() {
     <>
       <InstructionButton />
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
-      <main className="gameBoard" style={style}>
-        {newGameBoard.map((row, _y) =>
-          row.map((cell: string, _x: number) => {
-            const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
-            return (
-              <div
-                key={_x}
-                style={{
-                  display: 'inline-block',
-                }}>
+      <section id="gameBoradWithStatistics">
+        <main className="gameBoard" style={style}>
+          {newGameBoard.map((row, _y) =>
+            row.map((cell: string, _x: number) => {
+              const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
+              return (
                 <div
-                  className={nameOfClass}
+                  key={_x}
                   style={{
-                    backgroundImage: `url(${backgoundImage[cell]})`,
-                    ...getWallBorders(_y, _x, worldData, newGameBoard),
+                    display: 'inline-block',
                   }}>
-                  {ObjectType.isCharacter.some(value => cell.includes(value)) && (
-                    <img
-                      src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
-                      id="player"
-                      style={{ transform: `scaleX(${direction})` }}
-                    />
-                  )}
+                  <div
+                    className={nameOfClass}
+                    style={{
+                      backgroundImage: `url(${backgoundImage[cell]})`,
+                      ...getWallBorders(_y, _x, worldData, newGameBoard),
+                    }}>
+                    {ObjectType.isCharacter.some(value => cell.includes(value)) && (
+                      <img
+                        src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
+                        id="player"
+                        style={{ transform: `scaleX(${direction})` }}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          }),
-        )}
-        {GS.returnLoserMessage()}
-      </main>
+              );
+            }),
+          )}
+          {GS.returnLoserMessage()}
+        </main>
+        <Statistics countBoardChange={countBoardChange} levelValue={levelValue} />
+      </section>
 
       <p className="winning-message">{winningMessage}</p>
-
-      <Timer countBoardChange={countBoardChange} />
+      {/* <p id="gameStatus"></p> */}
     </>
   );
 }

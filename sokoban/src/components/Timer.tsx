@@ -1,49 +1,64 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const Timer = ({ countBoardChange }: any) => {
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [milliseconds, setMilliSeconds] = useState(0);
   let ranOnce = true;
 
   useEffect(() => {
     //reset to zero after level change:
-    setSeconds(0);
-    setMinutes(0);
-    setHours(0);
-    //set seconds:
+    setMilliSeconds(0);
+
+    //set millisecond: 1000/16
     let interval: any = null;
     if (ranOnce) {
       interval = setInterval(() => {
-        setSeconds((seconds) => seconds + 1);
-      }, 1000);
-    } else if (!ranOnce && seconds !== 0) {
+        setMilliSeconds(milliseconds => milliseconds + 1);
+      }, 1000 / 58.826);
+    } else if (!ranOnce && milliseconds !== 0) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
   }, [countBoardChange]);
 
-  //reset after 24 or 60
-  if (hours == 24) {
-    setHours(0);
+  let resetMillisecond = milliseconds;
+  if (milliseconds == 60) {
+    resetMillisecond = 0;
   }
-  if (minutes == 60) {
-    setMinutes(0);
-    setHours((minutes) => minutes + 1);
-  }
-  if (seconds == 60) {
-    setSeconds(0);
-    setMinutes((minutes) => minutes + 1);
+  if (milliseconds > 60) {
+    resetMillisecond = milliseconds % 60;
   }
 
-  let formattedHours = hours < 10 ? "0" + hours : hours;
-  let formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-  let formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+  //get second, minute, hour from millisecond
+  let countedSecond = Math.floor(milliseconds / 60);
+  let countedMinute = Math.floor(milliseconds / 60 / 60);
+  let countedHour = Math.floor(milliseconds / 60 / 60 / 60);
+
+  function getTime(countedTime: number) {
+    let resetTime = countedTime;
+    if (countedTime == 60) {
+      resetTime = 0;
+    }
+    if (countedTime > 60) {
+      resetTime = resetTime % 60;
+    }
+    return resetTime;
+  }
+
+  let secondToFormat = getTime(countedSecond);
+  let minuteToFormat = getTime(countedMinute);
+  let hourToFormat = getTime(countedHour);
+
+  //formatting:
+  let formattedSeconds = secondToFormat < 10 ? '0' + secondToFormat : secondToFormat;
+  let formattedMinutes = minuteToFormat < 10 ? '0' + minuteToFormat : minuteToFormat;
+  let formattedHours = hourToFormat < 10 ? '0' + hourToFormat : hourToFormat;
 
   return (
     <div id="timerDiv">
       <p id="timerText">
-        {formattedHours}:{formattedMinutes}:{formattedSeconds}
+        {hourToFormat > 0 ? formattedHours + ':' : ''}
+        {minuteToFormat > 0 ? formattedMinutes + ':' : ''}
+        {formattedSeconds}
       </p>
     </div>
   );
