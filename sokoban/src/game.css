@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-body {
+body  {
   background-color: rgb(18, 41, 65);
 }
 
@@ -34,6 +34,7 @@ body {
 
 .cellDiv {
   background-position: 'center';
+  background-position: 'center';
   aspect-ratio: 1;
   background-repeat: 'no-repeat';
   background-size: cover;
@@ -58,12 +59,13 @@ body {
   filter: hue-rotate(45deg);
   border: 2px solid black;
 }
-
+main{
+  position: relative;
+}
 .winning-message {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 5px;
@@ -101,4 +103,30 @@ body {
 
 #gameBoradWithStatistics {
   display: flex;
+}
+
+#timerText {
+  color: var(--white);
+}
+
+#timerText {
+  color: var(--white);
+}
+
+#gameStatus{
+  /* put the text in center of the main */
+  position: absolute;
+  bottom: 40%;
+  text-align: center;
+  width:90%;
+
+  z-index: 1;
+
+
+  margin: 1em;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--white);
+  background-color: var(--black);
+  padding:0.5em;
 }
