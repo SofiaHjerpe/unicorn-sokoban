@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
 import "./Instruction.css";
 import boxImage from "../assets/images/box.jpg";
 import playerImage from "../assets/images/player.jpg";
@@ -57,6 +58,7 @@ const InstructionModal: React.FC<ModalProps> = ({ onClose }) => {
         </p>
         <button onClick={onClose}>Close</button>
       </div>
+      <Outlet />
     </div>
   );
 };

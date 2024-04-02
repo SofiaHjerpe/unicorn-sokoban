@@ -1,6 +1,10 @@
 @import '../../game.css';
 
 .container {
+  height: 100vh;
+}
+
+.intro-wrapper {
   position: relative;
   padding-bottom: 40%;
   width: 40%;
