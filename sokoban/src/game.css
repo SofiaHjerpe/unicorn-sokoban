@@ -18,6 +18,8 @@ body {
   --boxes: brown;
   --player: green;
   --way: burlywood;
+  --wayLighter: #edcba3;
+  --wayDarker: #9d5039;
 }
 
 .gameBoard {
@@ -32,6 +34,7 @@ body {
 }
 
 .cellDiv {
+  background-position: 'center';
   background-position: 'center';
   aspect-ratio: 1;
   background-repeat: 'no-repeat';
@@ -73,11 +76,42 @@ main {
   background: none;
 }
 
+#statisticsDiv {
+  display: flex;
+  flex-direction: column;
+  color: var(--wayDarker);
+  background-color: var(--wayLighter);
+  width: fit-content;
+  height: fit-content;
+  padding: 0.7rem 1rem 0.7rem 1rem;
+  border: 1px solid var(--wayDarker);
+  border-radius: 5px;
+  align-self: center;
+  align-items: center;
+}
+
+.statisticData {
+  margin-bottom: 0.2rem;
+}
+
 #timerDiv {
   width: fit-content;
   padding: 0.7rem 1rem 0.7rem 1rem;
-  border: 1px solid var(--black);
-  margin: 1rem 0 0 190px;
+  margin-top: 1rem;
+  border: 1px solid var(--wayDarker);
+  border-radius: 5px;
+}
+
+#gameBoradWithStatistics {
+  display: flex;
+}
+
+#timerText {
+  color: var(--white);
+}
+
+#timerText {
+  color: var(--white);
 }
 
 #gameStatus {

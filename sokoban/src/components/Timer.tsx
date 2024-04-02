@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const Timer = ({ countBoardChange }: any) => {
   const [milliseconds, setMilliSeconds] = useState(0);
@@ -8,12 +8,12 @@ const Timer = ({ countBoardChange }: any) => {
     //reset to zero after level change:
     setMilliSeconds(0);
 
-    //set millisecond: 15
+    //set millisecond: 1000/16
     let interval: any = null;
     if (ranOnce) {
       interval = setInterval(() => {
-        setMilliSeconds((milliseconds) => milliseconds + 1);
-      }, 16);
+        setMilliSeconds(milliseconds => milliseconds + 1);
+      }, 1000 / 58.826);
     } else if (!ranOnce && milliseconds !== 0) {
       clearInterval(interval);
     }
@@ -49,15 +49,15 @@ const Timer = ({ countBoardChange }: any) => {
   let hourToFormat = getTime(countedHour);
 
   //formatting:
-  let formattedSeconds = secondToFormat < 10 ? "0" + secondToFormat : secondToFormat;
-  let formattedMinutes = minuteToFormat < 10 ? "0" + minuteToFormat : minuteToFormat;
-  let formattedHours = hourToFormat < 10 ? "0" + hourToFormat : hourToFormat;
+  let formattedSeconds = secondToFormat < 10 ? '0' + secondToFormat : secondToFormat;
+  let formattedMinutes = minuteToFormat < 10 ? '0' + minuteToFormat : minuteToFormat;
+  let formattedHours = hourToFormat < 10 ? '0' + hourToFormat : hourToFormat;
 
   return (
     <div id="timerDiv">
       <p id="timerText">
-        {hourToFormat > 0 ? formattedHours + ":" : ""}
-        {minuteToFormat > 0 ? formattedMinutes + ":" : ""}
+        {hourToFormat > 0 ? formattedHours + ':' : ''}
+        {minuteToFormat > 0 ? formattedMinutes + ':' : ''}
         {formattedSeconds}
       </p>
     </div>
