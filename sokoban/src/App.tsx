@@ -3,7 +3,6 @@ import { GamePlans } from './Globals';
 import { Form } from './components/Form';
 import InstructionButton from './components/Instruction';
 import './game.css';
-import Timer from './components/Timer';
 
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
@@ -61,6 +60,8 @@ function App() {
       setTimeout(() => {
         setWinningMessage('');
       }, 6000);
+      const audioElement = new Audio('/src/assets/win.wav');
+      audioElement.play();
       setWinningMessage('Congratulations! You won!');
     } else {
       setWinningMessage('');
