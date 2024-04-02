@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-body  {
+body {
+  font-family: 'Honk', 'Rowdies', sans-serif;
   background-color: rgb(18, 41, 65);
 }
 
@@ -59,7 +60,7 @@ body  {
   filter: hue-rotate(45deg);
   border: 2px solid black;
 }
-main{
+main {
   position: relative;
 }
 .winning-message {
@@ -113,20 +114,19 @@ main{
   color: var(--white);
 }
 
-#gameStatus{
+#gameStatus {
   /* put the text in center of the main */
   position: absolute;
   bottom: 40%;
   text-align: center;
-  width:90%;
+  width: 90%;
 
   z-index: 1;
-
 
   margin: 1em;
   font-size: 1.5em;
   font-weight: bold;
   color: var(--white);
   background-color: var(--black);
-  padding:0.5em;
+  padding: 0.5em;
 }
