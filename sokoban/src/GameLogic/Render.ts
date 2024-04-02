@@ -14,7 +14,7 @@ export const getClientSize = (screenX: number, screenY: number, board: any, y = 
 };
 
 export const getWallBorders = (y: number, x: number, e: any, w: any, returnData: {} = {}) => {
-  const borderType = '9px ridge rgba(25,25,25, 0.65)';
+  const borderType = '2px dashed white';
 
   if (e.yx(y, x).isStatic && !e.yx(y, x).up?.isStatic) {
     returnData = { ...returnData, borderTop: borderType };
@@ -31,7 +31,7 @@ export const getWallBorders = (y: number, x: number, e: any, w: any, returnData:
 
   const _y = w.length - 1;
   const _x = w[0].length - 1;
-  const backgroundColor = 'rgb(12, 14, 16)';
+  const backgroundColor = '#307DA4';
 
   if (e.yx(y, x).isFree) {
     while (e.yx(y, x).isFree) {

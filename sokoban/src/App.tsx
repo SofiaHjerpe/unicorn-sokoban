@@ -10,12 +10,12 @@ import { MoveLogic } from './GameLogic/Movement';
 import { GetMoveTrackersLocalStorage, GetPushTrackersLocalStorage } from './GameLogic/TrackersLocalStorage';
 import { GameStatus } from './GameLogic/GameStatus';
 import { getClientSize, getWallBorders } from './GameLogic/Render';
-import { ObjectType } from './GameLogic/Logics';
+import { ObjectType, playerSkin } from './GameLogic/Logics';
 import Statistics from './components/Statistics';
 
 const path = (img: string) => `src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
-  w: path('wall.webp'),
+  w: path('wall.jpg'),
   b: path('box.jpg'),
   tb: path('box.jpg'),
   t: path('target.png'),
@@ -83,17 +83,15 @@ function App() {
   const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
   const worldGameBoard = [...newGameBoard.map(row => [...row])];
   const GS = GameStatus(worldData.cells);
-  const [direction, setDirection] = useState(-1);
 
-  console.table(GS);
-
+  const [skin, setSkin]: any = useState('farmerFront');
   const handleMovement = (e: any) => {
     const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
-    const newDirection = m?.d.x != 0 ? m?.d.x : direction;
-
-    setDirection(newDirection);
+    setSkin(Object.keys(playerSkin).filter(key => JSON.stringify(playerSkin[key]) === JSON.stringify(m?.d)));
     setNewGameBoard(m?.world);
   };
+
+  
 
   useEffect(() => {
     document.addEventListener('keydown', handleMovement);
@@ -144,11 +142,7 @@ function App() {
                       ...getWallBorders(_y, _x, worldData, newGameBoard),
                     }}>
                     {ObjectType.isCharacter.some(value => cell.includes(value)) && (
-                      <img
-                        src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
-                        id="player"
-                        style={{ transform: `scaleX(${direction})` }}
-                      />
+                      <img src={`src/assets/images/${skin}.png`} id="player" />
                     )}
                   </div>
                 </div>
