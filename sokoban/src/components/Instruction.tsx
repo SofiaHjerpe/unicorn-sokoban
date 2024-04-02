@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./Instruction.css";
 import boxImage from "../assets/images/box.jpg";
-import playerImage from "../assets/images/player.jpg";
-import wallImage from "../assets/images/wall.jpg";
-import goalImage from "../assets/images/Target.jpg";
+import playerImage from "../assets/images/Miner.gif";
+import wallImage from "../assets/images/wall.webp";
+import goalImage from "../assets/images/target.png";
 
 interface ModalProps {
   onClose: () => void;

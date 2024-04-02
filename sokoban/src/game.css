@@ -5,8 +5,8 @@
 }
 
 body {
-  font-family: 'Honk', 'Rowdies', sans-serif;
-  background-color: rgb(18, 41, 65);
+  background-color: rgb(12, 14, 16);
+  display: grid;
 }
 
 #root {
@@ -21,32 +21,36 @@ body {
   --wayLighter: #edcba3;
   --wayDarker: #9d5039;
 }
-
+#player {
+  width: 100%;
+}
 .gameBoard {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  /* make the element as big as it childs */
+  width: fit-content;
+  height: fit-content;
   background-color: var(--way);
-  width: 500px;
   margin-inline: 1em;
+  position: relative;
+  background-image: url(assets/images/floor.jpg);
+
+  /*put this element in center*/
+  margin: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 .cell {
   border: 1px solid var(--black);
 }
 
 .cellDiv {
-  background-position: 'center';
-  background-position: 'center';
-  aspect-ratio: 1;
-  background-repeat: 'no-repeat';
+   aspect-ratio: 1;
   background-size: cover;
   background-position: center;
-  color: white;
-}
-
-#impossibleDiv {
-  margin-inline: 1em;
-  color: red;
-  font-weight: bold;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .box {
@@ -59,9 +63,6 @@ body {
   border-radius: 5px;
   filter: hue-rotate(45deg);
   border: 2px solid black;
-}
-main {
-  position: relative;
 }
 .winning-message {
   position: absolute;

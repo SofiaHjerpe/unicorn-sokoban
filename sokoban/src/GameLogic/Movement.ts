@@ -24,6 +24,7 @@ export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = vali
     (go.yx(self.y + d.y, self.x + d.x).object += player) &&
     (self.object = self.object.replace(player, ''));
 
+
   world.map((row: any, y: number) => {
     row.map((_: string, x: number) => {
       row[x] = go.yx(y, x).object;
@@ -38,5 +39,5 @@ export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = vali
     SetPushTrackersLocalStorage(levelValue);
   }
 
-  return world;
+  return { world, d };
 };
