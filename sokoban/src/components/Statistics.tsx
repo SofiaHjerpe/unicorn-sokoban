@@ -3,11 +3,11 @@ import Timer from './Timer';
 const Statistics = ({ countBoardChange, levelValue }: any) => {
   const moveStorageName = 'Movestorage' + levelValue;
   let moveStorage = localStorage.getItem(moveStorageName);
-  let numberOfMovements = JSON.parse(moveStorage!).move;
+  let numberOfMovements = JSON.parse(moveStorage!)?.move;
 
   const pushStorageName = 'Pushstorage' + levelValue;
   let pushStorage = localStorage.getItem(pushStorageName);
-  let numberOfPushes = JSON.parse(pushStorage!).push;
+  let numberOfPushes = JSON.parse(pushStorage!)?.push;
 
   return (
     <div id="statisticsDiv">
