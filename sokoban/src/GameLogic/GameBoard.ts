@@ -74,12 +74,12 @@ export const GameLogic = (board: [...any], cells: [...any] = []) => {
     }
   });
 
-  // cells.map((cell) => {
-  //   cell.up = GO(up, cell);
-  //   cell.down = GO(down, cell);
-  //   cell.left = GO(left, cell);
-  //   cell.right = GO(right, cell);
-  // });
+  cells.map(cell => {
+    cell.up = GO(up, cell);
+    cell.down = GO(down, cell);
+    cell.left = GO(left, cell);
+    cell.right = GO(right, cell);
+  });
 
   function yx(y: number, x: number) {
     return cells.find(cell => cell.y == y && cell.x == x);
