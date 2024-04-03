@@ -1,6 +1,6 @@
 import React from 'react';
 import '../components/LevelPage.css';
-import { Close } from '../components/Close';
+import { Buttons } from '../components/Buttons';
 import { TitleBackground } from '../components/TitleBackground';
 import { Background } from '../components/Background';
 import { Arrows } from '../components/Arrows';
@@ -12,7 +12,7 @@ export const LevelPage = () => {
       <div className="level-overlay">
         <Background />
         <TitleBackground />
-        <Close />
+        <Buttons />
         <Arrows />
         <LevelBoxes />
       </div>
