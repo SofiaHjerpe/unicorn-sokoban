@@ -6,7 +6,12 @@ import './game.css';
 
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
-import { GetMoveTrackersLocalStorage, GetPushTrackersLocalStorage } from './GameLogic/TrackersLocalStorage';
+import {
+  GetMoveTrackersLocalStorage,
+  GetPushTrackersLocalStorage,
+  GetStarsStorage,
+  GetTimerLocalStorage,
+} from './GameLogic/TrackersLocalStorage';
 import { GameStatus } from './GameLogic/GameStatus';
 import { getClientSize, getWallBorders } from './GameLogic/Render';
 import { ObjectType } from './GameLogic/Logics';
@@ -33,6 +38,9 @@ function App() {
         //changing level: getting local storage for moveTracker
         GetMoveTrackersLocalStorage(1);
         GetPushTrackersLocalStorage(1);
+        GetTimerLocalStorage(1);
+        localStorage.setItem('winningStorage', 'false');
+        GetStarsStorage(1);
       }
       if (index + 1 === newLevel) {
         setNewGameBoard(plan);
@@ -41,6 +49,9 @@ function App() {
         //changing level: getting local storage for moveTracker
         GetMoveTrackersLocalStorage(newLevel);
         GetPushTrackersLocalStorage(newLevel);
+        GetTimerLocalStorage(newLevel);
+        localStorage.setItem('winningStorage', 'false');
+        GetStarsStorage(newLevel);
       } else {
         null;
       }
@@ -53,6 +64,7 @@ function App() {
     //If all targets are done, send winning information.
     const numberOfTargets = countTargets();
     if (numberOfCorrectBoxes >= numberOfTargets) {
+      localStorage.setItem('winningStorage', 'true');
       setTimeout(() => {
         changeLevel(levelValue + 1);
       }, 3000);
@@ -60,8 +72,6 @@ function App() {
       setTimeout(() => {
         setWinningMessage('');
       }, 6000);
-      const audioElement = new Audio('/src/assets/win.wav');
-      audioElement.play();
       setWinningMessage('Congratulations! You won!');
     } else {
       setWinningMessage('');
@@ -86,7 +96,7 @@ function App() {
   const GS = GameStatus(worldData.cells);
   const [direction, setDirection] = useState(-1);
 
-  console.table(GS);
+  //console.table(GS);
 
   const handleMovement = (e: any) => {
     const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
