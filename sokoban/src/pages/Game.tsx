@@ -1,31 +1,29 @@
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { GamePlans } from '../Globals';
 import { Form } from '../components/Form';
 import InstructionButton from '../components/Instruction';
 import Timer from '../components/Timer';
-import '../game.css';
-
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';
 import { GetMoveTrackersLocalStorage, GetPushTrackersLocalStorage } from '../GameLogic/TrackersLocalStorage';
 import { GameStatus } from '../GameLogic/GameStatus';
+import { getClientSize, getWallBorders } from '../GameLogic/Render';
+import { ObjectType } from '../GameLogic/Logics';
 import Statistics from '../components/Statistics';
+import '../game.css';
 
-const path = (img: string) => `src/assets/images/${img}.jpg`;
+const path = (img: string) => `../src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
-  w: path('wall'),
-  b: path('box'),
-  tb: path('box'),
-  p: path('player'),
-  tp: path('player'),
-  '': path('floor'),
-  t: path('target'),
+  w: path('wall.webp'),
+  b: path('box.jpg'),
+  tb: path('box.jpg'),
+  t: path('target.png'),
 };
 
 function Game() {
   const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
-  const [newGameBoard, setNewGameBoard] = useState<unknown[]>(GamePlans[0]);
+  const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
@@ -47,15 +45,14 @@ function Game() {
       } else {
         null;
       }
-      const status = document.getElementById('gameStatus');
-      if (status !== null) status.innerText = '';
+      GS.isGameUnsolveable;
       setLevelValue(newLevel);
     });
   };
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
-    const numberOfTargets = countTargets();
+    const numberOfTargets = GS.targets;
     if (numberOfCorrectBoxes >= numberOfTargets) {
       setTimeout(() => {
         changeLevel(levelValue + 1);
@@ -69,12 +66,13 @@ function Game() {
       setWinningMessage('');
     }
   }, [numberOfCorrectBoxes]);
+
   //Move up useEffects to here
   useEffect(() => {
     //Count the number of correct boxes and update the winning check. See row 29.
     let correctBoxes = 0;
     newGameBoard.forEach(row => {
-      row.forEach((cell: unknown) => {
+      row.forEach((cell: any) => {
         if (checkIfBoxAreCorrect(cell) === 'boxOnTarget cellDiv') {
           correctBoxes += 1;
         }
@@ -85,13 +83,16 @@ function Game() {
 
   const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
   const worldGameBoard = [...newGameBoard.map(row => [...row])];
-
   const GS = GameStatus(worldData.cells);
-
+  const [direction, setDirection] = useState(-1);
   console.table(GS);
+
   const handleMovement = (e: any) => {
-    MoveLogic(levelValue, e, worldData, worldGameBoard);
-    setNewGameBoard(worldGameBoard);
+    const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
+    const newDirection = m?.d.x != 0 ? m?.d.x : direction;
+
+    setDirection(newDirection);
+    setNewGameBoard(m?.world);
   };
 
   useEffect(() => {
@@ -99,17 +100,9 @@ function Game() {
     return function cleanup() {
       document.removeEventListener('keydown', handleMovement);
     };
-  }, [newGameBoard]);
+  }, [worldData, worldGameBoard]);
 
-  const countTargets = () => {
-    const copyOfBoard = [...newGameBoard.map(row => [...row])];
-    //How many targets is it in current board?
-
-    const targets = copyOfBoard.flatMap(cell => cell.filter((cell: string) => cell.includes('t'))).length;
-    return targets;
-  };
-
-  const checkIfBoxAreCorrect = (cellItem: unknown) => {
+  const checkIfBoxAreCorrect = (cellItem: any) => {
     if (`${[cellItem]}` == 'tb') {
       return 'boxOnTarget cellDiv';
     } else if (`${[cellItem]}` == 'b') {
@@ -118,10 +111,8 @@ function Game() {
       return 'cellDiv';
     }
   };
-  console.log(levelValue);
-  const style = {
-    height: (500 / newGameBoard[0].length) * newGameBoard.length,
-  };
+
+  const style = getClientSize(window.innerWidth * 0.8, window.innerHeight * 0.8, newGameBoard);
 
   return (
     <>
@@ -129,32 +120,42 @@ function Game() {
       <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
       <section id="gameBoradWithStatistics">
         <main className="gameBoard" style={style}>
-          {newGameBoard.map(row =>
-            row.map((cell: string, cellid: number) => {
+          {newGameBoard.map((row, _y) =>
+            row.map((cell: string, _x: number) => {
               const nameOfClass = checkIfBoxAreCorrect(cell); //dynamic class, see checkIfBoxAreCorrect(cell).
               return (
                 <div
-                  key={cellid}
+                  key={_x}
                   style={{
                     display: 'inline-block',
                   }}>
                   <div
                     className={nameOfClass}
                     style={{
-                      width: 500 / newGameBoard[0].length,
                       backgroundImage: `url(${backgoundImage[cell]})`,
-                    }}></div>
-                  <Outlet />
+                      ...getWallBorders(_y, _x, worldData, newGameBoard),
+                    }}>
+                    {ObjectType.isCharacter.some(value => cell.includes(value)) && (
+                      <img
+                        alt="player"
+                        src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
+                        id="player"
+                        style={{ transform: `scaleX(${direction})` }}
+                      />
+                    )}
+                  </div>
                 </div>
               );
             }),
           )}
+          {GS.returnLoserMessage()}
         </main>
         <Statistics countBoardChange={countBoardChange} levelValue={levelValue} />
       </section>
-      {GS.returnLoserMessage()}
+
       <p className="winning-message">{winningMessage}</p>
-      {/* <p id="gameStatus"></p> */}
+      <Link to={'/levels'}>LevelPage</Link>
+      <Timer countBoardChange={countBoardChange} />
     </>
   );
 }
