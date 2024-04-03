@@ -1,8 +1,5 @@
 import { ObjectType, validKeyboardKeys } from './Logics';
-import {
-  SetMoveTrackersLocalStorage,
-  SetPushTrackersLocalStorage,
-} from './TrackersLocalStorage';
+import { SetMoveTrackersLocalStorage, SetPushTrackersLocalStorage } from './TrackersLocalStorage';
 
 export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = validKeyboardKeys[e.keyCode]) => {
   if (d === undefined) return;
@@ -30,13 +27,22 @@ export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = vali
     });
   });
 
-  //save player move and push into localStorage
-  if (direction(1).isFree || (portableObject && direction(2).isFree)) {
+  //save player move and push into localStorage. SOUND
+  if (direction(1).isFree) {
     SetMoveTrackersLocalStorage(levelValue);
+    const audioElement = new Audio('/src/assets/move.wav');
+    audioElement.play();
   }
   if (portableObject && direction(2).isFree) {
     SetPushTrackersLocalStorage(levelValue);
+    const audioElement = new Audio('/src/assets/push.wav');
+    audioElement.play();
   }
 
-  return world;
+  if (portableObject && direction(2).isTarget) {
+    const audioElement = new Audio('/src/assets/moveSound.wav');
+    audioElement.play();
+  }
+
+  return { world, d };
 };
