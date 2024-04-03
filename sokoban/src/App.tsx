@@ -84,7 +84,7 @@ function App() {
   const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
   const worldGameBoard = [...newGameBoard.map(row => [...row])];
   const GS = GameStatus(worldData.cells);
-  const [direction, setDirection] = useState(-1);
+ gi
 
   console.table(GS);
 
