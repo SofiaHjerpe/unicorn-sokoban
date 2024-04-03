@@ -64,25 +64,19 @@ export const GetTimerLocalStorage = (level: number) => {
   localStorage.setItem(timerStorageName, JSON.stringify(tracker));
 };
 
-export const SetTimerLocalStorage = (levelValue: number, milliseconds: number) => {
+export const SetTimerLocalStorage = (levelValue: number, milliseconds: number = 0) => {
   const timerStorageName = 'Timerstorage' + levelValue;
-  let timerStorage = localStorage.getItem(timerStorageName);
-  if (!timerStorage || timerStorage == null) {
-    const tracker = {
-      level: levelValue,
-      millisec: 0,
-    };
-    localStorage.setItem(timerStorageName, JSON.stringify(tracker));
-  } else {
-    let afterWinning = localStorage.getItem('winningStorage');
-    if (afterWinning == 'false') {
-      var oldTracker = JSON.parse(timerStorage);
-      let newTracker = {
-        level: levelValue,
-        millisec: oldTracker.millisec + 1,
-      };
-      localStorage.setItem(timerStorageName, JSON.stringify(newTracker));
-    }
+  let timerStorage = localStorage.getItem(timerStorageName)!;
+
+  var oldTracker = JSON.parse(timerStorage);
+  let newTracker = {
+    level: levelValue,
+    millisec: oldTracker.millisec + 1,
+  };
+
+  let afterWinning = localStorage.getItem('winningStorage');
+  if (afterWinning == 'false') {
+    localStorage.setItem(timerStorageName, JSON.stringify(newTracker));
   }
 };
 
