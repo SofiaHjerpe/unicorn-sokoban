@@ -24,6 +24,7 @@ export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = vali
     (go.yx(self.y + d.y, self.x + d.x).object += player) &&
     (self.object = self.object.replace(player, ''));
 
+
   world.map((row: any, y: number) => {
     row.map((_: string, x: number) => {
       row[x] = go.yx(y, x).object;
@@ -34,32 +35,9 @@ export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = vali
   if (direction(1).isFree || (portableObject && direction(2).isFree)) {
     SetMoveTrackersLocalStorage(levelValue);
   }
-
   if (portableObject && direction(2).isFree) {
     SetPushTrackersLocalStorage(levelValue);
   }
 
-  //count and save player movement: all movement on all level - do we want it?
-  /*   let playerMovementCountFromStorage: any = Number(
-    localStorage.getItem('playerMovementStorage'),
-  );
-  if (direction(1).isFree || (portableObject && direction(2).isFree)) {
-    localStorage.setItem(
-      'playerMovementStorage',
-      playerMovementCountFromStorage + 1,
-    );
-  } */
-
-  //count and save push movement on all level - do we want it?
-  /*   let playerPushMovementCountFromStorage: any = Number(
-    localStorage.getItem('playerPushMovementStorage'),
-  );
-  if (portableObject && direction(2).isFree) {
-    localStorage.setItem(
-      'playerPushMovementStorage',
-      playerPushMovementCountFromStorage + 1,
-    );
-  } */
-
-  return world;
+  return { world, d };
 };

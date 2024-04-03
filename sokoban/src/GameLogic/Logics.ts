@@ -1,9 +1,12 @@
 export const ObjectType: Record<string, string[]> = {
   isStatic: ['w'], // Objects that are solid and can't be moved
   isPortable: ['b'], // Objects that can be moved
-  isFree: ['', 't'], // Objects that are free to move to
   isCharacter: ['p'], // The player
-  isTarget: ['g', 't'],
+  isTarget: ['t'],
+
+  get isFree(){
+    return [...new Set([...this.isTarget, ''])]
+  }
 };
 
 export const up = 'up';
