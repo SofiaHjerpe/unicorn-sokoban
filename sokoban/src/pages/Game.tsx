@@ -6,7 +6,12 @@ import InstructionButton from '../components/Instruction';
 import Timer from '../components/Timer';
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';
-import { GetMoveTrackersLocalStorage, GetPushTrackersLocalStorage } from '../GameLogic/TrackersLocalStorage';
+import {
+  GetMoveTrackersLocalStorage,
+  GetPushTrackersLocalStorage,
+  GetStarsStorage,
+  GetTimerLocalStorage,
+} from '../GameLogic/TrackersLocalStorage';
 import { GameStatus } from '../GameLogic/GameStatus';
 import { getClientSize, getWallBorders } from '../GameLogic/Render';
 import { ObjectType } from '../GameLogic/Logics';
@@ -31,17 +36,23 @@ function Game() {
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
       if (newLevel == 1) {
-        //changing level: getting local storage for moveTracker
+        //changing level: getting local storage for moveTracker and timer
         GetMoveTrackersLocalStorage(1);
         GetPushTrackersLocalStorage(1);
+        GetTimerLocalStorage(1);
+        localStorage.setItem('winningStorage', 'false');
+        GetStarsStorage(1);
       }
       if (index + 1 === newLevel) {
         setNewGameBoard(plan);
         setCountBoardChange(countBoardChange => countBoardChange + 1);
 
-        //changing level: getting local storage for moveTracker
+        //changing level: getting local storage for moveTracker and timer
         GetMoveTrackersLocalStorage(newLevel);
         GetPushTrackersLocalStorage(newLevel);
+        GetTimerLocalStorage(newLevel);
+        localStorage.setItem('winningStorage', 'false');
+        GetStarsStorage(newLevel);
       } else {
         null;
       }
@@ -54,6 +65,7 @@ function Game() {
     //If all targets are done, send winning information.
     const numberOfTargets = GS.targets;
     if (numberOfCorrectBoxes >= numberOfTargets) {
+      localStorage.setItem('winningStorage', 'true');
       setTimeout(() => {
         changeLevel(levelValue + 1);
       }, 3000);
@@ -85,7 +97,7 @@ function Game() {
   const worldGameBoard = [...newGameBoard.map(row => [...row])];
   const GS = GameStatus(worldData.cells);
   const [direction, setDirection] = useState(-1);
-  console.table(GS);
+  //console.table(GS);
 
   const handleMovement = (e: any) => {
     const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
@@ -155,7 +167,6 @@ function Game() {
 
       <p className="winning-message">{winningMessage}</p>
       <Link to={'/levels'}>LevelPage</Link>
-      <Timer countBoardChange={countBoardChange} />
     </>
   );
 }

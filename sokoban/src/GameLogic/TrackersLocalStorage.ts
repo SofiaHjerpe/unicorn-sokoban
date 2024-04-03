@@ -54,3 +54,55 @@ export const SetPushTrackersLocalStorage = (levelValue: number) => {
     localStorage.setItem(pushStorageName, JSON.stringify(newTracker));
   }
 };
+
+export const GetTimerLocalStorage = (level: number) => {
+  const timerStorageName = 'Timerstorage' + level;
+  const tracker = {
+    level: level,
+    millisec: 0,
+  };
+  localStorage.setItem(timerStorageName, JSON.stringify(tracker));
+};
+
+export const SetTimerLocalStorage = (levelValue: number, milliseconds: number = 0) => {
+  const timerStorageName = 'Timerstorage' + levelValue;
+  let timerStorage = localStorage.getItem(timerStorageName)!;
+
+  var oldTracker = JSON.parse(timerStorage);
+  let newTracker = {
+    level: levelValue,
+    millisec: oldTracker.millisec + 1,
+  };
+
+  let afterWinning = localStorage.getItem('winningStorage');
+  if (afterWinning == 'false') {
+    localStorage.setItem(timerStorageName, JSON.stringify(newTracker));
+  }
+};
+
+export const GetStarsStorage = (level: number) => {
+  const starStorageName = 'Starstorage' + level;
+  const tracker = {
+    level: level,
+    star: 0,
+  };
+  localStorage.setItem(starStorageName, JSON.stringify(tracker));
+};
+
+export const SetStarStorage = (levelValue: number, stars: number) => {
+  const starStorageName = 'Starstorage' + levelValue;
+  let starStorage = localStorage.getItem(starStorageName);
+  if (!starStorage || starStorage == null) {
+    const tracker = {
+      level: levelValue,
+      star: 0,
+    };
+    localStorage.setItem(starStorageName, JSON.stringify(tracker));
+  } else {
+    let newTracker = {
+      level: levelValue,
+      star: stars,
+    };
+    localStorage.setItem(starStorageName, JSON.stringify(newTracker));
+  }
+};
