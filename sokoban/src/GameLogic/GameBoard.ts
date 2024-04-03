@@ -1,7 +1,6 @@
 import { ObjectType, up, down, right, left } from './Logics';
 
 export const GameLogic = (board: [...any], cells: [...any] = []) => {
-
   const CELL = (y: number, x: number) => {
     let cellType = cells[cells.find(cell => cell.y == y && cell.x == x).id];
     for (const key in ObjectType) {
@@ -75,7 +74,7 @@ export const GameLogic = (board: [...any], cells: [...any] = []) => {
     }
   });
 
-  cells.map((cell) => {
+  cells.map(cell => {
     cell.up = GO(up, cell);
     cell.down = GO(down, cell);
     cell.left = GO(left, cell);
@@ -85,6 +84,6 @@ export const GameLogic = (board: [...any], cells: [...any] = []) => {
   function yx(y: number, x: number) {
     return cells.find(cell => cell.y == y && cell.x == x);
   }
-  
-  return { cells, yx};
+
+  return { cells, yx };
 };

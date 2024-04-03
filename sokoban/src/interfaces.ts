@@ -3,8 +3,18 @@ export interface IRoute {
   name: string;
   path: string;
 }
+
+export interface ILeveldata {
+  name: ILevel[];
+}
+
+export interface ILevel {
+  id: number;
+  level: number;
+  
+}
 export interface IBoxes {
-    id: number, 
-    levelVal: number, 
-    stars: string
+  id: number;
+  levelVal: number;
+  stars: string;
 }
