@@ -1,13 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { GamePlans } from './Globals';
 import { Form } from './components/Form';
 import InstructionButton from './components/Instruction';
 import './game.css';
 import Timer from './components/Timer';
- import { Link } from 'react-router-dom';
-
-
-
+import { Link } from 'react-router-dom';
 
 import { GameLogic } from './GameLogic/GameBoard';
 import { MoveLogic } from './GameLogic/Movement';
@@ -106,9 +103,6 @@ function App() {
     };
   }, [worldData, worldGameBoard]);
 
-  
-  
-
   const checkIfBoxAreCorrect = (cellItem: any) => {
     if (`${[cellItem]}` == 'tb') {
       return 'boxOnTarget cellDiv';
@@ -144,6 +138,7 @@ function App() {
                     }}>
                     {ObjectType.isCharacter.some(value => cell.includes(value)) && (
                       <img
+                        alt="player"
                         src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
                         id="player"
                         style={{ transform: `scaleX(${direction})` }}
@@ -160,7 +155,7 @@ function App() {
       </section>
 
       <p className="winning-message">{winningMessage}</p>
-      <Link to={"/levels"}>LevelPage</Link>
+      <Link to={'/levels'}>LevelPage</Link>
       <Timer countBoardChange={countBoardChange} />
     </>
   );

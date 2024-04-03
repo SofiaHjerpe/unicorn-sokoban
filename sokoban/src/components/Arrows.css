@@ -2,17 +2,17 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  
+  padding-inline: 180px;
 }
 
 .arrow {
   width: 100px;
   height: 80px;
   display: flex;
-  margin-inline: 180px;
-  transform: translateY(-460px);
+
+  transform: translateY(-500px);
   z-index: 9999;
 }
 .right {
-  transform: translateY(-460px) rotate(-180deg);
+  transform: translateY(-500px) rotate(-180deg);
 }
