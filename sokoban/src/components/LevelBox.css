@@ -1,0 +1,30 @@
+.boxes {
+  display: flex;
+  gap: 45px;
+}
+.box-border {
+  border: 5px solid #fef9db;
+  border-radius: 25px;
+  margin-top: -600px;
+  width: 160px;
+  height: 190px;
+  z-index: 9999;
+}
+.level-box {
+  background-color: #e1c083;
+  width: 150px;
+  height: 180px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  z-index: 9999;
+}
+.level-heading {
+  color: #f7f9f9;
+  z-index: 9999;
+  font-size: 100px;
+  text-shadow: 2px 0 #200D00, -2px 0 #200D00, 0 2px #200D00, 0 -2px #200D00,
+    1px 1px #200D00, -1px -1px #200D00, 1px -1px #200D00, -1px 1px #200D00;
+}
