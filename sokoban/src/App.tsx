@@ -3,11 +3,17 @@ import IntroPage from './pages/IntroPage/IntroPage';
 import Game from './pages/Game';
 import NotFound from './pages/NotFound';
 import { LevelPage } from './pages/LevelPage';
-import { GetTimerLocalStorage } from './GameLogic/TrackersLocalStorage';
+import {
+  GetMoveTrackersLocalStorage,
+  GetPushTrackersLocalStorage,
+  GetTimerLocalStorage,
+} from './GameLogic/TrackersLocalStorage';
 
 export function App() {
   //setting timer storage for the 1.th level:
   GetTimerLocalStorage(1);
+  GetMoveTrackersLocalStorage(1);
+  GetPushTrackersLocalStorage(1);
   localStorage.setItem('winningStorage', 'false');
   return (
     <BrowserRouter>

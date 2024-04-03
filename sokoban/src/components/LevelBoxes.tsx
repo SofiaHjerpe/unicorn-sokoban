@@ -15,7 +15,7 @@ export const LevelBoxes = () => {
     <>
       <div className="boxes">
         {boxes.map(box => (
-          <LevelBox key={box.id} box={box} />
+          <LevelBox key={box.id} box={box} levelVal={box.levelVal} />
         ))}
       </div>
     </>
