@@ -20,7 +20,7 @@ const IntroPage: React.FC = () => {
           <Link to={`/game/${levels.level}`}>
             <img src={startButton} className="start-button" />
           </Link>
-          <Link to="/select">
+          <Link to="/levels">
             <img src={selectButton} className="select-button" />
           </Link>
         </div>
