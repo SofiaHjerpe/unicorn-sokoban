@@ -25,7 +25,7 @@ const backgoundImage: Record<string, string> = {
 
 function Game() {
   const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
-  const [newGameBoard, setNewGameBoard] = useState<any[]>(GamePlans[0]);
+  const [newGameBoard, setNewGameBoard] = useState<unknown[]>(GamePlans[0]);
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
@@ -74,7 +74,7 @@ function Game() {
     //Count the number of correct boxes and update the winning check. See row 29.
     let correctBoxes = 0;
     newGameBoard.forEach(row => {
-      row.forEach((cell: any) => {
+      row.forEach((cell: unknown) => {
         if (checkIfBoxAreCorrect(cell) === 'boxOnTarget cellDiv') {
           correctBoxes += 1;
         }
@@ -109,7 +109,7 @@ function Game() {
     return targets;
   };
 
-  const checkIfBoxAreCorrect = (cellItem: any) => {
+  const checkIfBoxAreCorrect = (cellItem: unknown) => {
     if (`${[cellItem]}` == 'tb') {
       return 'boxOnTarget cellDiv';
     } else if (`${[cellItem]}` == 'b') {

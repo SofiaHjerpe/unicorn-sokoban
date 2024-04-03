@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { ILevel } from '../../interfaces.ts';
 import './IntroPage.css';
 import welcomeImage from '../../assets/images/welcome.png';
 import backgroundImage from '../../assets/images/sokoban.png';
@@ -9,13 +10,14 @@ import infoButton from '../../assets/images/info.png';
 import settingsButton from '../../assets/images/settings.png';
 
 const IntroPage: React.FC = () => {
+  const levels: ILevel = { id: 0, level: 1 };
   return (
     <div className="container">
       <div className="intro-wrapper">
         <img src={backgroundImage} className="center-image" />
         <img src={welcomeImage} className="above-center-image" />
         <div className="left-images">
-          <Link to="/game">
+          <Link to={`/game/${levels.level}`}>
             <img src={startButton} className="start-button" />
           </Link>
           <Link to="/select">
