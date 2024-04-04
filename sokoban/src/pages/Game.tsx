@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { GamePlans } from '../Globals';
-import { Form } from '../components/Form';
-import InstructionButton from '../components/Instruction';
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';
 import {
@@ -37,6 +35,8 @@ function Game() {
   const [loosingMessage, setLoosingMessage] = useState('');
   localStorage.setItem('losingStorage', 'false');
 
+  const { id } = useParams();
+
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
       if (newLevel == 1) {
@@ -64,6 +64,8 @@ function Game() {
       setLevelValue(newLevel);
     });
   };
+
+ 
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
@@ -132,13 +134,26 @@ function Game() {
       return 'cellDiv';
     }
   };
-
+useEffect(() => {
+  switch (id) {
+    case '1':
+      changeLevel(1);
+      break;
+    case '2':
+      changeLevel(2);
+      break;
+    case '3':
+      changeLevel(3);
+      break;
+    case '4':
+      changeLevel(4);
+      break;
+  }
+}, [id]);
   const style = getClientSize(window.innerWidth * 0.8, window.innerHeight * 0.8, newGameBoard);
 
   return (
     <>
-      <InstructionButton />
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
       <section id="gameBoradWithStatistics">
         <main className="gameBoard" style={style}>
           {newGameBoard.map((row, _y) =>

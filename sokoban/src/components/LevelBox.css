@@ -10,6 +10,13 @@
   height: 190px;
   z-index: 9999;
 }
+.link-to-lvl {
+  color: transparent;
+  text-decoration: none;
+}
+.link-to-lvl:hover{
+  opacity: 0.5;
+}
 .level-box {
   background-color: #e1c083;
   width: 150px;

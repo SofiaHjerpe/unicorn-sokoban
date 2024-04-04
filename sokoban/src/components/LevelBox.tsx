@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { IBoxes } from '../interfaces';
 import './LevelBox.css';
 interface ILevelBoxProps {
@@ -21,12 +22,17 @@ export const LevelBox = ({ box, levelVal }: ILevelBoxProps) => {
     }
   }
 
+
   return (
-    <div className="box-border">
-      <div className="level-box">
-        <h1 className="level-heading">{box.levelVal}</h1>
-        <span>{score}</span>
+    <>
+      <div className="box-border">
+        <div className="level-box">
+          <Link className="link-to-lvl" to={`/game/${box.levelVal}`}>
+            <h1 className="level-heading">{box.levelVal}</h1>
+          </Link>
+          <span>{score}</span>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
