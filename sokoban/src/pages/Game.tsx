@@ -34,6 +34,8 @@ function Game() {
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
+  const [loosingMessage, setLoosingMessage] = useState('');
+  localStorage.setItem('losingStorage', 'false');
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
@@ -75,9 +77,17 @@ function Game() {
       setTimeout(() => {
         setWinningMessage('');
       }, 6000);
+      const audioElement = new Audio('/src/assets/win.wav');
+      let isMutedMusic = localStorage.getItem('Muted');
+      if (isMutedMusic == 'false') audioElement.play();
       setWinningMessage('Congratulations! You won!');
+    } else if (GS.returnLoserMessage() !== null) {
+      setTimeout(() => {
+        setLoosingMessage('GAME OVER - YOU ARE STUCK!');
+      }, 1000);
     } else {
       setWinningMessage('');
+      setLoosingMessage('');
     }
   }, [numberOfCorrectBoxes]);
 
@@ -102,11 +112,22 @@ function Game() {
   //console.table(GS);
 
   const handleMovement = (e: any) => {
-    const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
-    const newDirection = m?.d.x != 0 ? m?.d.x : direction;
+    if (
+      e.keyCode == 65 ||
+      e.keyCode == 83 ||
+      e.keyCode == 68 ||
+      e.keyCode == 87 ||
+      e.keyCode == 37 ||
+      e.keyCode == 38 ||
+      e.keyCode == 39 ||
+      e.keyCode == 40
+    ) {
+      const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
+      const newDirection = m?.d.x != 0 ? m?.d.x : direction;
 
-    setDirection(newDirection);
-    setNewGameBoard(m?.world);
+      setDirection(newDirection);
+      setNewGameBoard(m?.world);
+    }
   };
 
   useEffect(() => {
@@ -162,7 +183,7 @@ function Game() {
               );
             }),
           )}
-          {GS.returnLoserMessage()}
+          {loosingMessage.length > 2 && <p id="loserMessage">{loosingMessage}</p>}
         </main>
         <Statistics countBoardChange={countBoardChange} levelValue={levelValue} />
       </section>

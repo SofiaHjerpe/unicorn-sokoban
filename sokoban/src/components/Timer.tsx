@@ -18,7 +18,7 @@ const Timer = ({ countBoardChange, levelValue }: ITimerProps) => {
     let interval: any = null;
     if (ranOnce) {
       interval = setInterval(() => {
-        setMilliSeconds(milliseconds => milliseconds + 1);   
+        setMilliSeconds(milliseconds => milliseconds + 1);
         SetTimerLocalStorage(levelValue, milliseconds);
       }, 1000 / 58.826);
     } else if (!ranOnce && milliseconds !== 0) {
