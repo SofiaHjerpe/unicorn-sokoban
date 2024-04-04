@@ -1,32 +1,31 @@
 import { useEffect, useState } from 'react';
+import { SetTimerLocalStorage } from './../GameLogic/TrackersLocalStorage';
 
-const Timer = ({ countBoardChange }: any) => {
+interface ITimerProps {
+  countBoardChange: number;
+  levelValue: number;
+}
+
+const Timer = ({ countBoardChange, levelValue }: ITimerProps) => {
   const [milliseconds, setMilliSeconds] = useState(0);
   let ranOnce = true;
 
   useEffect(() => {
     //reset to zero after level change:
     setMilliSeconds(0);
-
+    SetTimerLocalStorage(levelValue, 0);
     //set millisecond: 1000/16
     let interval: any = null;
     if (ranOnce) {
       interval = setInterval(() => {
         setMilliSeconds(milliseconds => milliseconds + 1);
+        SetTimerLocalStorage(levelValue, milliseconds);
       }, 1000 / 58.826);
     } else if (!ranOnce && milliseconds !== 0) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
   }, [countBoardChange]);
-
-  let resetMillisecond = milliseconds;
-  if (milliseconds == 60) {
-    resetMillisecond = 0;
-  }
-  if (milliseconds > 60) {
-    resetMillisecond = milliseconds % 60;
-  }
 
   //get second, minute, hour from millisecond
   let countedSecond = Math.floor(milliseconds / 60);
@@ -53,6 +52,7 @@ const Timer = ({ countBoardChange }: any) => {
   let formattedMinutes = minuteToFormat < 10 ? '0' + minuteToFormat : minuteToFormat;
   let formattedHours = hourToFormat < 10 ? '0' + hourToFormat : hourToFormat;
 
+  /*   SetTimerLocalStorage(levelValue, milliseconds); */
   return (
     <div id="timerDiv">
       <p id="timerText">

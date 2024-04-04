@@ -1,0 +1,17 @@
+.level-link {
+  z-index: 9999;
+}
+
+.close-btn {
+  width: 60px;
+  height: 60px;
+  margin-inline: 525px 0;
+  align-self: center;
+  transform: translateY(-640px) translateX(222px);
+}
+
+.arrow-btn {
+  width: 100px;
+  height: 100px;
+  transform: translateY(-120px);
+}

@@ -131,3 +131,33 @@ body {
   background-color: var(--black);
   padding: 0.5em;
 }
+
+#starsInStatistics {
+  margin-top: 1rem;
+}
+
+#settingsDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+#soundButton {
+  width: fit-content;
+  margin-top: 1rem;
+}
+
+.soundSettingsTitle {
+  color: var(--white);
+}
+
+#loserMessage {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  background-color: var(--black);
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--white);
+}
