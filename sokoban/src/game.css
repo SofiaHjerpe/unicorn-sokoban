@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: rgb(12, 14, 16);
+  display: grid;
+}
+
 #root {
   --white: #eee;
   --black: #000;
@@ -13,32 +18,39 @@
   --boxes: brown;
   --player: green;
   --way: burlywood;
+  --wayLighter: #edcba3;
+  --wayDarker: #9d5039;
 }
-
+#player {
+  width: 100%;
+}
 .gameBoard {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  /* make the element as big as it childs */
+  width: fit-content;
+  height: fit-content;
   background-color: var(--way);
-  width: 500px;
   margin-inline: 1em;
+  position: relative;
+  background-image: url(assets/images/floor.jpg);
+
+  /*put this element in center*/
+  margin: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 .cell {
   border: 1px solid var(--black);
 }
 
 .cellDiv {
-  background-position: "center";
-  aspect-ratio: 1;
-  background-repeat: "no-repeat";
+   aspect-ratio: 1;
   background-size: cover;
   background-position: center;
-  color: white;
-}
-
-#impossibleDiv {
-  margin-inline: 1em;
-  color: red;
-  font-weight: bold;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .box {
@@ -52,12 +64,10 @@
   filter: hue-rotate(45deg);
   border: 2px solid black;
 }
-
 .winning-message {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 5px;
@@ -67,9 +77,57 @@
   background: none;
 }
 
+#statisticsDiv {
+  display: flex;
+  flex-direction: column;
+  color: var(--wayDarker);
+  background-color: var(--wayLighter);
+  height: fit-content;
+  aspect-ratio: 1/1;
+  padding: 0.7rem 1rem 0.7rem 1rem;
+  border: 1px solid var(--wayDarker);
+  border-radius: 5px;
+  align-self: center;
+  align-items: center;
+}
+
+.statisticData {
+  margin-bottom: 0.2rem;
+}
+
 #timerDiv {
   width: fit-content;
   padding: 0.7rem 1rem 0.7rem 1rem;
-  border: 1px solid var(--black);
-  margin: 1rem 0 0 190px;
+  margin-top: 1rem;
+  border: 1px solid var(--wayDarker);
+  border-radius: 5px;
+}
+
+#gameBoradWithStatistics {
+  display: flex;
+}
+
+#timerText {
+  color: var(--white);
+}
+
+#timerText {
+  color: var(--white);
+}
+
+#gameStatus {
+  /* put the text in center of the main */
+  position: absolute;
+  bottom: 40%;
+  text-align: center;
+  width: 90%;
+
+  z-index: 1;
+
+  margin: 1em;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--white);
+  background-color: var(--black);
+  padding: 0.5em;
 }

@@ -2,9 +2,11 @@ import React, { FormEventHandler, useContext } from "react";
 import "./Form.css";
 import { GamePlans } from "../Globals";
 import { GameContext } from "../context/GameContextProvider";
-
-export const Form = () => {
-  const {levelValue, setLevelValue, changeLevel} = useContext(GameContext);
+interface IFormProps {
+  changeLevel: (newLevel: number) => void;
+}
+export const Form = ({changeLevel}: IFormProps) => {
+  const {levelValue, setLevelValue,} = useContext(GameContext);
   const handleOnSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     changeLevel(levelValue);
