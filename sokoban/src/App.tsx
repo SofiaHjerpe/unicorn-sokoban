@@ -4,11 +4,17 @@ import Game from './pages/Game';
 import NotFound from './pages/NotFound';
 import { LevelPage } from './pages/LevelPage';
 import SettingsPage from './pages/SettingsPage';
-import { GetTimerLocalStorage } from './GameLogic/TrackersLocalStorage';
+import {
+  GetMoveTrackersLocalStorage,
+  GetPushTrackersLocalStorage,
+  GetTimerLocalStorage,
+} from './GameLogic/TrackersLocalStorage';
 
 export function App() {
   //setting timer storage for the 1.th level:
   GetTimerLocalStorage(1);
+  GetMoveTrackersLocalStorage(1);
+  GetPushTrackersLocalStorage(1);
   localStorage.setItem('winningStorage', 'false');
   localStorage.setItem('losingStorage', 'false');
   localStorage.setItem('Muted', 'false');
