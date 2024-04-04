@@ -22,16 +22,16 @@ export const LevelBox = ({ box, levelVal }: ILevelBoxProps) => {
     }
   }
 
-
   return (
     <>
       <div className="box-border">
-        <div className="level-box">
-          <Link className="link-to-lvl" to={`/game/${box.levelVal}`}>
+        <Link className="link-to-lvl" to={`/game/${box.levelVal}`}>
+          <div className="level-box">
             <h1 className="level-heading">{box.levelVal}</h1>
-          </Link>
-          <span>{score}</span>
-        </div>
+
+            <span>{score}</span>
+          </div>
+        </Link>
       </div>
     </>
   );

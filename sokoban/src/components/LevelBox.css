@@ -14,8 +14,11 @@
   color: transparent;
   text-decoration: none;
 }
-.link-to-lvl:hover{
-  opacity: 0.5;
+.link-to-lvl span {
+  color: #000;
+}
+.level-box:hover {
+  box-shadow: #307DA4 0px 7px 29px 0px;
 }
 .level-box {
   background-color: #e1c083;
@@ -30,9 +33,9 @@
 }
 .level-heading {
   color: #f7f9f9;
-  font-family: 'Rowdies', sans-serif;
+  font-family: 'Honk', system-ui;
   z-index: 9999;
   font-size: 100px;
-  text-shadow: 2px 0 #200D00, -2px 0 #200D00, 0 2px #200D00, 0 -2px #200D00,
-    1px 1px #200D00, -1px -1px #200D00, 1px -1px #200D00, -1px 1px #200D00;
+  text-shadow: 2px 0 #200d00, -2px 0 #200d00, 0 2px #200d00, 0 -2px #200d00, 1px 1px #200d00, -1px -1px #200d00,
+    1px -1px #200d00, -1px 1px #200d00;
 }

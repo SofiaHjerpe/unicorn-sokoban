@@ -5,6 +5,9 @@
 }
 .arrow-right-btn {
   z-index: 9999;
+  background-color: transparent;
+  border: none;
+  transform: translateY(-5em);
 }
 
 .arrow {

@@ -26,13 +26,10 @@
 .heading {
   margin-top: -668px;
   color: #f7f9f9;
-  font-family: 'Rowdies', sans-serif;
+  font-family: 'Honk', system-ui;
   z-index: 9999;
   font-size: 50px;
-  margin-inline: 290px 0;
-  transform: skewX(10deg);
-  text-shadow: 2px 0 #105d53, -2px 0 #105d53, 0 2px #105d53, 0 -2px #105d53, 1px 1px #105d53, -1px -1px #105d53,
-    1px -1px #105d53, -1px 1px #105d53;
+  margin-inline: 320px 0;
 }
 .background-border {
   background-color: #a17c47;

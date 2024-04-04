@@ -14,8 +14,12 @@ const boxes: IBoxes[] = [
 ];
 export const LevelPage = () => {
   const [levelsView, setLevelsView] = useState(1);
-
-  if (levelsView === 2) {
+if(levelsView === 1){
+   boxes[0].levelVal = 1;
+   boxes[1].levelVal = 2;
+   boxes[2].levelVal = 3;
+   boxes[3].levelVal = 4;
+} else if (levelsView === 2) {
     boxes[0].levelVal = 5;
     boxes[1].levelVal = 6;
     boxes[2].levelVal = 7;
@@ -23,7 +27,6 @@ export const LevelPage = () => {
   }
   return (
     <div className="level-img">
-     
       <div className="level-overlay">
         <Background />
         <TitleBackground />

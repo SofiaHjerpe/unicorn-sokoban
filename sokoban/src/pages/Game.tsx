@@ -147,6 +147,18 @@ function Game() {
       case '4':
         changeLevel(4);
         break;
+      case '5':
+        changeLevel(5);
+        break;
+      case '6':
+        changeLevel(6);
+        break;
+      case '7':
+        changeLevel(7);
+        break;
+      case '8':
+        changeLevel(8);
+        break;
     }
   }, [id]);
   const style = getClientSize(window.innerWidth * 0.8, window.innerHeight * 0.8, newGameBoard);
@@ -184,6 +196,19 @@ function Game() {
       </section>
 
       <p className="winning-message">{winningMessage}</p>
+      <Link to={'/levels'}>
+        {' '}
+        <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
+      </Link>
+      <Link to={'/info'}>
+        {' '}
+        <img src={infoButton} className="info-button" alt="info" />
+      </Link>
+      <Link to={'/settings'}>
+        {' '}
+        <img src={settingsButton} className="setting-button" alt="setting" />
+      </Link>
+      {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
       <Link to={'/levels'}>
         {' '}
         <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
