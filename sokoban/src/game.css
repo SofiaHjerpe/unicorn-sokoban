@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #307DA4;
+  background-color: #307da4;
   display: grid;
 }
 
@@ -20,6 +20,7 @@ body {
   --way: burlywood;
   --wayLighter: #edcba3;
   --wayDarker: #9d5039;
+  --settingsOrangeColor: #df4f3c;
 }
 #player {
   height: 100%;
@@ -108,11 +109,7 @@ body {
 }
 
 #timerText {
-  color: var(--white);
-}
-
-#timerText {
-  color: var(--white);
+  color: var(--wayDarker);
 }
 
 #gameStatus {
@@ -139,15 +136,39 @@ body {
 #settingsDiv {
   display: flex;
   flex-direction: column;
+  margin: 1rem;
+  font-family: 'Rowdies', sans-serif;
 }
 
 #soundButton {
   width: fit-content;
   margin-top: 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border: 1px solid var(--black);
+  border-radius: 3px;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: 'Rowdies', sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.soundButtonOff {
+  background-color: var(--settingsOrangeColor);
+}
+
+#soundButton:hover {
+  background-color: var(--wayLighter);
+}
+
+.soundButtonOn {
+  background-color: var(--player);
 }
 
 .soundSettingsTitle {
-  color: var(--white);
+  color: var(--black);
+  font-family: 'Rowdies', sans-serif;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
 }
 
 #loserMessage {
@@ -160,4 +181,8 @@ body {
   font-size: 24px;
   font-weight: bold;
   color: var(--white);
+}
+
+#selectButtonInSettingPage {
+  width: 100px;
 }

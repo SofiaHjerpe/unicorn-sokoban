@@ -9,14 +9,18 @@ interface ITimerProps {
 const Timer = ({ countBoardChange, levelValue }: ITimerProps) => {
   const [milliseconds, setMilliSeconds] = useState(0);
   let ranOnce = true;
+  let timerLoserStorage = localStorage.getItem('losingStorage');
+  let timerWinnerStorage = localStorage.getItem('winningStorage');
 
   useEffect(() => {
     //reset to zero after level change:
-    setMilliSeconds(0);
-    SetTimerLocalStorage(levelValue, 0);
+    if (timerLoserStorage !== 'true' && timerWinnerStorage !== 'true') {
+      setMilliSeconds(0);
+      SetTimerLocalStorage(levelValue, 0);
+    }
     //set millisecond: 1000/16
     let interval: any = null;
-    if (ranOnce) {
+    if (ranOnce && timerLoserStorage == 'false' && timerWinnerStorage == 'false') {      
       interval = setInterval(() => {
         setMilliSeconds(milliseconds => milliseconds + 1);
         SetTimerLocalStorage(levelValue, milliseconds);
@@ -25,7 +29,7 @@ const Timer = ({ countBoardChange, levelValue }: ITimerProps) => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [countBoardChange]);
+  }, [countBoardChange, timerLoserStorage, timerWinnerStorage]);
 
   //get second, minute, hour from millisecond
   let countedSecond = Math.floor(milliseconds / 60);

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import selectButton from '/src/assets/images/select-button.png';
 
 const SettingsPage = () => {
   let soundStatus = '';
@@ -8,20 +9,20 @@ const SettingsPage = () => {
 
   if (soundStorage === null) {
     defaultSoundStatusIsMuted = false;
-    soundStatus = 'Has sound';
+    soundStatus = 'Mute';
   } else {
     defaultSoundStatusIsMuted = Boolean(soundStorage);
     if (soundStorage == 'false') {
-      soundStatus = 'Has sound';
+      soundStatus = 'Mute';
     } else {
-      soundStatus = 'No sound';
+      soundStatus = 'Unmute';
     }
   }
 
   const [isMuted, setIsMuted] = useState(defaultSoundStatusIsMuted);
 
   function handleMusic() {
-    if (isMuted == true && soundStatus == 'No sound') {
+    if (isMuted == true && soundStatus == 'Unmute') {
       localStorage.setItem('Muted', 'false');
     } else {
       localStorage.setItem('Muted', 'true');
@@ -31,15 +32,20 @@ const SettingsPage = () => {
 
   return (
     <div id="settingsDiv">
+      <h1>SETTINGS</h1>
       <div>
         <span className="soundSettingsTitle">Sound settings </span>
-        <button id="soundButton" onClick={handleMusic}>
+
+        <button
+          id="soundButton"
+          onClick={handleMusic}
+          className={soundStatus == 'Mute' ? 'soundButtonOff' : 'soundButtonOn'}>
           {soundStatus}
         </button>
       </div>
 
-      <Link to="/">
-        <button id="soundButton">Back to main page</button>
+      <Link to="/levels">
+        <img src={selectButton} id="selectButtonInSettingPage" />
       </Link>
     </div>
   );
