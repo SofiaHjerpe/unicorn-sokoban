@@ -33,7 +33,7 @@ function Game() {
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
   const [loosingMessage, setLoosingMessage] = useState('');
-  localStorage.setItem('losingStorage', 'false');
+  //localStorage.setItem('losingStorage', 'false');
 
   const { id } = useParams();
 
@@ -65,7 +65,6 @@ function Game() {
     });
   };
 
- 
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
@@ -91,7 +90,7 @@ function Game() {
       setWinningMessage('');
       setLoosingMessage('');
     }
-  }, [numberOfCorrectBoxes]);
+  }, [numberOfCorrectBoxes, newGameBoard]);
 
   //Move up useEffects to here
   useEffect(() => {
@@ -134,22 +133,22 @@ function Game() {
       return 'cellDiv';
     }
   };
-useEffect(() => {
-  switch (id) {
-    case '1':
-      changeLevel(1);
-      break;
-    case '2':
-      changeLevel(2);
-      break;
-    case '3':
-      changeLevel(3);
-      break;
-    case '4':
-      changeLevel(4);
-      break;
-  }
-}, [id]);
+  useEffect(() => {
+    switch (id) {
+      case '1':
+        changeLevel(1);
+        break;
+      case '2':
+        changeLevel(2);
+        break;
+      case '3':
+        changeLevel(3);
+        break;
+      case '4':
+        changeLevel(4);
+        break;
+    }
+  }, [id]);
   const style = getClientSize(window.innerWidth * 0.8, window.innerHeight * 0.8, newGameBoard);
 
   return (
@@ -185,13 +184,19 @@ useEffect(() => {
       </section>
 
       <p className="winning-message">{winningMessage}</p>
-      <Link to={'/levels'}> <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }}/>
-          </Link>
-          <Link to={'/info'}> <img src={infoButton} className="info-button" alt="info" />
-          </Link>
-          <Link to={'/settings'}> <img src={settingsButton} className="setting-button" alt="setting" />
-          </Link>
-          {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
+      <Link to={'/levels'}>
+        {' '}
+        <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
+      </Link>
+      <Link to={'/info'}>
+        {' '}
+        <img src={infoButton} className="info-button" alt="info" />
+      </Link>
+      <Link to={'/settings'}>
+        {' '}
+        <img src={settingsButton} className="setting-button" alt="setting" />
+      </Link>
+      {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
           </Link> */}
     </>
   );
