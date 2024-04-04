@@ -13,7 +13,7 @@ import {
 } from '../GameLogic/TrackersLocalStorage';
 import { GameStatus } from '../GameLogic/GameStatus';
 import { getClientSize, getWallBorders } from '../GameLogic/Render';
-import { ObjectType } from '../GameLogic/Logics';
+import { ObjectType, playerSkin } from '../GameLogic/Logics';
 import Statistics from '../components/Statistics';
 import '../game.css';
 import selectButton from '../assets/images/select-button.png';
@@ -22,7 +22,7 @@ import settingsButton from '../assets/images/settings.png';
 // import mainButton from '../assets/images/main.png';
 const path = (img: string) => `../src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
-  w: path('wall.webp'),
+  w: path('wall.jpg'),
   b: path('box.jpg'),
   tb: path('box.jpg'),
   t: path('target.png'),
@@ -108,26 +108,12 @@ function Game() {
   const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
   const worldGameBoard = [...newGameBoard.map(row => [...row])];
   const GS = GameStatus(worldData.cells);
-  const [direction, setDirection] = useState(-1);
-  //console.table(GS);
 
+  const [skin, setSkin]: any = useState('farmerFront');
   const handleMovement = (e: any) => {
-    if (
-      e.keyCode == 65 ||
-      e.keyCode == 83 ||
-      e.keyCode == 68 ||
-      e.keyCode == 87 ||
-      e.keyCode == 37 ||
-      e.keyCode == 38 ||
-      e.keyCode == 39 ||
-      e.keyCode == 40
-    ) {
-      const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
-      const newDirection = m?.d.x != 0 ? m?.d.x : direction;
-
-      setDirection(newDirection);
-      setNewGameBoard(m?.world);
-    }
+    const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
+    setSkin(Object.keys(playerSkin).filter(key => JSON.stringify(playerSkin[key]) === JSON.stringify(m?.d)));
+    setNewGameBoard(m?.world);
   };
 
   useEffect(() => {
@@ -171,12 +157,7 @@ function Game() {
                       ...getWallBorders(_y, _x, worldData, newGameBoard),
                     }}>
                     {ObjectType.isCharacter.some(value => cell.includes(value)) && (
-                      <img
-                        alt="player"
-                        src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
-                        id="player"
-                        style={{ transform: `scaleX(${direction})` }}
-                      />
+                      <img src={`../src/assets/images/${skin}.png`} id="player" />
                     )}
                   </div>
                 </div>
