@@ -1,7 +1,8 @@
 .arrow-container {
   display: flex;
+  width: 1110px;
   justify-content: space-between;
-  width: 100%;
+  
   
 }
 
@@ -9,7 +10,7 @@
   width: 100px;
   height: 80px;
   display: flex;
-  margin-inline: 180px;
+  
   transform: translateY(-460px);
   z-index: 9999;
 }
