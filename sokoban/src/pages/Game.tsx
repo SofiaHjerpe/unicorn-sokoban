@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GamePlans } from '../Globals';
 import { Form } from '../components/Form';
-import InstructionButton from '../components/Instruction';
+import InstructionButton from './InstructionPage/InstructionPage';
 import Timer from '../components/Timer';
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';

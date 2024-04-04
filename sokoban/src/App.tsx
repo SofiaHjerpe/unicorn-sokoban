@@ -4,6 +4,7 @@ import Game from './pages/Game';
 import NotFound from './pages/NotFound';
 import { LevelPage } from './pages/LevelPage';
 import { GetTimerLocalStorage } from './GameLogic/TrackersLocalStorage';
+import InstructionPage from './pages/InstructionPage/InstructionPage';
 
 export function App() {
   //setting timer storage for the 1.th level:
@@ -15,6 +16,7 @@ export function App() {
         <Route path="/" element={<IntroPage />} />
         <Route path="/game/:id" element={<Game />} />
         <Route path="/levels" element={<LevelPage />} />
+        <Route path="/info" element={<InstructionPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
