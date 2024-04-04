@@ -31,17 +31,20 @@ export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = vali
   if (direction(1).isFree) {
     SetMoveTrackersLocalStorage(levelValue);
     const audioElement = new Audio('/src/assets/move.wav');
-    audioElement.play();
+    let isMutedMusic = localStorage.getItem('Muted');
+    if (isMutedMusic == 'false') audioElement.play();
   }
   if (portableObject && direction(2).isFree) {
     SetPushTrackersLocalStorage(levelValue);
     const audioElement = new Audio('/src/assets/push.wav');
-    audioElement.play();
+    let isMutedMusic = localStorage.getItem('Muted');
+    if (isMutedMusic == 'false') audioElement.play();
   }
 
   if (portableObject && direction(2).isTarget) {
     const audioElement = new Audio('/src/assets/moveSound.wav');
-    audioElement.play();
+    let isMutedMusic = localStorage.getItem('Muted');
+    if (isMutedMusic == 'false') audioElement.play();
   }
 
   return { world, d };

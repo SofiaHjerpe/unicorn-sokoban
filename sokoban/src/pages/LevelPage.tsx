@@ -23,6 +23,7 @@ export const LevelPage = () => {
   }
   return (
     <div className="level-img">
+     
       <div className="level-overlay">
         <Background />
         <TitleBackground />
