@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { GamePlans } from '../Globals';
-import { Form } from '../components/Form';
-import InstructionButton from './InstructionPage/InstructionPage';
-import Timer from '../components/Timer';
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';
 import {
@@ -14,13 +11,16 @@ import {
 } from '../GameLogic/TrackersLocalStorage';
 import { GameStatus } from '../GameLogic/GameStatus';
 import { getClientSize, getWallBorders } from '../GameLogic/Render';
-import { ObjectType } from '../GameLogic/Logics';
+import { ObjectType, playerSkin } from '../GameLogic/Logics';
 import Statistics from '../components/Statistics';
 import '../game.css';
-
+import selectButton from '../assets/images/select-button.png';
+import infoButton from '../assets/images/info.png';
+import settingsButton from '../assets/images/settings.png';
+// import mainButton from '../assets/images/main.png';
 const path = (img: string) => `../src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
-  w: path('wall.webp'),
+  w: path('wall.jpg'),
   b: path('box.jpg'),
   tb: path('box.jpg'),
   t: path('target.png'),
@@ -32,6 +32,10 @@ function Game() {
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
+  const [loosingMessage, setLoosingMessage] = useState('');
+  localStorage.setItem('losingStorage', 'false');
+
+  const { id } = useParams();
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
@@ -60,6 +64,8 @@ function Game() {
       setLevelValue(newLevel);
     });
   };
+
+ 
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
@@ -73,9 +79,17 @@ function Game() {
       setTimeout(() => {
         setWinningMessage('');
       }, 6000);
+      const audioElement = new Audio('/src/assets/win.wav');
+      let isMutedMusic = localStorage.getItem('Muted');
+      if (isMutedMusic == 'false') audioElement.play();
       setWinningMessage('Congratulations! You won!');
+    } else if (GS.returnLoserMessage() !== null) {
+      setTimeout(() => {
+        setLoosingMessage('GAME OVER - YOU ARE STUCK!');
+      }, 1000);
     } else {
       setWinningMessage('');
+      setLoosingMessage('');
     }
   }, [numberOfCorrectBoxes]);
 
@@ -96,14 +110,11 @@ function Game() {
   const worldData = GameLogic([...newGameBoard.map(newRow => [...newRow])]);
   const worldGameBoard = [...newGameBoard.map(row => [...row])];
   const GS = GameStatus(worldData.cells);
-  const [direction, setDirection] = useState(-1);
-  //console.table(GS);
 
+  const [skin, setSkin]: any = useState('farmerFront');
   const handleMovement = (e: any) => {
     const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
-    const newDirection = m?.d.x != 0 ? m?.d.x : direction;
-
-    setDirection(newDirection);
+    setSkin(Object.keys(playerSkin).filter(key => JSON.stringify(playerSkin[key]) === JSON.stringify(m?.d)));
     setNewGameBoard(m?.world);
   };
 
@@ -123,13 +134,26 @@ function Game() {
       return 'cellDiv';
     }
   };
-
+useEffect(() => {
+  switch (id) {
+    case '1':
+      changeLevel(1);
+      break;
+    case '2':
+      changeLevel(2);
+      break;
+    case '3':
+      changeLevel(3);
+      break;
+    case '4':
+      changeLevel(4);
+      break;
+  }
+}, [id]);
   const style = getClientSize(window.innerWidth * 0.8, window.innerHeight * 0.8, newGameBoard);
 
   return (
     <>
-      <InstructionButton />
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
       <section id="gameBoradWithStatistics">
         <main className="gameBoard" style={style}>
           {newGameBoard.map((row, _y) =>
@@ -148,25 +172,27 @@ function Game() {
                       ...getWallBorders(_y, _x, worldData, newGameBoard),
                     }}>
                     {ObjectType.isCharacter.some(value => cell.includes(value)) && (
-                      <img
-                        alt="player"
-                        src={path(worldData.yx(_y, _x + direction).isPortable ? 'miner2.gif' : 'miner.gif')}
-                        id="player"
-                        style={{ transform: `scaleX(${direction})` }}
-                      />
+                      <img src={`../src/assets/images/${skin}.png`} id="player" />
                     )}
                   </div>
                 </div>
               );
             }),
           )}
-          {GS.returnLoserMessage()}
+          {loosingMessage.length > 2 && <p id="loserMessage">{loosingMessage}</p>}
         </main>
         <Statistics countBoardChange={countBoardChange} levelValue={levelValue} />
       </section>
 
       <p className="winning-message">{winningMessage}</p>
-      <Link to={'/levels'}>LevelPage</Link>
+      <Link to={'/levels'}> <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }}/>
+          </Link>
+          <Link to={'/info'}> <img src={infoButton} className="info-button" alt="info" />
+          </Link>
+          <Link to={'/settings'}> <img src={settingsButton} className="setting-button" alt="setting" />
+          </Link>
+          {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
+          </Link> */}
     </>
   );
 }

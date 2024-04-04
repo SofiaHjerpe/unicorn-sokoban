@@ -25,3 +25,10 @@ export const validKeyboardKeys: any = {
   65: { x: -1, y: 0 }, // A-key
   68: { x: 1, y: 0 }, // D-key
 };
+
+export const playerSkin: any = {
+  'farmerBack': { x: 0, y: -1 }, // Arrow keys UP
+  'farmerFront': { x: 0, y: 1 }, // Arrow keys DOWN
+  'farmerLeft': { x: -1, y: 0 }, // Arrow keys LEFT
+  'farmerRight': { x: 1, y: 0 }, // Arrow keys RIGHT
+};

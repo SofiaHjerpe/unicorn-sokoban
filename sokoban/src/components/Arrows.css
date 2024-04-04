@@ -1,8 +1,10 @@
 .arrow-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  padding-inline: 180px;
+  width: 1110px;
+}
+.arrow-right-btn {
+  z-index: 9999;
 }
 
 .arrow {
@@ -14,5 +16,9 @@
   z-index: 9999;
 }
 .right {
-  transform: translateY(-500px) rotate(-180deg);
+  transform: translateY(-500px) rotate(180deg);
 }
+.left {
+  transform: translateY(-500px) rotate(180deg);
+}
+

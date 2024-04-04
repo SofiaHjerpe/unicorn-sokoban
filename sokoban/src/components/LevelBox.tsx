@@ -1,16 +1,38 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import { IBoxes } from '../interfaces';
-import "./LevelBox.css";
+import './LevelBox.css';
 interface ILevelBoxProps {
-  box: IBoxes
+  box: IBoxes;
+  levelVal: number;
 }
-export const LevelBox = ({ box }: ILevelBoxProps) => {
+export const LevelBox = ({ box, levelVal }: ILevelBoxProps) => {
+  let levelStar = 0;
+  let score = '';
+  if (levelVal !== null) {
+    const starStorageName = 'Starstorage' + levelVal;
+    let starStorage = localStorage.getItem(starStorageName);
+    if (starStorage !== null) {
+      let starInStorage = JSON.parse(starStorage);
+      levelStar = starInStorage.star;
+      if (levelStar > 0) {
+        for (let i = 0; i < levelStar; i++) {
+          score += '⭐';
+        }
+      }
+    }
+  }
+
+
   return (
-    <div className="box-border">
-      <div className="level-box">
-        <h1 className="level-heading">{box.levelVal}</h1>
-        <span>{box.stars}</span>
+    <>
+      <div className="box-border">
+        <div className="level-box">
+          <Link className="link-to-lvl" to={`/game/${box.levelVal}`}>
+            <h1 className="level-heading">{box.levelVal}</h1>
+          </Link>
+          <span>{score}</span>
+        </div>
       </div>
-    </div>
+    </>
   );
 };

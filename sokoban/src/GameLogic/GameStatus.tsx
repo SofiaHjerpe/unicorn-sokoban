@@ -20,13 +20,11 @@ export const GameStatus = ([...data]) => {
   function returnLoserMessage() {
     if (isGameUnsolveable) {
       const audioElement = new Audio('/src/assets/over.wav');
-      audioElement.play();
-      return (
-        <>
-          <p id="gameStatus">GAME OVER - YOU ARE STUCK!</p>
-        </>
-      );
-    }
+      let isMutedMusic = localStorage.getItem('Muted');
+      if (isMutedMusic == 'false') audioElement.play();
+      localStorage.setItem('losingStorage', 'true');
+      return true;
+    } else return null;
   }
 
   return {
@@ -39,6 +37,6 @@ export const GameStatus = ([...data]) => {
     targetLeftToFill,
     isGameUnsolveable,
     isGameSolved,
-    returnLoserMessage,
+    returnLoserMessage
   };
 };
