@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './InstructionPage.css';
 import boxImage from '../../assets/images/box.jpg';
-import playerImage from '../../assets/images/Miner.gif';
-import wallImage from '../../assets/images/wall.webp';
+import playerImage from '../../assets/images/farmerFront.png';
+import wallImage from '../../assets/images/wall.jpg';
 import goalImage from '../../assets/images/target.png';
 import arrowButton from '../../assets/images/button-arrow.png';
 
