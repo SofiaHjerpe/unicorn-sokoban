@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { GamePlans } from '../Globals';
 import { Form } from '../components/Form';
 import InstructionButton from '../components/Instruction';
-import Timer from '../components/Timer';
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';
 import {
@@ -32,6 +31,8 @@ function Game() {
   const [levelValue, setLevelValue] = useState(1);
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
+  const [loosingMessage, setLoosingMessage] = useState('');
+  localStorage.setItem('losingStorage', 'false');
 
   const changeLevel = (newLevel: number) => {
     GamePlans.map((plan, index) => {
@@ -73,9 +74,17 @@ function Game() {
       setTimeout(() => {
         setWinningMessage('');
       }, 6000);
+      const audioElement = new Audio('/src/assets/win.wav');
+      let isMutedMusic = localStorage.getItem('Muted');
+      if (isMutedMusic == 'false') audioElement.play();
       setWinningMessage('Congratulations! You won!');
+    } else if (GS.returnLoserMessage() !== null) {
+      setTimeout(() => {
+        setLoosingMessage('GAME OVER - YOU ARE STUCK!');
+      }, 1000);
     } else {
       setWinningMessage('');
+      setLoosingMessage('');
     }
   }, [numberOfCorrectBoxes]);
 
@@ -160,13 +169,15 @@ function Game() {
               );
             }),
           )}
-          {GS.returnLoserMessage()}
+          {loosingMessage.length > 2 && <p id="loserMessage">{loosingMessage}</p>}
         </main>
         <Statistics countBoardChange={countBoardChange} levelValue={levelValue} />
       </section>
 
       <p className="winning-message">{winningMessage}</p>
       <Link to={'/levels'}>LevelPage</Link>
+      <Link to={'/settings'}>Settings</Link>
+      <Link to={'/'}>Main page</Link>
     </>
   );
 }
