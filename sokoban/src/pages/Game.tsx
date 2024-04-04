@@ -109,11 +109,22 @@ function Game() {
   //console.table(GS);
 
   const handleMovement = (e: any) => {
-    const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
-    const newDirection = m?.d.x != 0 ? m?.d.x : direction;
+    if (
+      e.keyCode == 65 ||
+      e.keyCode == 83 ||
+      e.keyCode == 68 ||
+      e.keyCode == 87 ||
+      e.keyCode == 37 ||
+      e.keyCode == 38 ||
+      e.keyCode == 39 ||
+      e.keyCode == 40
+    ) {
+      const m = MoveLogic(levelValue, e, worldData, worldGameBoard);
+      const newDirection = m?.d.x != 0 ? m?.d.x : direction;
 
-    setDirection(newDirection);
-    setNewGameBoard(m?.world);
+      setDirection(newDirection);
+      setNewGameBoard(m?.world);
+    }
   };
 
   useEffect(() => {
