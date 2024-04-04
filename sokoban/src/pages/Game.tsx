@@ -170,14 +170,12 @@ function Game() {
       <p className="winning-message">{winningMessage}</p>
       <Link to={'/levels'}> <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }}/>
           </Link>
-          <Link to={'/levels'}> <img src={infoButton} className="info-button" alt="info" />
+          <Link to={'/info'}> <img src={infoButton} className="info-button" alt="info" />
           </Link>
-          <Link to={'/levels'}> <img src={settingsButton} className="setting-button" alt="setting" />
+          <Link to={'/settings'}> <img src={settingsButton} className="setting-button" alt="setting" />
           </Link>
-          {/* <Link to={'/levels'}> <img src={mainButton} className="main-button" alt="main" />
+          {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
           </Link> */}
-
-
     </>
   );
 }
