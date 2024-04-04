@@ -11,7 +11,7 @@ export const Arrows = () => {
           className="arrow"
         />
         <img
-          src="./src/assets/images/arrow-left-grey.png"
+          src="./src/assets/images/arrow-right.png"
           alt="arrow-right"
           className="arrow right"
         />

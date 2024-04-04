@@ -12,6 +12,4 @@
   transform: translateY(-500px);
   z-index: 9999;
 }
-.right {
-  transform: translateY(-500px) rotate(-180deg);
-}
+

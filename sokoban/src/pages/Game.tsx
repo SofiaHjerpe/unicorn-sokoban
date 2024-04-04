@@ -146,8 +146,6 @@ useEffect(() => {
 
   return (
     <>
-      <InstructionButton />
-      <Form changeLevel={changeLevel} setLevel={setLevelValue} levelValue={levelValue} />
       <section id="gameBoradWithStatistics">
         <main className="gameBoard" style={style}>
           {newGameBoard.map((row, _y) =>
