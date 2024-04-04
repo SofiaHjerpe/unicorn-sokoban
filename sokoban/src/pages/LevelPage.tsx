@@ -1,5 +1,5 @@
 import React from 'react';
-import '../components/LevelPage.css';
+import '../pages/LevelPage.css';
 import { Buttons } from '../components/Buttons';
 import { TitleBackground } from '../components/TitleBackground';
 import { Background } from '../components/Background';

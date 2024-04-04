@@ -1,8 +1,7 @@
 .arrow-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  padding-inline: 180px;
+  width: 1110px;
 }
 
 .arrow {
