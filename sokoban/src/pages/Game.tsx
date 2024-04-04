@@ -16,7 +16,10 @@ import { getClientSize, getWallBorders } from '../GameLogic/Render';
 import { ObjectType } from '../GameLogic/Logics';
 import Statistics from '../components/Statistics';
 import '../game.css';
-
+import selectButton from '../assets/images/select-button.png';
+import infoButton from '../assets/images/info.png';
+import settingsButton from '../assets/images/settings.png';
+// import mainButton from '../assets/images/main.png';
 const path = (img: string) => `../src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
   w: path('wall.webp'),
@@ -165,7 +168,16 @@ function Game() {
       </section>
 
       <p className="winning-message">{winningMessage}</p>
-      <Link to={'/levels'}>LevelPage</Link>
+      <Link to={'/levels'}> <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }}/>
+          </Link>
+          <Link to={'/levels'}> <img src={infoButton} className="info-button" alt="info" />
+          </Link>
+          <Link to={'/levels'}> <img src={settingsButton} className="setting-button" alt="setting" />
+          </Link>
+          {/* <Link to={'/levels'}> <img src={mainButton} className="main-button" alt="main" />
+          </Link> */}
+
+
     </>
   );
 }
