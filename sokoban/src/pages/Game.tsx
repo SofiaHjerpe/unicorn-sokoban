@@ -33,7 +33,7 @@ function Game() {
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
   const [loosingMessage, setLoosingMessage] = useState('');
-  localStorage.setItem('losingStorage', 'false');
+  //localStorage.setItem('losingStorage', 'false');
 
   const { id } = useParams();
 
@@ -90,7 +90,7 @@ function Game() {
       setWinningMessage('');
       setLoosingMessage('');
     }
-  }, [numberOfCorrectBoxes]);
+  }, [numberOfCorrectBoxes, newGameBoard]);
 
   //Move up useEffects to here
   useEffect(() => {
@@ -196,6 +196,19 @@ function Game() {
       </section>
 
       <p className="winning-message">{winningMessage}</p>
+      <Link to={'/levels'}>
+        {' '}
+        <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
+      </Link>
+      <Link to={'/info'}>
+        {' '}
+        <img src={infoButton} className="info-button" alt="info" />
+      </Link>
+      <Link to={'/settings'}>
+        {' '}
+        <img src={settingsButton} className="setting-button" alt="setting" />
+      </Link>
+      {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
       <Link to={'/levels'}>
         {' '}
         <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
