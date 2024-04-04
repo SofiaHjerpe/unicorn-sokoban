@@ -3,6 +3,9 @@
   justify-content: space-between;
   width: 1110px;
 }
+.arrow-right-btn {
+  z-index: 9999;
+}
 
 .arrow {
   width: 100px;
@@ -11,5 +14,11 @@
 
   transform: translateY(-500px);
   z-index: 9999;
+}
+.right {
+  transform: translateY(-500px) rotate(180deg);
+}
+.left {
+  transform: translateY(-500px) rotate(180deg);
 }
 

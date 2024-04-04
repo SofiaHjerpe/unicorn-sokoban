@@ -1,16 +1,14 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 import { LevelBox } from './LevelBox';
-import { IBoxes } from '../interfaces';
+
 import "./LevelBox.css"
+import { IBoxes } from '../interfaces';
+interface ILevelBoxesProps {
+  boxes: IBoxes[];
+}
 
-const boxes: IBoxes[] = [
-  { id: 0, levelVal: 1, stars: 'En av fem' },
-  { id: 1, levelVal: 2, stars: 'En av fem' },
-  { id: 2, levelVal: 3, stars: 'En av fem' },
-  { id: 3, levelVal: 4, stars: 'En av fem' },
-];
 
-export const LevelBoxes = () => {
+export const LevelBoxes = ({boxes}: ILevelBoxesProps) => {
   return (
     <>
       <div className="boxes">

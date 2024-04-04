@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { GamePlans } from '../Globals';
-import { Form } from '../components/Form';
-import InstructionButton from '../components/Instruction';
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';
 import {
