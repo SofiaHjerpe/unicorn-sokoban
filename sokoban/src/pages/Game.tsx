@@ -64,7 +64,34 @@ function Game() {
       setLevelValue(newLevel);
     });
   };
-
+  useEffect(() => {
+    switch (id) {
+      case '1':
+        changeLevel(1);
+        break;
+      case '2':
+        changeLevel(2);
+        break;
+      case '3':
+        changeLevel(3);
+        break;
+      case '4':
+        changeLevel(4);
+        break;
+      case '5':
+        changeLevel(5);
+        break;
+      case '6':
+        changeLevel(6);
+        break;
+      case '7':
+        changeLevel(7);
+        break;
+      case '8':
+        changeLevel(8);
+        break;
+    }
+  }, [id]);
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
@@ -78,10 +105,10 @@ function Game() {
       setTimeout(() => {
         setWinningMessage('');
       }, 6000);
+      setWinningMessage('Congratulations! You won!');
       const audioElement = new Audio('/src/assets/win.wav');
       let isMutedMusic = localStorage.getItem('Muted');
       if (isMutedMusic == 'false') audioElement.play();
-      setWinningMessage('Congratulations! You won!');
     } else if (GS.returnLoserMessage() !== null) {
       setTimeout(() => {
         setLoosingMessage('GAME OVER - YOU ARE STUCK!');
@@ -133,34 +160,7 @@ function Game() {
       return 'cellDiv';
     }
   };
-  useEffect(() => {
-    switch (id) {
-      case '1':
-        changeLevel(1);
-        break;
-      case '2':
-        changeLevel(2);
-        break;
-      case '3':
-        changeLevel(3);
-        break;
-      case '4':
-        changeLevel(4);
-        break;
-      case '5':
-        changeLevel(5);
-        break;
-      case '6':
-        changeLevel(6);
-        break;
-      case '7':
-        changeLevel(7);
-        break;
-      case '8':
-        changeLevel(8);
-        break;
-    }
-  }, [id]);
+
   const style = getClientSize(window.innerWidth * 0.8, window.innerHeight * 0.8, newGameBoard);
 
   return (
