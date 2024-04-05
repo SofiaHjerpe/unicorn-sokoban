@@ -183,7 +183,7 @@ function Game() {
                       ...getWallBorders(_y, _x, worldData, newGameBoard),
                     }}>
                     {ObjectType.isCharacter.some(value => cell.includes(value)) && (
-                      <img src={`../src/assets/images/${skin}.png`} id="player" />
+                      <img alt="img" src={`../src/assets/images/${skin}.png`} id="player" />
                     )}
                   </div>
                 </div>

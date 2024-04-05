@@ -45,7 +45,7 @@ const SettingsPage = () => {
       </div>
 
       <Link to="/levels">
-        <img src={selectButton} id="selectButtonInSettingPage" />
+        <img alt="select-img" src={selectButton} id="selectButtonInSettingPage" />
       </Link>
     </div>
   );
