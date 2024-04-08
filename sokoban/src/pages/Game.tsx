@@ -17,6 +17,7 @@ import '../game.css';
 import selectButton from '../assets/images/select-button.png';
 import infoButton from '../assets/images/info.png';
 import settingsButton from '../assets/images/settings.png';
+import winSound from '../assets/win.wav';
 // import mainButton from '../assets/images/main.png';
 const path = (img: string) => `../src/assets/images/${img}`;
 const backgoundImage: Record<string, string> = {
@@ -78,7 +79,7 @@ function Game() {
       setTimeout(() => {
         setWinningMessage('');
       }, 6000);
-      const audioElement = new Audio('/src/assets/win.wav');
+      const audioElement = new Audio(winSound);
       let isMutedMusic = localStorage.getItem('Muted');
       if (isMutedMusic == 'false') audioElement.play();
       setWinningMessage('Congratulations! You won!');
@@ -91,6 +92,7 @@ function Game() {
       setLoosingMessage('');
     }
   }, [numberOfCorrectBoxes, newGameBoard]);
+  //}, [numberOfCorrectBoxes]);
 
   //Move up useEffects to here
   useEffect(() => {
@@ -208,21 +210,6 @@ function Game() {
         {' '}
         <img src={settingsButton} className="setting-button" alt="setting" />
       </Link>
-      {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
-      <Link to={'/levels'}>
-        {' '}
-        <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
-      </Link>
-      <Link to={'/info'}>
-        {' '}
-        <img src={infoButton} className="info-button" alt="info" />
-      </Link>
-      <Link to={'/settings'}>
-        {' '}
-        <img src={settingsButton} className="setting-button" alt="setting" />
-      </Link>
-      {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
-          </Link> */}
     </>
   );
 }

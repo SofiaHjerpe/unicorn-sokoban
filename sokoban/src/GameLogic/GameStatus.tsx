@@ -1,4 +1,5 @@
 import { ObjectType } from './Logics';
+import looseSound from '../assets/over.wav';
 
 export const GameStatus = ([...data]) => {
   const targets = data.filter(cell => ObjectType.isTarget.some(value => cell.object.includes(value))).length;
@@ -19,7 +20,7 @@ export const GameStatus = ([...data]) => {
 
   function returnLoserMessage() {
     if (isGameUnsolveable) {
-      const audioElement = new Audio('/src/assets/over.wav');
+      const audioElement = new Audio(looseSound);
       let isMutedMusic = localStorage.getItem('Muted');
       if (isMutedMusic == 'false') audioElement.play();
       localStorage.setItem('losingStorage', 'true');
@@ -37,6 +38,6 @@ export const GameStatus = ([...data]) => {
     targetLeftToFill,
     isGameUnsolveable,
     isGameSolved,
-    returnLoserMessage
+    returnLoserMessage,
   };
 };
