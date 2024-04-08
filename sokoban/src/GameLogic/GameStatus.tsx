@@ -1,3 +1,4 @@
+import { audio3 } from '../audios';
 import { ObjectType } from './Logics';
 
 export const GameStatus = ([...data]) => {
@@ -19,7 +20,7 @@ export const GameStatus = ([...data]) => {
 
   function returnLoserMessage() {
     if (isGameUnsolveable) {
-      const audioElement = new Audio('/src/assets/over.wav');
+      const audioElement = new Audio(`${audio3}`);
       let isMutedMusic = localStorage.getItem('Muted');
       if (isMutedMusic == 'false') audioElement.play();
       localStorage.setItem('losingStorage', 'true');
@@ -37,6 +38,6 @@ export const GameStatus = ([...data]) => {
     targetLeftToFill,
     isGameUnsolveable,
     isGameSolved,
-    returnLoserMessage
+    returnLoserMessage,
   };
 };

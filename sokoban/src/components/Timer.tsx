@@ -16,14 +16,14 @@ const Timer = ({ countBoardChange, levelValue }: ITimerProps) => {
     //reset to zero after level change:
     if (timerLoserStorage !== 'true' && timerWinnerStorage !== 'true') {
       setMilliSeconds(0);
-      SetTimerLocalStorage(levelValue, 0);
+      SetTimerLocalStorage(levelValue);
     }
     //set millisecond: 1000/16
     let interval: any = null;
     if (ranOnce && timerLoserStorage == 'false' && timerWinnerStorage == 'false') {      
       interval = setInterval(() => {
         setMilliSeconds(milliseconds => milliseconds + 1);
-        SetTimerLocalStorage(levelValue, milliseconds);
+        SetTimerLocalStorage(levelValue);
       }, 1000 / 58.826);
     } else if (!ranOnce && milliseconds !== 0) {
       clearInterval(interval);

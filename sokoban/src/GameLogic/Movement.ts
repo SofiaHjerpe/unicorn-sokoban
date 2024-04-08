@@ -1,3 +1,4 @@
+import { audio2, audio4, audio5 } from '../audios';
 import { ObjectType, validKeyboardKeys } from './Logics';
 import { SetMoveTrackersLocalStorage, SetPushTrackersLocalStorage } from './TrackersLocalStorage';
 
@@ -30,19 +31,19 @@ export const MoveLogic = (levelValue: any, e: any, go: any, world: any, d = vali
   //save player move and push into localStorage. SOUND
   if (direction(1).isFree) {
     SetMoveTrackersLocalStorage(levelValue);
-    const audioElement = new Audio('/src/assets/move.wav');
+    const audioElement = new Audio(`${audio5}`);
     let isMutedMusic = localStorage.getItem('Muted');
     if (isMutedMusic == 'false') audioElement.play();
   }
   if (portableObject && direction(2).isFree) {
     SetPushTrackersLocalStorage(levelValue);
-    const audioElement = new Audio('/src/assets/push.wav');
+    const audioElement = new Audio(`${audio2}`);
     let isMutedMusic = localStorage.getItem('Muted');
     if (isMutedMusic == 'false') audioElement.play();
   }
 
   if (portableObject && direction(2).isTarget) {
-    const audioElement = new Audio('/src/assets/moveSound.wav');
+    const audioElement = new Audio(`${audio4}`);
     let isMutedMusic = localStorage.getItem('Muted');
     if (isMutedMusic == 'false') audioElement.play();
   }

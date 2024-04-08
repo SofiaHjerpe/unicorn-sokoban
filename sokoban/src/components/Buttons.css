@@ -7,10 +7,18 @@
   height: 60px;
   margin-inline: 525px 0;
   align-self: center;
+  background-image: url(../assets/images/close.png);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
   transform: translateY(-640px) translateX(222px);
 }
 
 .arrow-btn {
+  background-image: url(../assets/images/button-arrow.png);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
   width: 100px;
   height: 100px;
   transform: translateY(-120px);

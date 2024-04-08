@@ -1,4 +1,3 @@
-import React, { Dispatch } from 'react'
 import { LevelBox } from './LevelBox';
 
 import "./LevelBox.css"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../pages/LevelPage.css';
 import { Buttons } from '../components/Buttons';
 import { TitleBackground } from '../components/TitleBackground';

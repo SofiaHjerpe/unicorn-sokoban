@@ -14,14 +14,32 @@
   width: 100px;
   height: 80px;
   display: flex;
-
+  background-image: url(../assets/images/arrow-left-grey.png);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
   transform: translateY(-500px);
   z-index: 9999;
 }
 .right {
   transform: translateY(-500px) rotate(180deg);
+  background-image: url(../assets/images/arrow-left-grey.png);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .left {
   transform: translateY(-500px) rotate(180deg);
+  background-image: url(../assets/images/arrow-right.png);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.right-before {
+  background-image: url(../assets/images/arrow-right.png);
 }
 
+.right {
+  position: relative;
+  z-index: 9999;
+}

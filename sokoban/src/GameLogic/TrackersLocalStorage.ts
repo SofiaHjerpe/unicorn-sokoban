@@ -64,7 +64,7 @@ export const GetTimerLocalStorage = (level: number) => {
   localStorage.setItem(timerStorageName, JSON.stringify(tracker));
 };
 
-export const SetTimerLocalStorage = (levelValue: number, milliseconds: number = 0) => {
+export const SetTimerLocalStorage = (levelValue: number) => {
   const timerStorageName = 'Timerstorage' + levelValue;
   let timerStorage = localStorage.getItem(timerStorageName)!;
 

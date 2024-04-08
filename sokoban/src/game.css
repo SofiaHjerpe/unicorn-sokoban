@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color:#307DA4;
+  background-color: #307da4;
   display: grid;
 }
 
@@ -22,8 +22,11 @@ body {
   --wayDarker: #9d5039;
   --settingsOrangeColor: #df4f3c;
 }
-#player {
+.player {
   height: 100%;
+  background-position: center;
+  background-size: 50%;
+  background-repeat: no-repeat;
 }
 .gameBoard {
   display: grid;
@@ -52,14 +55,37 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .box {
   filter: brightness(150%);
   border-radius: 5px;
   border: 2px solid black;
+  background-image: url(assets/images/box.jpg);
+}
+.t {
+  background-image: url(assets/images/target.png);
+}
+.w {
+  background-image: url(assets/images/wall.jpg);
 }
 
+.farmerFront {
+  background-image: url(assets/images/farmerFront.png);
+  z-index: 9999;
+}
+
+.farmerBack {
+  background-image: url(assets/images/farmerBack.png);
+}
+.farmerLeft {
+  background-image: url(assets/images/farmerLeft.png);
+}
+.farmerRight {
+  background-position: center;
+  background-image: url(assets/images/farmerRight.png);
+}
 .boxOnTarget {
   border-radius: 5px;
   filter: hue-rotate(45deg);

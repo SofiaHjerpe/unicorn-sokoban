@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { GamePlans } from '../Globals';
 import { GameLogic } from '../GameLogic/GameBoard';
 import { MoveLogic } from '../GameLogic/Movement';
+import { audio1 } from '../audios';
 import {
   GetMoveTrackersLocalStorage,
   GetPushTrackersLocalStorage,
@@ -11,20 +12,12 @@ import {
 } from '../GameLogic/TrackersLocalStorage';
 import { GameStatus } from '../GameLogic/GameStatus';
 import { getClientSize, getWallBorders } from '../GameLogic/Render';
-import { ObjectType, playerSkin } from '../GameLogic/Logics';
+import { playerSkin } from '../GameLogic/Logics';
 import Statistics from '../components/Statistics';
 import '../game.css';
 import selectButton from '../assets/images/select-button.png';
 import infoButton from '../assets/images/info.png';
 import settingsButton from '../assets/images/settings.png';
-// import mainButton from '../assets/images/main.png';
-const path = (img: string) => `../src/assets/images/${img}`;
-const backgoundImage: Record<string, string> = {
-  w: path('wall.jpg'),
-  b: path('box.jpg'),
-  tb: path('box.jpg'),
-  t: path('target.png'),
-};
 
 function Game() {
   const [numberOfCorrectBoxes, setNumberOfCorrectBoxes] = useState(0);
@@ -33,7 +26,6 @@ function Game() {
   const [countBoardChange, setCountBoardChange] = useState(0);
   const [winningMessage, setWinningMessage] = useState('');
   const [loosingMessage, setLoosingMessage] = useState('');
-  //localStorage.setItem('losingStorage', 'false');
 
   const { id } = useParams();
 
@@ -64,6 +56,7 @@ function Game() {
       setLevelValue(newLevel);
     });
   };
+
   useEffect(() => {
     switch (id) {
       case '1':
@@ -92,6 +85,7 @@ function Game() {
         break;
     }
   }, [id]);
+
   useEffect(() => {
     //Winning check
     //If all targets are done, send winning information.
@@ -106,7 +100,7 @@ function Game() {
         setWinningMessage('');
       }, 6000);
       setWinningMessage('Congratulations! You won!');
-      const audioElement = new Audio('/src/assets/win.wav');
+      const audioElement = new Audio(`${audio1}`);
       let isMutedMusic = localStorage.getItem('Muted');
       if (isMutedMusic == 'false') audioElement.play();
     } else if (GS.returnLoserMessage() !== null) {
@@ -117,15 +111,14 @@ function Game() {
       setWinningMessage('');
       setLoosingMessage('');
     }
-  }, [numberOfCorrectBoxes, newGameBoard]);
+  }, [numberOfCorrectBoxes]);
 
-  //Move up useEffects to here
   useEffect(() => {
     //Count the number of correct boxes and update the winning check. See row 29.
     let correctBoxes = 0;
     newGameBoard.forEach(row => {
       row.forEach((cell: any) => {
-        if (checkIfBoxAreCorrect(cell) === 'boxOnTarget cellDiv') {
+        if (checkIfBoxAreCorrect(cell) === 'boxOnTarget cellDiv box') {
           correctBoxes += 1;
         }
       });
@@ -153,11 +146,33 @@ function Game() {
 
   const checkIfBoxAreCorrect = (cellItem: any) => {
     if (`${[cellItem]}` == 'tb') {
-      return 'boxOnTarget cellDiv';
+      return 'boxOnTarget cellDiv box';
     } else if (`${[cellItem]}` == 'b') {
       return 'box cellDiv';
+    } else if (`${[cellItem]}` == 't') {
+      return 't cellDiv';
+    } else if (`${[cellItem]}` == 'w') {
+      return 'w cellDiv';
+    } else if (`${[cellItem]}` == 'tp') {
+      return setAnimation(skin);
+    } else if (`${[cellItem]}` == 'p') {
+      return setAnimation(skin);
     } else {
       return 'cellDiv';
+    }
+  };
+
+  const setAnimation = (skin: any) => {
+    if (`${[skin]}` == 'farmerFront') {
+      return ' player farmerFront';
+    } else if (`${[skin]}` == 'farmerBack') {
+      return 'player farmerBack';
+    } else if (`${[skin]}` == 'farmerLeft') {
+      return 'player farmerLeft';
+    } else if (`${[skin]}` == 'farmerRight') {
+      return 'player farmerRight';
+    } else {
+      return 'player farmerFront';
     }
   };
 
@@ -179,13 +194,8 @@ function Game() {
                   <div
                     className={nameOfClass}
                     style={{
-                      backgroundImage: `url(${backgoundImage[cell]})`,
                       ...getWallBorders(_y, _x, worldData, newGameBoard),
-                    }}>
-                    {ObjectType.isCharacter.some(value => cell.includes(value)) && (
-                      <img alt="img" src={`../src/assets/images/${skin}.png`} id="player" />
-                    )}
-                  </div>
+                    }}></div>
                 </div>
               );
             }),
@@ -197,32 +207,14 @@ function Game() {
 
       <p className="winning-message">{winningMessage}</p>
       <Link to={'/levels'}>
-        {' '}
         <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
       </Link>
       <Link to={'/info'}>
-        {' '}
         <img src={infoButton} className="info-button" alt="info" />
       </Link>
       <Link to={'/settings'}>
-        {' '}
         <img src={settingsButton} className="setting-button" alt="setting" />
       </Link>
-      {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
-      <Link to={'/levels'}>
-        {' '}
-        <img src={selectButton} className="select-button" alt="select" style={{ width: '120px', height: 'auto' }} />
-      </Link>
-      <Link to={'/info'}>
-        {' '}
-        <img src={infoButton} className="info-button" alt="info" />
-      </Link>
-      <Link to={'/settings'}>
-        {' '}
-        <img src={settingsButton} className="setting-button" alt="setting" />
-      </Link>
-      {/* <Link to={'/main'}> <img src={mainButton} className="main-button" alt="main" />
-          </Link> */}
     </>
   );
 }
